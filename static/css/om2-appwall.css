@@ -190,7 +190,7 @@
   min-width: 0;
   display: grid;
   place-items: center;
-  padding: 6px 10px 8px;
+  padding: 14px 18px 12px;   /* the grid keeps clear of the screen edges */
   overflow: hidden;
 }
 .aw-grid {
@@ -332,10 +332,38 @@
 .aw-key i { background: currentColor; }
 .aw-key i.is-emu { background: transparent; border: 1.5px solid currentColor; }
 
+/* ----------------------------------------------------------- 7b. lock screen
+   Shown when the page opens; the script adds .is-unlocked a beat later and
+   the layer slides up while the tiles pop in, row after row. */
+.aw-lock {
+  position: absolute; inset: 0; z-index: 4;
+  display: flex; flex-direction: column; align-items: center;
+  padding-top: 24%;
+  gap: 6px;
+  color: #fff;
+  background:
+    radial-gradient(120% 70% at 50% 0%, color-mix(in srgb, var(--accent-400) 28%, transparent), transparent 62%),
+    radial-gradient(90% 60% at 80% 100%, color-mix(in srgb, var(--cyan-400) 22%, transparent), transparent 60%),
+    linear-gradient(180deg, #111a2a, #0a0e13);
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease 0.15s;
+  will-change: transform;
+}
+.aw-lock-pad { width: 15px; height: 15px; margin-bottom: 4px; color: rgba(255, 255, 255, 0.7); }
+.aw-lock-pad svg { width: 100%; height: 100%; display: block; }
+.aw-lock-time { font: 600 calc(var(--aw-w, 380) * 0.19px) / 1 var(--font-display); letter-spacing: -0.035em; }
+.aw-lock-date { font: 500 calc(var(--aw-w, 380) * 0.038px) / 1.3 var(--font-body); color: rgba(255, 255, 255, 0.72); }
+.aw-lock-home { position: absolute; bottom: 3%; width: 30%; height: 3px; border-radius: 2px; background: rgba(255, 255, 255, 0.55); }
+.aw.is-unlocked .aw-lock { transform: translateY(-104%); opacity: 0; pointer-events: none; }
+.aw:not(.is-unlocked) .aw-tile { opacity: 0; }
+.aw.is-unlocked .aw-tile { animation: aw-pop 0.55s cubic-bezier(0.22, 0.68, 0.35, 1) backwards; animation-delay: calc(180ms + var(--aw-i, 0) * 5ms); }
+@keyframes aw-pop { from { opacity: 0; transform: scale(0.55) translateY(8px); } }
+
 /* --------------------------------------------------------------- 8. motion */
 @media (prefers-reduced-motion: reduce) {
   .aw-float { animation: none; }
   .aw-phone,
   .aw-stage:hover .aw-phone { transform: none; transition: none; }
   .aw-tile, .aw-chip, .aw-dot, .aw-blob, .aw-wash { transition-duration: 0.12s; }
+  .aw-lock { transition: none; }
+  .aw.is-unlocked .aw-tile { animation: none; }
 }

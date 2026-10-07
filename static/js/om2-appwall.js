@@ -317,6 +317,7 @@
       t.setAttribute("data-i", String(i));
       t.setAttribute("aria-label", a.name + ", " + meta(a).replace(/ · /g, ", "));
       t.style.setProperty("--aw-c", colorVar(byKey[a.domain]));
+      t.style.setProperty("--aw-i", String(i));
       t.appendChild(glyphFor(iconKey(a)));
       bands[a.domain].appendChild(t);
     });
@@ -344,6 +345,19 @@
     screen.appendChild(cam);
     screen.appendChild(wall);
     screen.appendChild(foot);
+    /* lock screen: time, today's date, a padlock; slides away on unlock */
+    var lock = el("div", "aw-lock");
+    var lockPad = el("i", "aw-lock-pad");
+    lockPad.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="7" width="10" height="7.5" rx="1.6"/><path d="M5.2 7V5.2a2.8 2.8 0 0 1 5.6 0V7"/></svg>';
+    var lockTime = el("span", "aw-lock-time", o.clock || "");
+    var today = new Date();
+    var lockDate = el("span", "aw-lock-date", today.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }));
+    lock.appendChild(lockPad);
+    lock.appendChild(lockTime);
+    lock.appendChild(lockDate);
+    lock.appendChild(el("i", "aw-lock-home"));
+    lock.setAttribute("aria-hidden", "true");
+    screen.appendChild(lock);
     bezel.appendChild(screen);
     phone.appendChild(bezel);
     lift.appendChild(phone);
@@ -352,8 +366,8 @@
     stage.appendChild(el("i", "aw-ground"));
     stage.appendChild(lift);
     root.appendChild(stage);
-    root.appendChild(legend);
-    root.appendChild(keys);
+    /* the domain legend and the two keys stay in memory for the state logic
+       but are no longer shown under the phone */
     root.appendChild(sprite());
     tipMeta.appendChild(tipDot);
     tipMeta.appendChild(tipText);
@@ -527,6 +541,11 @@
       else if (reducedMq.addListener) reducedMq.addListener(onVis);
     }
 
+    /* ---- unlock: a beat after the page opens (at once under reduced motion) */
+    function unlock() { root.classList.add("is-unlocked"); }
+    var unlockTimer = setTimeout(unlock, reduced() ? 0 : 1100);
+    lock.addEventListener("click", function () { clearTimeout(unlockTimer); unlock(); });
+
     /* ---- sizing. The stage width sets --aw-w (radii, bezel, dock type);
        the wall's content box, which the status strip and dock shrink,
        decides columns and tile size. Observing both keeps each callback
@@ -579,6 +598,7 @@
       layout: function () { return layout; },
       options: applyOptions,
       destroy: function () {
+        clearTimeout(unlockTimer);
         stop();
         if (ro) ro.disconnect(); else global.removeEventListener("resize", relayout);
         document.removeEventListener("visibilitychange", onVis);

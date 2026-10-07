@@ -336,7 +336,7 @@
     });
 
     /* --- fit the phone to its column --- */
-    var baseScale = compact ? 0.74 : 1;
+    var baseScale = opts.scale || (compact ? 0.74 : 1);
     function fit() {
       /* measure the host, not the player: the 380 px stage would hold the
          player open and hide the overflow */

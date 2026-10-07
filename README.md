@@ -28,20 +28,22 @@ static/js/om2-charts.js  dependency-free SVG charts
 static/js/om2-table.js   main results table (sortable) and environment comparison
 static/js/om2-crossapp.js cross-app mechanisms scene
 static/js/om2-live.js    the live simulator card
-static/js/om2-pipeline.js data-collection flow diagram
+static/js/om2-pipeline.js data pipeline tour (stations, stage visuals, autoplay)
 static/js/om2-viewer.js  trajectory player, viewer page, example cards, GUI vs hybrid pair
 static/js/om2-sim-apps.js every app in the live-demo build (generated, see tools/)
 static/js/main.js        theme toggle, nav, reveal-on-scroll, BibTeX copy
 viewer/                  episode data for the viewer: data/*.json, frames/, posters/
 public/
-  logo.png / logo.webp   the project mark (nav, footer, favicons); interim: the
-                         OpenMobile v1 robot, to be replaced by the v2 mark
+  logo.png / logo.webp   the project mark (nav, footer, favicons): the OpenMobile
+                         robot of the "More research" menu (88 px source)
   favicon*.png .ico      derived from logo.png
   apple-touch-icon.png   180x180, on the dark background
   logos/projects/        marks for the "More research" menu
 tools/build_icons.py     regenerates logo.webp and every favicon from public/logo.png
 tools/build_viewer_data.py   MobileGym++ episode materials -> viewer/
 tools/sample_openmobile_data.py  OpenMobile-Data samples from Hugging Face -> viewer/
+tools/patch_sim.py       seed changes applied to the MobileGym++ checkout before a build
+tools/sim-overlay/       files the patch copies in (WeChat avatars)
 tools/assemble_sim.py    MobileGym++ build -> ../OpenMobile2-Sim (the live demo)
 tools/extract_sim_apps.py  app ids, names, icon colours -> static/js/om2-sim-apps.js
 ```
@@ -56,14 +58,14 @@ colour in one place. Charts re-render on container resize and on the
 
 | Mount | Component | Shows |
 | --- | --- | --- |
-| `#app-wall` | `appWall` | all 125 apps on a phone, by domain and runtime |
+| `#app-wall` | `appWall` | all 125 apps on a phone, by domain and runtime, behind a lock screen that opens on load |
 | `#chart-domains` | `domainCoverage` | apps per domain, simulated vs emulator |
 | `#crossapp` | `crossApp` | the four cross-app mechanisms |
 | `#construction-steps` | `stepper` | how a commercial app is rebuilt |
 | `#env-compare` | `envCompare` | Table 1 of the paper |
 | `#live-sim` | `liveSim` | the simulator, running in the page |
 | `#example-cards` | `trajCards` | the featured episodes, linking into the viewer |
-| `#pipeline-flow` | `pipelineFlow` | how OpenMobile-Data is collected |
+| `#pipeline-flow` | `pipelineFlow` | the data pipeline as a seven-stage tour, one released trajectory walking through it |
 | `#task-pairs` | `trajPairs` | one Bench task, GUI-only and hybrid, replayed side by side |
 | `#tool-schemas` | `toolSchemas` | the Taobao tool signatures |
 | `#chart-bench` | `benchComposition` | MobileGym++ Bench by app count and domain |
@@ -100,11 +102,16 @@ checkout (branch `codex/env-tooluse-integration`, folder
 `trial_apps/mobilegym`, Node 22) and assemble it with the script here:
 
 ```bash
+python3 tools/patch_sim.py                      # page-specific seed changes, idempotent
 cd ../mobilegym-mock/trial_apps/mobilegym
 VITE_BASE=/OpenMobile2-Sim/ VITE_CDN_BASE=https://cdn.mobilegym.dev npx vite build --outDir dist-sim --emptyOutDir
 cd ../../../OpenMobile2-Home
 python3 tools/assemble_sim.py --dist ../mobilegym-mock/trial_apps/mobilegym/dist-sim --out ../OpenMobile2-Sim
 ```
+
+`patch_sim.py` swaps the home-screen coin widget for the sunrise/sunset
+widget and adds six WeChat contacts whose avatars live in
+`tools/sim-overlay/wechat-avatars/`.
 
 `assemble_sim.py` keeps the site under the 1 GB Pages limit: it drops the
 per-app media folders whose images Vite already bundled, re-encodes the large

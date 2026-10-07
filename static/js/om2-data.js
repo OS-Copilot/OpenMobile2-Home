@@ -250,21 +250,101 @@
   /* Flow-diagram form of the same pipeline (Sec. 4.1, Appendix D): short
      labels and one-line captions, two runtimes converging into shared
      stages and splitting into the two released resources. */
-  var PIPELINE_FLOW = {
-    lanes: [
-      { key: "emu", label: "Android emulator", caption: "Apps explored screen by screen; look-alike screens merged into one state." },
-      { key: "sim", label: "MobileGym++", caption: "Pages, actions and business objects read straight from the app spec." }
-    ],
-    stages: [
-      { key: "graph",   label: "App graph",    caption: "A state-action graph per app: a global view of what it can do, a local view of what the current screen reaches." },
-      { key: "goals",   label: "Write goals",  caption: "The teacher model writes executable user goals from the views; low-quality and near-duplicate goals are dropped.", tag: "Gemini-3.1-Pro-Preview" },
-      { key: "rollout", label: "Roll out",     caption: "The same model executes each goal, one thought and one action per turn, with tool calls when the app exposes tools." },
-      { key: "verify",  label: "Verify",       caption: "Kept only if the task completes: a VLM judge on the emulator, the programmatic verifier in MobileGym++.", drop: true },
-      { key: "filter",  label: "Filter steps", caption: "Action loops and steps that leave the app state unchanged are removed.", drop: true }
-    ],
-    outputs: [
-      { key: "sft", label: "Demonstration trajectories", sub: "for supervised fine-tuning", caption: "Full observation and action sequences, including runs that interleave tool calls." },
-      { key: "rl",  label: "Executable RL tasks",       sub: "instruction, initial state, verifier", caption: "Every rollout starts from the same snapshot and is scored the same way for taps and tool calls." }
+  /* Section 4 and Appendix (task synthesis, rollout and filtering, executable
+     RL tasks). The tour follows one released trajectory (viewer/data) through
+     the stages; graph, goal, checker and step material are real items from
+     the materials folder and the viewer data, named in each comment. */
+  var PIPELINE_TOUR = {
+    episode: "sft-hyb-409-filemanagerdidavendorkeep",   /* OpenMobile-Data, simulator/hybrid: Files + TickTick */
+    stations: [
+      { key: "sources", label: "Two runtimes", icon: "sources",
+        caption: "Android emulator apps and the MobileGym++ clients feed the same pipeline. An agent explores the emulator apps screen by screen, while the simulator side comes straight from each app's own specification.",
+        sources: [
+          { key: "emu", label: "Android emulator", sub: "configured apps, explored by an agent" },
+          { key: "sim", label: "MobileGym++", sub: "replicated clients with declared pages and actions" }
+        ] },
+      { key: "graph", label: "App graph", icon: "graph",
+        caption: "Every app gets a state\u2013action graph, with representative screens as nodes and the actions that move between them as edges. A global view lists what the app can do, and a local view lists what the current screen reaches.",
+        /* routes of TB Instant as recorded in the GUI-only episode of task 74 */
+        graph: {
+          app: "TB Instant",
+          nodes: [
+            { id: "home",   label: "/",                    x: 60,  y: 110 },
+            { id: "search", label: "/search",              x: 200, y: 50 },
+            { id: "result", label: "/search/result?q=",    x: 360, y: 50 },
+            { id: "shop",   label: "/retail/{shop}",       x: 520, y: 110 },
+            { id: "panel",  label: "/retail/{shop}?panel=search", x: 520, y: 200 },
+            { id: "cart",   label: "/cart",                x: 360, y: 180 },
+            { id: "orders", label: "/orders",              x: 200, y: 180 }
+          ],
+          edges: [
+            { from: "home",   to: "search", label: "tap search bar" },
+            { from: "search", to: "result", label: "type, submit" },
+            { from: "result", to: "shop",   label: "open a shop" },
+            { from: "shop",   to: "panel",  label: "search in shop" },
+            { from: "panel",  to: "cart",   label: "add to cart" },
+            { from: "home",   to: "cart",   label: "open cart" },
+            { from: "home",   to: "orders", label: "open orders" },
+            { from: "shop",   to: "cart",   label: "open cart" }
+          ],
+          local: "shop"
+        } },
+      { key: "goals", label: "Write goals", icon: "goals", teacher: "Gemini 3.1 Pro Preview",
+        caption: "From those views the teacher model writes user goals a person would plausibly ask for and an agent can carry out. Low-quality and near-duplicate goals are dropped before any rollout.",
+        /* the instruction of task 74 (materials, hybrid_tools_v5) */
+        goal: { en: "Restock the Office pantry list from Notes into the TB Instant cart, one of each",
+                zh: "\u6309\u7b14\u8bb0\uff08Notes\uff09App \u4e2d\u201cOffice pantry\u201d\u5217\u51fa\u7684\u7f3a\u8d27\u8865\u9f50\u72ec\u7acb\u7684\u6dd8\u5b9d\u95ea\u8d2d App \u8d2d\u7269\u8f66\uff0c\u6bcf\u79cd\u53ea\u52a0\u4e00\u4ef6\uff1b\u4e0d\u8981\u8fdb\u5165\u6dd8\u5b9d App \u5185\u7684\u95ea\u8d2d\u5165\u53e3\uff0c\u4e0d\u8981\u52a0\u5165\u6e05\u5355\u4e4b\u5916\u7684\u5546\u54c1\uff0c\u4e5f\u4e0d\u8981\u7ed3\u7b97\u6216\u4e0b\u5355\u3002",
+                apps: ["Notes", "TB Instant"], views: ["global view: Notes, TB Instant", "local view: /retail/{shop}"] },
+        filters: ["quality", "diversity"] },
+      { key: "rollout", label: "Roll out", icon: "rollout",
+        caption: "The same model executes each goal with one thought and one action per turn. When the foreground app exposes tools, it may call one instead of tapping, and both channels write the same app state." },
+      { key: "verify", label: "Verify", icon: "verify",
+        caption: "A rollout is kept only if the task is complete. On the emulator a vision-language judge decides, and in MobileGym++ the programmatic verifier compares app state before and after.",
+        /* checker fields from the materials' results.jsonl: task 73 (kept) and task 10 (rejected) */
+        checks: [
+          { title: "Task 73 \u00b7 kept", verifier: "MobileGym++ programmatic verifier", pass: true, fields: [
+            { name: "calendar_new_event.title", expected: "Contract renewal", actual: "Contract renewal", pass: true },
+            { name: "calendar_new_event.allDay", expected: "true", actual: "true", pass: true },
+            { name: "wechat.dates to Mia Wang", expected: "2026-08-20, 2026-08-13", actual: "2026-08-20, 2026-08-13", pass: true }
+          ] },
+          { title: "Task 10 \u00b7 rejected", verifier: "MobileGym++ programmatic verifier", pass: false, fields: [
+            { name: "wechat_bill_count", expected: "12", actual: "5", pass: false },
+            { name: "wechat_bill_spending", expected: "534.06", actual: "2552", pass: false }
+          ] }
+        ] },
+      { key: "filter", label: "Filter steps", icon: "filter",
+        caption: "Inside a kept rollout, two kinds of steps are cut: actions that leave the app state unchanged, and loops that only alternate between screens already visited. Shown here are the first actions of one rollout, in which the agent bounced between the pantry note and the home screen before it found the shopping app.",
+        rules: [
+          { key: "noop", label: "No state change", text: "Screen and app state are the same before and after the action." },
+          { key: "loop", label: "Action loop", text: "A run that only alternates between screens already visited and ends where it began." }
+        ],
+        /* actions 1-12 and the first three tool calls of the hybrid episode of
+           task 74 (viewer/data/bench-case74.json): route after each action and
+           whether anything changed */
+        steps: [
+          { n: 1,  kind: "open_app", arg: "notes", route: "notes/", changed: true },
+          { n: 2,  kind: "click", route: "notes/note/ht_note_groceries", changed: true },
+          { n: 3,  kind: "open_app", arg: "\u6dd8\u5b9d\u95ea\u8d2d", route: "notes/note/ht_note_groceries", changed: false, failed: true },
+          { n: 4,  kind: "system_button", arg: "Home", route: "home", changed: true },
+          { n: 5,  kind: "click", route: "notes/note/ht_note_groceries", changed: true },
+          { n: 6,  kind: "system_button", arg: "Home", route: "home", changed: true },
+          { n: 7,  kind: "click", route: "notes/note/ht_note_groceries", changed: true },
+          { n: 8,  kind: "system_button", arg: "Home", route: "home", changed: true },
+          { n: 9,  kind: "swipe", route: "home", changed: false },
+          { n: 10, kind: "open_app", arg: "notes", route: "notes/note/ht_note_groceries", changed: true },
+          { n: 11, kind: "system_button", arg: "Home", route: "home", changed: true },
+          { n: 12, kind: "click", route: "tbsg/", changed: true },
+          { n: 16, kind: "tool", name: "tbsg__get_cart", route: "tbsg/", changed: true, effect: "returns the cart" },
+          { n: 20, kind: "tool", name: "tbsg__search_shops", route: "tbsg/", changed: true, effect: "returns matching shops" },
+          { n: 23, kind: "tool", name: "tbsg__add_item_to_cart", route: "tbsg/", changed: true, effect: "writes one cart line" }
+        ],
+        loop: [4, 11] },
+      { key: "outputs", label: "Two outputs", icon: "outputs",
+        caption: "Demonstration trajectories keep the full observation\u2013action sequence for supervised fine-tuning. Executable RL tasks keep only the instruction, a bound initial state and the verifier, so every rollout starts from the same snapshot and is scored the same way for taps and tool calls.",
+        outputs: [
+          { key: "sft", label: "Demonstration trajectory", sub: "for supervised fine-tuning", items: ["screens before every action", "Thought and one action per turn", "app-native tool calls where used"], link: "viewer.html", linkLabel: "Open in the viewer" },
+          { key: "rl",  label: "Executable RL task", sub: "instruction, initial state, verifier", items: ["the user goal", "snapshot of the app stores", "state-diff checker"], link: "https://huggingface.co/datasets/OpenMobile-2/OpenMobile-Data", linkLabel: "OpenMobile-Data" }
+        ] }
     ]
   };
 
@@ -403,7 +483,7 @@
     toolEffect: TOOL_EFFECT,
     coverage: COVERAGE,
     walkthroughs: { pipeline: PIPELINE, construction: CONSTRUCTION, taobao: TASK_TAOBAO },
-    pipelineFlow: PIPELINE_FLOW,
+    pipelineTour: PIPELINE_TOUR,
     toolSchemas: TOOL_SCHEMAS,
     crossApp: CROSS_APP,
     domainByKey: DOMAINS.reduce(function (m, d) { m[d.key] = d; return m; }, {})

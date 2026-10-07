@@ -22,7 +22,7 @@
     mount("crossapp", "crossApp", { items: D.crossApp });
     mount("construction-steps", "stepper", { steps: D.walkthroughs.construction.steps });
     mount("env-compare", "envCompare");
-    mount("pipeline-flow", "pipelineFlow", { data: D.pipelineFlow });
+    mount("pipeline-flow", "pipelineFlow", { data: D.pipelineTour, base: "viewer/" });
     mount("task-pairs", "trajPairs", {
       pairs: [
         { label: "Restock the pantry cart", gui: "bench-case74-gui", hybrid: "bench-case74" },
