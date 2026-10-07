@@ -605,6 +605,7 @@ h2.section-title { font-size: clamp(28px, 3.6vw, 38px); margin-bottom: 12px; }
 .authors a { color: inherit; text-decoration: none; }
 .authors a:hover { color: var(--accent-300); }
 .authors .au { white-space: nowrap; }
+.authors .lead { display: block; }   /* the equal-contribution authors keep their own line */
 .authors .au.eq { color: var(--accent-300); font-weight: 600; }
 .authors .au.eq a:hover { color: var(--accent-200); }
 .authors sup { font-size: 0.64em; color: var(--accent-400); font-weight: 600; margin-left: 1px; }
