@@ -1,1 +1,0 @@
-import{b as e,te as t}from"./index-CI4N314F.js";function u(){const[r,s]=e.useState(()=>t.getState().darkModeEnabled);return e.useEffect(()=>t.subscribe(a=>{s(a.darkModeEnabled)}),[]),{isDark:r}}export{u};

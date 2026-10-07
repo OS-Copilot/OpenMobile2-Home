@@ -1,0 +1,219 @@
+{
+ "id": "sft-emu-1925-simplesmsresend",
+ "group": "sft",
+ "source": "OpenMobile-Data / emulator / single_app",
+ "model": "OpenMobile-Data trajectory",
+ "mode": "gui_only",
+ "title": "Report the MMS resize limit and the Recycle Bin setting in Simple SMS Messenger",
+ "instruction": "In the settings of Simple SMS Messenger, what is the currently selected limit for resizing sent MMS images, and is the option to move deleted items into the Recycle Bin enabled? Answer with the exact size limit and Yes/No separated by a comma.",
+ "apps": [
+  "simple_sms_messenger"
+ ],
+ "appNames": [
+  "Simple SMS Messenger"
+ ],
+ "difficulty": null,
+ "scope": null,
+ "success": null,
+ "frames": {
+  "dir": "viewer/frames/sft-emu-1925-simplesmsresend/",
+  "count": 8,
+  "w": 540,
+  "h": 1200
+ },
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "",
+   "thought": "This means I'll need to broaden my search. My next move, then, is to open the app drawer, which serves as a comprehensive list of all installed applications on my device. I anticipate finding it there.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      500,
+      900
+     ],
+     "coordinate2": [
+      500,
+      100
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "",
+   "route": "",
+   "thought": "I am currently on the app drawer. I need to find \"Simple SMS Messenger\".\nI see \"Messages\" at the bottom right, but it might be the default Google Messages. Let me scroll down to find \"SMS Messenger\" (Simple Mobile Tools usually have orange icons or are named \"SMS Messenger\").\nWait, the icon for Simple SMS Messenger is usually an orange chat bubble. Let me scroll down.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      500,
+      900
+     ],
+     "coordinate2": [
+      500,
+      100
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "",
+   "route": "",
+   "thought": "I see \"SMS Messenger\" with an orange icon at the bottom right (row 4, column 4).\nI will click on it to open the app.\nCoordinates for \"SMS Messenger\": x=830, y=630.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      830,
+      630
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "",
+   "route": "",
+   "thought": "The app opened into a conversation with Miguel Liu.\nI need to go back to the main screen of the app to access the settings.\nI will click the back arrow at the top left (x=70, y=85).",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      70,
+      85
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "",
+   "route": "",
+   "thought": "Wait, clicking back took me out of the app.\nLet me open it again.\nCoordinates for \"SMS Messenger\": x=830, y=630.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      830,
+      630
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "",
+   "route": "",
+   "thought": "Now I am on the main screen of Simple SMS Messenger.\nI need to access the settings.\nThere is a gear icon at the top right (x=675, y=85) and a three-dot menu (x=900, y=85).\nUsually, the gear icon directly opens settings. Let's click the gear icon.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      675,
+      85
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "",
+   "route": "",
+   "thought": "The settings are in Spanish (\"Ajustes\").\nI need to find:\n1. The currently selected limit for resizing sent MMS images.\n2. Whether the option to move deleted items into the Recycle Bin is enabled.\n\nLet's scroll down to find these options.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      500,
+      800
+     ],
+     "coordinate2": [
+      500,
+      200
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 7,
+   "app": "",
+   "route": "",
+   "thought": "I see the options now.\n1. \"Cambiar el tamaño de las imágenes MMS enviadas\" (Resize sent MMS images) has the value \"600KB\".\n2. \"Mover los elementos en la papelera de reciclaje en lugar de eliminar\" (Move items to the recycle bin instead of deleting) has an unchecked checkbox, which means \"No\".",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "answer",
+     "text": "600KB, No"
+    }
+   },
+   "kind": "answer",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  }
+ ]
+}

@@ -1,0 +1,253 @@
+{
+ "id": "bench-case01",
+ "group": "bench",
+ "source": "MobileGym++ Bench, hybrid_tools_v5 run",
+ "model": "Gemini 3.1 Pro Preview",
+ "mode": "hybrid",
+ "title": "Find the largest Alipay expense and note it as a spending reminder",
+ "instruction": "查查支付宝交易记录里支出金额最大的一笔是什么、花了多少钱，在笔记里记录下来，提醒自己控制开支",
+ "apps": [
+  "alipay",
+  "notes"
+ ],
+ "appNames": [
+  "Alipay",
+  "Notes"
+ ],
+ "difficulty": "L4",
+ "scope": "S2",
+ "success": true,
+ "featured": null,
+ "pair": null,
+ "note": "",
+ "poster": 2,
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "alipay/",
+   "thought": "I need to open the Alipay app to check the transaction history.",
+   "action": "Open the Alipay app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "支付宝"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "alipay",
+   "route": "alipay/",
+   "thought": "I will search for expense bills in Alipay to find the one with the largest amount.",
+   "action": "Search for expense bills.",
+   "call": {
+    "name": "alipay__search_bills",
+    "args": {
+     "direction": "expense",
+     "limit": 50
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "query": null,
+    "direction": "expense",
+    "quick_filter": null,
+    "items": [
+     {
+      "bill_id": "tr_today_1",
+      "title": "美团",
+      "counterparty": "美团外卖-沙县小吃",
+      "amount": -18.5,
+      "timestamp": "2026-07-11T22:00:00.000Z",
+      "category": "dining",
+      "kind": "payment",
+      "description": "餐饮美食",
+      "note": null,
+      "payment_method": "花呗",
+      "include_in_budget": true
+     },
+     {
+      "bill_id": "tr_today_2",
+      "title": "转账-正中(刘沐辰)",
+      "counterparty": "转账-正中(刘沐辰)",
+      "amount": -200,
+      "timestamp": "2026-07-11T19:40:00.000Z",
+      "category": "transferRedPacket",
+      "kind": "transfer",
+      "description": "转账红包",
+      "note": null,
+      "payment_method": "余额",
+      "include_in_budget": true
+     },
+     {
+      "bill_id": "tr_20260227_1",
+      "title": "燃气费",
+      "counterparty": "生活缴费-燃气费",
+      "amount": -36.2,
+      "timestamp": "2026-07-09T01:00:00.000Z",
+      "category": "publicService",
+      "kind": "utility",
+      "description": "公共服务",
+      "note": null,
+      "payment_method": "余额",
+      "include_in_budget": true
+     },
+     {
+      "bill_id": "tr_20260226_1",
+      "title": "水费",
+      "counterparty": "生活缴费-水费",
+      "amount": -23.5,
+      "timestamp": "2026-07-08T01:00:00.000Z",
+      "category": "publicService",
+      "kind": "utility",
+      "description": "公共服务",
+      "note": null,
+      "payment_method": "余额",
+      "include_in_budget": true
+     },
+     {
+      "bill_id": "tr_20260224_1",
+      "title": "美团",
+      "counterparty": "美团外卖-海底捞火锅",
+      "amount": -168,
+      "timestamp": "2026-07-06T01:00:00.000Z",
+      "category": "dining",
+      "kind": "payment",
+      "description": "餐饮美食",
+      "note": null,
+      "payment_method": "花呗",
+      "include_in_budget": true
+     },
+     {
+      "bill_id": "tr_20260222_1",
+      "title": "滴滴出行",
+      "counterparty": "滴滴出行-打车",
+      "amount": -42,
+      "timestamp": "2026-07-04T01:00:00.000Z",
+      "category": "transport",
+      "kind": "payment",
+      "description": "交通出行",
+      "note": null,
+      "payment_method": "花呗",
+      "include_in_budget": true
+     },
+     {
+      "bill_id": "tr_20260220_1",
+      "title": "淘宝",
+      "counterparty": "淘宝-Trae国际版Pro会员订阅",
+      "amount": -32.88,
+      "timestamp": "2026-07-02T01:00:00.000Z",
+      "category": "department",
+      "kind": "payment",
+      "description": "日用百货",
+      "note": null,
+      "payment_method": "花呗",
+      "include_in_budget": true
+     },
+     {
+      "bill_id": "tr_20260216_1",
+      "title": "转账-浩杰(李浩杰)",
+      "counterparty": "转账-浩杰(李浩杰)",
+      "amount": -520,
+      "timestamp": "2026-06-28T01:00:00.000Z",
+      "category": "transferRedPacket",
+      "kind": "transfer",
+      "description": "转账红包",
+      "note": null,
+      "payment_method": "余额",
+      "include_in_budget": true
+     }
+    ],
+    "total": 44,
+    "truncated": false
+   },
+   "resultTruncated": true
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "alipay",
+   "route": "notes/",
+   "thought": "I have found the largest expense, which is a transfer to 正中(刘沐辰) for 2500 yuan. I will now open the Notes app to record this.",
+   "action": "Open the Notes app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "notes"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "notes",
+   "route": "notes/",
+   "thought": "I will create a new note to record the largest expense and remind myself to control expenses.",
+   "action": "Create a note with the expense details.",
+   "call": {
+    "name": "notes__create_note",
+    "args": {
+     "title": "控制开支提醒",
+     "content": "支付宝交易记录里支出金额最大的一笔是转账-正中(刘沐辰)，花了2500元。提醒自己控制开支。"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "note_id": "nvc6owox",
+    "created_at": "2026-07-12T01:00:00.000Z"
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "notes",
+   "route": "notes/",
+   "thought": "I have successfully found the largest expense in Alipay and recorded it in the Notes app to remind myself to control expenses. The task is complete.",
+   "action": "Terminate the task.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": true,
+   "uiEffect": "none",
+   "result": null,
+   "resultTruncated": false
+  }
+ ],
+ "toolCalls": 2,
+ "frames": {
+  "dir": "viewer/frames/bench-case01/",
+  "count": 6,
+  "w": 540,
+  "h": 1200
+ }
+}

@@ -1,0 +1,348 @@
+{
+ "id": "bench-case44",
+ "group": "bench",
+ "source": "MobileGym++ Bench, hybrid_tools_v5 run",
+ "model": "Gemini 3.1 Pro Preview",
+ "mode": "hybrid",
+ "title": "Find the nearest place serving what Chen Jing craves and text Zhang San the address",
+ "instruction": "看看陈静在微信里最近说想吃什么，搜附近最近的那家，把地址用短信发给张三",
+ "apps": [
+  "wechat",
+  "map",
+  "sms"
+ ],
+ "appNames": [
+  "WeChat",
+  "Maps",
+  "Messages"
+ ],
+ "difficulty": "L4",
+ "scope": "S3",
+ "success": true,
+ "featured": null,
+ "pair": null,
+ "note": "",
+ "poster": 3,
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "wechat/",
+   "thought": "I need to open WeChat to check the messages from Chen Jing.",
+   "action": "Open the WeChat app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "微信"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "wechat",
+   "route": "map/",
+   "thought": "I see Chen Jing's message saying she wants to eat McDonald's, so I will open the map app to search for the nearest McDonald's.",
+   "action": "Open the Amap app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "高德地图"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "map",
+   "route": "map/",
+   "thought": "I will search for the nearest McDonald's using the map's compare places tool.",
+   "action": "Search for McDonald's sorted by distance.",
+   "call": {
+    "name": "map__compare_places",
+    "args": {
+     "query": "麦当劳",
+     "sort_by": "distance"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "sort_by": "distance",
+    "items": [
+     {
+      "place_id": "ChIJl-jGM_pT8DURnYSynWSW7SU",
+      "name": "麦当劳",
+      "address": "中国北京市海淀区上地西路27号 邮政编码: 100085",
+      "rating": 4.2,
+      "review_count": 6,
+      "distance_meters": 305,
+      "open_now": null,
+      "category": "快餐店"
+     },
+     {
+      "place_id": "ChIJ1a2um0ZR8DUR7R4wDG0-d0I",
+      "name": "麦当劳黄庄店",
+      "address": "中国北京市海淀区 邮政编码: 100086",
+      "rating": 4,
+      "review_count": 14,
+      "distance_meters": 1361,
+      "open_now": null,
+      "category": "快餐店"
+     },
+     {
+      "place_id": "ChIJJSOJ1ARU8DURJPdNdH55iEM",
+      "name": "麦当劳",
+      "address": "中国北京市海淀区五道口成府路华清嘉园 邮政编码: 100190",
+      "rating": 3.9,
+      "review_count": 15,
+      "distance_meters": 1447,
+      "open_now": true,
+      "category": "西餐厅"
+     },
+     {
+      "place_id": "ChIJ-2Q7L-BT8DURbNmAzY9Hqwk",
+      "name": "麦当劳",
+      "address": "中国北京市海淀区双榆树科学院南路双榆树西里双榆树商场 邮政编码: 100086",
+      "rating": 4.2,
+      "review_count": 12,
+      "distance_meters": 1449,
+      "open_now": null,
+      "category": "西餐厅"
+     },
+     {
+      "place_id": "ChIJpyY7MexT8DURgDRBZ6kqQiw",
+      "name": "麦当劳",
+      "address": "中国北京市海淀区北三环西路23号 邮政编码: 100098",
+      "rating": 4,
+      "review_count": 1,
+      "distance_meters": 1519,
+      "open_now": true,
+      "category": "餐馆"
+     },
+     {
+      "place_id": "ChIJT6Tp8VFR8DURE6mskRFTQCI",
+      "name": "麦当劳甜品站",
+      "address": "中国北京市海淀区中关村海淀大街3号 邮政编码: 100086",
+      "rating": 5,
+      "review_count": 1,
+      "distance_meters": 1549,
+      "open_now": null,
+      "category": "冰淇淋店"
+     },
+     {
+      "place_id": "ChIJ65YDQFJR8DUR6tfIdgDoEhs",
+      "name": "麦当劳",
+      "address": "中国北京市海淀区中关村海淀大街3号鼎好电子大厦 邮政编码: 100086",
+      "rating": 3.6,
+      "review_count": 8,
+      "distance_meters": 1603,
+      "open_now": true,
+      "category": "快餐店"
+     },
+     {
+      "place_id": "ChIJbc0rk21U8DURBZdtkHo13TI",
+      "name": "麦当劳",
+      "address": "中国北京市海淀区学院路甲38号 邮政编码: 100191",
+      "rating": 4.3,
+      "review_count": 3,
+      "distance_meters": 1953,
+      "open_now": true,
+      "category": "餐馆"
+     }
+    ],
+    "total": 30,
+    "truncated": true
+   },
+   "resultTruncated": true
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "map",
+   "route": "sms/",
+   "thought": "I have found the nearest McDonald's address, so I will open the SMS app to send it to Zhang San.",
+   "action": "Open the SMS app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "短信"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "sms",
+   "route": "sms/new",
+   "thought": "I need to create a new SMS message to send the address to Zhang San.",
+   "action": "Click the new message button.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      846,
+      924
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "sms",
+   "route": "sms/new",
+   "thought": "I need to enter the recipient's name, Zhang San, in the \"To\" field.",
+   "action": "Type \"张三\" into the recipient field.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "type",
+     "coordinate": [
+      250,
+      240
+     ],
+     "text": "张三"
+    }
+   },
+   "kind": "type",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "sms",
+   "route": "sms/new",
+   "thought": "I need to select Zhang San from the contact list to proceed with sending the message.",
+   "action": "Click on Zhang San's contact entry.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      350,
+      330
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 8,
+   "app": "sms",
+   "route": "sms/new",
+   "thought": "I need to enter the nearest McDonald's address into the message field.",
+   "action": "Type the address into the message field.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "type",
+     "coordinate": [
+      300,
+      950
+     ],
+     "text": "中国北京市海淀区上地西路27号 邮政编码: 100085"
+    }
+   },
+   "kind": "type",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 9,
+   "before": 8,
+   "after": 9,
+   "app": "sms",
+   "route": "sms/conversation/conv_yaggg5eb6hs0",
+   "thought": "I need to click the send button to send the SMS to Zhang San.",
+   "action": "Click the send button.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      898,
+      558
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 10,
+   "before": 9,
+   "after": 10,
+   "app": "sms",
+   "route": "sms/conversation/conv_yaggg5eb6hs0",
+   "thought": "The message with the nearest McDonald's address has been successfully sent to Zhang San, completing the task.",
+   "action": "Terminate the task with success.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": true,
+   "uiEffect": "none",
+   "result": null,
+   "resultTruncated": false
+  }
+ ],
+ "toolCalls": 1,
+ "frames": {
+  "dir": "viewer/frames/bench-case44/",
+  "count": 11,
+  "w": 540,
+  "h": 1200
+ }
+}

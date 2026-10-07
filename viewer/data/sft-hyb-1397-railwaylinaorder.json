@@ -1,0 +1,146 @@
+{
+ "id": "sft-hyb-1397-railwaylinaorder",
+ "group": "sft",
+ "source": "OpenMobile-Data / simulator / hybrid",
+ "model": "OpenMobile-Data trajectory",
+ "mode": "hybrid",
+ "title": "Send Li Na the train number of the completed Hangzhou East to Shanghai Hongqiao order",
+ "instruction": "打开铁路12306。已完成订单里杭州东到上海虹桥那趟，把车次发给微信李娜。",
+ "apps": [
+  "railway12306",
+  "wechat"
+ ],
+ "appNames": [
+  "Railway 12306",
+  "WeChat"
+ ],
+ "difficulty": null,
+ "scope": null,
+ "success": null,
+ "frames": {
+  "dir": "viewer/frames/sft-hyb-1397-railwaylinaorder/",
+  "count": 6,
+  "w": 540,
+  "h": 1200
+ },
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "railway12306",
+   "route": "",
+   "thought": "Alright, the immediate task is clear: I need to get some specific train information to Li Na via WeChat. To do that, the first step is to access the platform where I can find these details – which means opening up the 铁路12306 application. Once that's up and running, my mental checklist kicks in: I have to navigate to my completed orders, specifically looking for the one originating from Hangzhou East and heading to Shanghai Hongqiao. The crucial piece of data I'm after from that order is the train number. Once I've successfully identified and extracted that train number, the final action will be to send it directly to Li Na through WeChat.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "text": "铁路12306"
+    }
+   },
+   "kind": "open_app",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "railway12306",
+   "route": "",
+   "thought": "The user wants to find the train number for a completed order from Hangzhou East to Shanghai Hongqiao in the 12306 app, and send it to Li Na on WeChat.\nI can use the `railway12306__list_orders` tool to find the completed orders.",
+   "action": "",
+   "call": {
+    "name": "railway12306__list_orders",
+    "args": {
+     "status": "completed"
+    }
+   },
+   "kind": "tool",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "wechat",
+   "route": "",
+   "thought": "The train number is G7536.\nNow I need to open WeChat and send \"G7536\" to Li Na.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "text": "微信"
+    }
+   },
+   "kind": "open_app",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "wechat",
+   "route": "",
+   "thought": "I need to find Li Na in WeChat and send her the train number G7536.\nI can use `wechat__search_contacts` to find Li Na's contact ID.",
+   "action": "",
+   "call": {
+    "name": "wechat__search_contacts",
+    "args": {
+     "query": "李娜"
+    }
+   },
+   "kind": "tool",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "wechat",
+   "route": "",
+   "thought": "I have Li Na's contact ID: `wxid_lina_lina`.\nNow I can use `wechat__send_text_message` to send the train number G7536 to her.",
+   "action": "",
+   "call": {
+    "name": "wechat__send_text_message",
+    "args": {
+     "contact_id": "wxid_lina_lina",
+     "text": "G7536"
+    }
+   },
+   "kind": "tool",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 5,
+   "app": "wechat",
+   "route": "",
+   "thought": "The message has been sent successfully. I can terminate the task.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  }
+ ]
+}

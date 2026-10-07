@@ -1,0 +1,330 @@
+{
+ "id": "sft-emu-3378-mastodonmanagemultilisttask",
+ "group": "sft",
+ "source": "OpenMobile-Data / emulator / single_app",
+ "model": "OpenMobile-Data trajectory",
+ "mode": "gui_only",
+ "title": "Post a Mastodon poll asking for a favorite programming language with three options",
+ "instruction": "In the Mastodon app, create a new post with a poll asking 'What is your favorite programming language?' and add 'Python', 'Java', and 'C++' as the poll options.",
+ "apps": [
+  "mastodon"
+ ],
+ "appNames": [
+  "Mastodon"
+ ],
+ "difficulty": null,
+ "scope": null,
+ "success": null,
+ "frames": {
+  "dir": "viewer/frames/sft-emu-3378-mastodonmanagemultilisttask/",
+  "count": 14,
+  "w": 540,
+  "h": 1200
+ },
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "",
+   "thought": "I visualized its digital presence, its iconic representation on my screen, a familiar beacon in the app drawer. From there, the path to creating the poll was clear, a sequence of intuitive steps leading to the realization of my initial contemplative spark.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      150,
+      400
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "",
+   "route": "",
+   "thought": "The app is loading. I should wait for it to finish loading.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "wait",
+     "time": 2
+    }
+   },
+   "kind": "wait",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "",
+   "route": "",
+   "thought": "The app has loaded and I am on the Home screen.\nI need to create a new post. There is a floating action button with a pencil icon at the bottom right. I will click it.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      893,
+      838
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "",
+   "route": "",
+   "thought": "I am on the \"New post\" screen.\nI need to type the question: \"What is your favorite programming language?\"\nI will click on the text area \"Type or paste what's on your mind\" and type the text.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      251,
+      311
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "",
+   "route": "",
+   "thought": "The text area is focused. Now I will type the question.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "type",
+     "text": "What is your favorite programming language?"
+    }
+   },
+   "kind": "type",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "",
+   "route": "",
+   "thought": "The question is typed. Now I need to add a poll.\nThere is a poll icon at the bottom toolbar (the second icon from the left, looks like a bar chart).\nI will click it.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      191,
+      898
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "",
+   "route": "",
+   "thought": "The poll options are now visible.\nI need to add 'Python', 'Java', and 'C++' as the poll options.\nFirst, I will click on \"Option 1\" and type \"Python\".",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      231,
+      311
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 8,
+   "app": "",
+   "route": "",
+   "thought": "The first option field is focused. I will type \"Python\".",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "type",
+     "text": "Python"
+    }
+   },
+   "kind": "type",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 9,
+   "before": 8,
+   "after": 9,
+   "app": "",
+   "route": "",
+   "thought": "\"Python\" is typed. Now I will click on \"Option 2\" and type \"Java\".",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      231,
+      381
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 10,
+   "before": 9,
+   "after": 10,
+   "app": "",
+   "route": "",
+   "thought": "The second option field is focused. I will type \"Java\".",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "type",
+     "text": "Java"
+    }
+   },
+   "kind": "type",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 11,
+   "before": 10,
+   "after": 11,
+   "app": "",
+   "route": "",
+   "thought": "\"Java\" is typed. Now I need to add a third option for \"C++\".\nThere is a \"+\" button below the options to add another option. I will click it.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      98,
+      450
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 12,
+   "before": 11,
+   "after": 12,
+   "app": "",
+   "route": "",
+   "thought": "The third option field is added and focused. I will type \"C++\".",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "type",
+     "text": "C++"
+    }
+   },
+   "kind": "type",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 13,
+   "before": 12,
+   "after": 13,
+   "app": "",
+   "route": "",
+   "thought": "The poll is fully set up with the question and three options.\nNow I need to post it. There is a send icon (paper plane) at the top right corner. I will click it.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      941,
+      86
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 14,
+   "before": 13,
+   "after": 13,
+   "app": "",
+   "route": "",
+   "thought": "The post has been sent and I am back on the Home screen. The task is complete.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  }
+ ]
+}

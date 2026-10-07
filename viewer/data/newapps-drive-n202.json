@@ -1,0 +1,205 @@
+{
+ "id": "newapps-drive-n202",
+ "group": "newapps",
+ "source": "MobileGym++ new apps, newapps-v2 run",
+ "model": "Gemini 3.1 Pro Preview",
+ "mode": "hybrid",
+ "title": "Star the survey draft in Drive's Papers folder",
+ "instruction": "把 Google 云端硬盘「论文」文件夹里的「综述整理.docx」加星标。",
+ "apps": [
+  "googledrive"
+ ],
+ "appNames": [
+  "Drive"
+ ],
+ "difficulty": "L3",
+ "scope": "S2",
+ "success": true,
+ "featured": null,
+ "pair": null,
+ "note": "",
+ "poster": 5,
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "",
+   "thought": "I need to open the Google Drive app to access the files.",
+   "action": "Open the Google Drive app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "云端硬盘"
+    }
+   },
+   "kind": "open_app",
+   "ok": false,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "",
+   "route": "",
+   "thought": "The app name \"云端硬盘\" was not recognized, so I will try opening \"Drive\" instead.",
+   "action": "Open the Drive app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "Drive"
+    }
+   },
+   "kind": "open_app",
+   "ok": false,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "",
+   "route": "",
+   "thought": "The app name \"Drive\" was not recognized, so I will swipe left on the home screen to find the Google Drive app icon.",
+   "action": "Swipe left on the home screen.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      800,
+      500
+     ],
+     "coordinate2": [
+      200,
+      500
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "",
+   "route": "googledrive/",
+   "thought": "I see the Google Drive app icon on the screen, so I will click it to open the app.",
+   "action": "Click on the Google Drive app icon.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      383,
+      578
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "googledrive",
+   "route": "googledrive/",
+   "thought": "I will search for the file \"综述整理.docx\" using the Google Drive search tool.",
+   "action": "Search for \"综述整理.docx\".",
+   "call": {
+    "name": "googledrive__search",
+    "args": {
+     "query": "综述整理.docx"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "items": [
+     {
+      "item_id": "i_paper2",
+      "name": "综述整理.docx",
+      "kind": "other",
+      "parent_id": "f_papers",
+      "owner_name": null,
+      "size": 77824,
+      "starred": false,
+      "offline": false,
+      "trashed": false
+     }
+    ],
+    "total": 1,
+    "truncated": false
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "googledrive",
+   "route": "googledrive/",
+   "thought": "I found the file \"综述整理.docx\" and will now star it using the toggle_star tool.",
+   "action": "Star the file \"综述整理.docx\".",
+   "call": {
+    "name": "googledrive__toggle_star",
+    "args": {
+     "item_id": "i_paper2"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "item_id": "i_paper2",
+    "starred": true
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "googledrive",
+   "route": "googledrive/",
+   "thought": "The file \"综述整理.docx\" has been successfully starred, so the task is complete.",
+   "action": "Terminate the task with success.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": true,
+   "uiEffect": "none",
+   "result": null,
+   "resultTruncated": false
+  }
+ ],
+ "toolCalls": 2,
+ "frames": {
+  "dir": "viewer/frames/newapps-drive-n202/",
+  "count": 8,
+  "w": 540,
+  "h": 1200
+ }
+}

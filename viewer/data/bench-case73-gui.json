@@ -1,0 +1,486 @@
+{
+ "id": "bench-case73-gui",
+ "group": "gui",
+ "source": "MobileGym++ Bench, v6 run, GUI-only",
+ "model": "Gemini 3.1 Pro Preview",
+ "mode": "gui_only",
+ "title": "Add a prep day a week before the earliest Days Matter deadline and tell Mia Wang",
+ "instruction": "找出 Days Matter 中最早到期且尚未归档的工作事项，提前一周在日历建立同名全天准备日，并把原截止日期和准备日期微信告诉 Mia Wang。",
+ "apps": [
+  "daysmatter",
+  "calendar",
+  "wechat"
+ ],
+ "appNames": [
+  "Days Matter",
+  "Calendar",
+  "WeChat"
+ ],
+ "difficulty": "L4",
+ "scope": "S3",
+ "success": true,
+ "featured": null,
+ "pair": "bench-case73",
+ "note": "Same instruction as the hybrid episode; recorded in the later v6 run.",
+ "poster": 11,
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "",
+   "thought": "I need to open the Days Matter app to find the earliest unarchived work event.",
+   "action": "Open the Days Matter app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "倒数日"
+    }
+   },
+   "kind": "open_app",
+   "ok": false,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "",
+   "route": "",
+   "thought": "The app name \"倒数日\" was not recognized, so I will try opening \"Days Matter\".",
+   "action": "Open the Days Matter app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "Days Matter"
+    }
+   },
+   "kind": "open_app",
+   "ok": false,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "",
+   "route": "",
+   "thought": "The app name was not recognized, so I will swipe left on the home screen to find the Days Matter app.",
+   "action": "Swipe left on the home screen.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      800,
+      500
+     ],
+     "coordinate2": [
+      200,
+      500
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "",
+   "route": "daysmatter/",
+   "thought": "I see the Days Matter (倒数日) app icon on the screen, so I will click it to open the app.",
+   "action": "Click on the Days Matter app icon.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      844,
+      116
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "daysmatter",
+   "route": "daysmatter/?drawer=open",
+   "thought": "I need to filter the events by the \"Work\" category, so I will click the menu icon at the top left.",
+   "action": "Click the menu icon.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      75,
+      81
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "daysmatter",
+   "route": "daysmatter/",
+   "thought": "I will select the \"Work\" (工作) category from the menu.",
+   "action": "Click on \"工作\".",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      261,
+      372
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "daysmatter",
+   "route": "daysmatter/event/ht_dm_contract",
+   "thought": "I need to find the exact date of the earliest upcoming work event, which is \"Contract renewal\" (39 days left).",
+   "action": "Click on \"Contract renewal\".",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      361,
+      583
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 8,
+   "app": "daysmatter",
+   "route": "calendar/",
+   "thought": "I have the event details (\"Contract renewal\" on August 20, 2026), so I will open the Calendar app to create the preparation day.",
+   "action": "Open the Calendar app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "calendar"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 9,
+   "before": 8,
+   "after": 9,
+   "app": "calendar",
+   "route": "calendar/",
+   "thought": "I need to navigate to August to create the preparation event on August 13.",
+   "action": "Swipe left on the calendar to go to the next month.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      800,
+      300
+     ],
+     "coordinate2": [
+      200,
+      300
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 10,
+   "before": 9,
+   "after": 10,
+   "app": "calendar",
+   "route": "calendar/",
+   "thought": "I will select August 13 on the calendar to create the preparation event.",
+   "action": "Click on August 13.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      496,
+      327
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 11,
+   "before": 10,
+   "after": 11,
+   "app": "calendar",
+   "route": "calendar/new-event",
+   "thought": "I will click the \"+\" button to create a new event on August 13.",
+   "action": "Click the \"+\" button.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      718,
+      88
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 12,
+   "before": 11,
+   "after": 12,
+   "app": "calendar",
+   "route": "calendar/new-event",
+   "thought": "I will enter the event title \"Contract renewal\" in the title field.",
+   "action": "Type \"Contract renewal\" into the title field.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "type",
+     "coordinate": [
+      250,
+      300
+     ],
+     "text": "Contract renewal"
+    }
+   },
+   "kind": "type",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 13,
+   "before": 12,
+   "after": 13,
+   "app": "calendar",
+   "route": "calendar/new-event",
+   "thought": "I need to set the event as an all-day event by toggling the switch.",
+   "action": "Click the \"全天事件\" toggle.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      860,
+      380
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 14,
+   "before": 13,
+   "after": 14,
+   "app": "calendar",
+   "route": "calendar/",
+   "thought": "I will click the checkmark at the top right to save the new calendar event.",
+   "action": "Click the save button.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      896,
+      74
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 15,
+   "before": 14,
+   "after": 15,
+   "app": "calendar",
+   "route": "wechat/",
+   "thought": "I have successfully created the calendar event, so now I will open WeChat to send the dates to Mia Wang.",
+   "action": "Open the WeChat app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "WeChat"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 16,
+   "before": 15,
+   "after": 16,
+   "app": "wechat",
+   "route": "wechat/chat/ht_mia",
+   "thought": "I will click on Mia Wang's chat to send her the message.",
+   "action": "Click on Mia Wang's chat.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      400,
+      470
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 17,
+   "before": 16,
+   "after": 17,
+   "app": "wechat",
+   "route": "wechat/chat/ht_mia",
+   "thought": "I will type the message with the original deadline and the preparation date into the chat input field.",
+   "action": "Type the message into the input field.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "type",
+     "coordinate": [
+      400,
+      950
+     ],
+     "text": "原截止日期是2026年8月20日，准备日期是2026年8月13日"
+    }
+   },
+   "kind": "type",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 18,
+   "before": 17,
+   "after": 18,
+   "app": "wechat",
+   "route": "wechat/chat/ht_mia",
+   "thought": "I will click the \"发送\" (Send) button to send the message to Mia Wang.",
+   "action": "Click the send button.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      900,
+      560
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 19,
+   "before": 18,
+   "after": 19,
+   "app": "wechat",
+   "route": "wechat/chat/ht_mia",
+   "thought": "I have successfully found the event, created the calendar event, and sent the message to Mia Wang, so I will terminate the task.",
+   "action": "Terminate the task with success.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": true,
+   "uiEffect": "none",
+   "result": null,
+   "resultTruncated": false
+  }
+ ],
+ "toolCalls": 0,
+ "frames": {
+  "dir": "viewer/frames/bench-case73-gui/",
+  "count": 20,
+  "w": 540,
+  "h": 1200
+ }
+}

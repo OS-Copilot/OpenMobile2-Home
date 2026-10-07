@@ -1,0 +1,333 @@
+{
+ "id": "sft-emu-2770-readqwen3papertask1",
+ "group": "sft",
+ "source": "OpenMobile-Data / emulator / cross_app",
+ "model": "OpenMobile-Data trajectory",
+ "mode": "gui_only",
+ "title": "Share the Qwen3 Technical Report PDF from Files via Mail to david@research.com",
+ "instruction": "In the Files app, locate the 'Qwen3 Technical Report' PDF and share it via Mail to david@research.com. Set the subject to 'Qwen3 Report' and the body to 'Please review the attached paper.'",
+ "apps": [
+  "files",
+  "mail"
+ ],
+ "appNames": [
+  "Files",
+  "Mail"
+ ],
+ "difficulty": null,
+ "scope": null,
+ "success": null,
+ "frames": {
+  "dir": "viewer/frames/sft-emu-2770-readqwen3papertask1/",
+  "count": 14,
+  "w": 540,
+  "h": 1200
+ },
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "",
+   "thought": "First, my immediate thought is to locate the document. I know it's a PDF and that its title is 'Qwen3 Technical Report'. To do this, I'll need to access the Files application on my device. That's the starting point.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      383,
+      526
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "",
+   "route": "",
+   "thought": "Let's long-press `qwen3.pdf` to select it and reveal the share option.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "long_press",
+     "coordinate": [
+      400,
+      300
+     ],
+     "time": 1.0
+    }
+   },
+   "kind": "long_press",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "",
+   "route": "",
+   "thought": "The file `qwen3.pdf` is now selected.\nI see a share icon at the top right, next to the trash can.\nI will click the share icon.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      700,
+      80
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "",
+   "route": "",
+   "thought": "The share menu has popped up.\nI need to share it via Mail.\nI see the Mail app icon in the share menu.\nI will click the Mail app icon.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      300,
+      880
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "",
+   "route": "",
+   "thought": "The Mail app is opening, but it's currently a blank white screen.\nI should wait a moment for it to load.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "wait",
+     "time": 2.0
+    }
+   },
+   "kind": "wait",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "",
+   "route": "",
+   "thought": "The Mail app has loaded the compose screen.\nThe file `qwen3.pdf` is attached at the bottom.\nI need to fill in the 'To', 'Subject', and 'Compose email' fields.\nFirst, I will click on the 'To' field to enter the recipient's email address: david@research.com.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      300,
+      210
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "",
+   "route": "",
+   "thought": "The 'To' field is now active.\nI will type the email address: david@research.com.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "type",
+     "text": "david@research.com"
+    }
+   },
+   "kind": "type",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 8,
+   "app": "",
+   "route": "",
+   "thought": "The email address is entered. I should press Enter to confirm it.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "system_button",
+     "button": "Enter"
+    }
+   },
+   "kind": "system_button",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 9,
+   "before": 8,
+   "after": 9,
+   "app": "",
+   "route": "",
+   "thought": "The recipient is set.\nNow I need to set the subject to 'Qwen3 Report'.\nI will click on the 'Subject' field.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      300,
+      270
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 10,
+   "before": 9,
+   "after": 10,
+   "app": "",
+   "route": "",
+   "thought": "The 'Subject' field is active.\nI will type 'Qwen3 Report'.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "type",
+     "text": "Qwen3 Report"
+    }
+   },
+   "kind": "type",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 11,
+   "before": 10,
+   "after": 11,
+   "app": "",
+   "route": "",
+   "thought": "The subject is set.\nNow I need to set the body to 'Please review the attached paper.'.\nI will click on the 'Compose email' field.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      300,
+      330
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 12,
+   "before": 11,
+   "after": 12,
+   "app": "",
+   "route": "",
+   "thought": "The 'Compose email' field is active.\nI will type 'Please review the attached paper.'.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "type",
+     "text": "Please review the attached paper."
+    }
+   },
+   "kind": "type",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 13,
+   "before": 12,
+   "after": 13,
+   "app": "",
+   "route": "",
+   "thought": "The email is fully composed.\nRecipient: david@research.com\nSubject: Qwen3 Report\nBody: Please review the attached paper.\nAttachment: qwen3.pdf\nNow I need to send the email.\nThe send button is the paper airplane icon at the top right.\nI will click the send button.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      820,
+      80
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 14,
+   "before": 13,
+   "after": 13,
+   "app": "",
+   "route": "",
+   "thought": "The email has been sent, and I am back in the Mail inbox.\nThe task is complete.\nI will terminate the task with success.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  }
+ ]
+}

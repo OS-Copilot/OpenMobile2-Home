@@ -11,7 +11,10 @@
   "use strict";
   var W = window.OM2Widgets = window.OM2Widgets || {};
   var SCREEN_W = 360, SCREEN_H = 800, BEZEL = 10;
-  var PHONE_W = SCREEN_W + 2 * BEZEL, PHONE_H = SCREEN_H + 2 * BEZEL;
+  /* the three-button navigation bar sits under the app area, like a phone
+     with button navigation: it never covers an app's own bottom bar */
+  var NAV_H = 36;
+  var PHONE_W = SCREEN_W + 2 * BEZEL, PHONE_H = SCREEN_H + NAV_H + 2 * BEZEL;
 
   function h(tag, cls, parent, text) {
     var e = document.createElement(tag);
@@ -56,6 +59,24 @@
     if (!win || !doc || win.__om2ScrollPatched) return;
     win.__om2ScrollPatched = true;
     try { doc.documentElement.style.overflowX = "hidden"; } catch (e) { /* noop */ }
+    /* the simulator draws its own text-selection handles and leaves them in
+       place when a field loses focus (keyboard closed, app left); collapsing
+       the selection as the field blurs makes them go away */
+    function collapseSelection(t) {
+      if (win.__om2NoCollapse) return; /* test switch */
+      if (!t || !(t.tagName === "TEXTAREA" || t.tagName === "INPUT")) return;
+      try {
+        if (t.selectionStart !== t.selectionEnd) {
+          t.setSelectionRange(t.selectionEnd, t.selectionEnd);
+          doc.dispatchEvent(new win.Event("selectionchange"));
+        }
+      } catch (err) { /* inputs without a selection range */ }
+    }
+    doc.addEventListener("focusout", function (e) { collapseSelection(e.target); }, true);
+    doc.addEventListener("pointerdown", function (e) {
+      var a = doc.activeElement;
+      if (a && a !== e.target && !a.contains(e.target)) collapseSelection(a);
+    }, true);
     var El = win.Element, HEl = win.HTMLElement;
     if (!El || !HEl) return;
     El.prototype.scrollIntoView = function (arg) {
@@ -214,21 +235,58 @@
     });
     key("power", "Power off", function () { powerOff(); state.wasOff = true; }, "lv-key-off");
 
+    /* chips: a featured row, then every app in the build grouped by domain
+       behind a toggle (opts.apps = the full list, opts.featured = ids) */
+    function chip(a, parent) {
+      var c = h("button", "wt-tab lv-app", parent);
+      c.type = "button";
+      var label = a.label || a.name || a.id;
+      if (a.pkg && opts.iconBase && a.icon !== false) {
+        var img = h("img", "lv-app-ico", c);
+        img.alt = ""; img.width = 18; img.height = 18; img.loading = "lazy";
+        img.src = opts.iconBase + a.pkg + ".png";
+        img.addEventListener("error", function () { img.remove(); });
+      } else if (a.color) {
+        /* apps whose launcher icon is drawn in code: a tile in the app's own colour */
+        var tile = h("i", "lv-app-tile", c, label[0]);
+        tile.setAttribute("aria-hidden", "true");
+        tile.style.background = a.color;
+        if (a.fg) tile.style.color = a.fg;
+      }
+      h("span", null, c, label);
+      c.addEventListener("click", function () { call(function (os) { os.launchApp(a.id); }); logAction("open_app", a.id); });
+    }
     if (apps.length) {
+      var byId = {};
+      apps.forEach(function (a) { byId[a.id] = a; });
+      var featured = (opts.featured || []).map(function (id) { return byId[id]; }).filter(Boolean);
+      if (!featured.length) featured = apps;
       h("p", "lv-label", side, "Open an app");
       var chips = h("div", "lv-apps", side);
-      apps.forEach(function (a) {
-        var c = h("button", "wt-tab lv-app", chips);
-        c.type = "button";
-        if (a.pkg && opts.iconBase) {
-          var img = h("img", "lv-app-ico", c);
-          img.alt = ""; img.width = 18; img.height = 18; img.loading = "eager";
-          img.src = opts.iconBase + a.pkg + ".png";
-          img.addEventListener("error", function () { img.remove(); });
-        }
-        h("span", null, c, a.label);
-        c.addEventListener("click", function () { call(function (os) { os.launchApp(a.id); }); logAction("open_app", a.id); });
-      });
+      featured.forEach(function (a) { chip(a, chips); });
+      if (featured.length < apps.length) {
+        var more = h("button", "wt-btn lv-apps-more", side, "All " + apps.length + " apps");
+        more.type = "button"; more.setAttribute("aria-expanded", "false");
+        var all = h("div", "lv-apps-all", side); all.hidden = true;
+        var groups = {}, order = [];
+        apps.forEach(function (a) {
+          var d = a.domain || "other";
+          if (!groups[d]) { groups[d] = []; order.push(d); }
+          groups[d].push(a);
+        });
+        order.forEach(function (d) {
+          var g = h("div", "lv-app-group", all);
+          h("span", "lv-app-dom", g, d.charAt(0).toUpperCase() + d.slice(1));
+          var row = h("div", "lv-apps", g);
+          groups[d].forEach(function (a) { chip(a, row); });
+        });
+        more.addEventListener("click", function () {
+          var open = all.hidden;
+          all.hidden = !open;
+          more.setAttribute("aria-expanded", open ? "true" : "false");
+          more.textContent = open ? "Fewer apps" : "All " + apps.length + " apps";
+        });
+      }
     }
     /* two panels tie the phone to the paper: what the policy would emit for
        each touch, and the business state the verifier reads */
@@ -236,7 +294,7 @@
     var agentPanel = h("section", "lv-panel lv-agent", panels);
     var ah = h("div", "lv-panel-head", agentPanel);
     h("h4", null, ah, "Agent action space");
-    h("p", null, ah, "Each touch, as the action a policy emits in the 999 \u00d7 999 space");
+    h("p", null, ah, "Each touch or tool call, as a policy would emit it; touches in the 999 \u00d7 999 space");
     var agentLog = h("ol", "lv-log", agentPanel);
     var agentEmpty = h("p", "lv-empty", agentPanel, "Tap, swipe or type on the phone.");
     var statePanel = h("section", "lv-panel lv-state", panels);
@@ -245,6 +303,16 @@
     h("p", null, sh, "What the verifier reads: the app\u2019s own objects, not the screen");
     var stateHead = h("div", "lv-state-app", statePanel, "home screen");
     var stateList = h("dl", "lv-kv", statePanel);
+    /* the third panel is the paper's hybrid setting, live: the foreground
+       app's app-native tools (window.__MOBILE_GYM_TOOLS__ in the build), each
+       callable from here, writing the same state the GUI writes */
+    var toolsPanel = h("section", "lv-panel lv-tools", panels);
+    var th = h("div", "lv-panel-head", toolsPanel);
+    h("h4", null, th, "App-native tools");
+    h("p", null, th, "What the foreground app exposes besides its screen; a call writes the same state as a tap");
+    var toolsHead = h("div", "lv-state-app", toolsPanel, "home screen");
+    var toolsList = h("ol", "lv-tool-list", toolsPanel);
+    var toolsEmpty = h("p", "lv-empty", toolsPanel, "Open an app to see its tools.");
 
     var hint = h("p", "lv-hint", side);
     hint.appendChild(svg(["M12 19V8", "M7 13l5-5 5 5"], 14));
@@ -257,9 +325,9 @@
       return [Math.max(0, Math.min(999, Math.round(x / SCREEN_W * 999))),
               Math.max(0, Math.min(999, Math.round(y / SCREEN_H * 999)))];
     }
-    function logAction(name, args) {
+    function logAction(name, args, isTool) {
       if (agentEmpty.parentNode) agentEmpty.remove();
-      var li = h("li", "lv-log-item", agentLog);
+      var li = h("li", "lv-log-item" + (isTool ? " is-tool" : ""), agentLog);
       h("span", "lv-log-n", li, String(++logCount));
       h("span", "lv-log-name", li, name);
       h("span", "lv-log-args", li, args);
@@ -340,6 +408,116 @@
       keys.sort(function (a, b) { return score(b) - score(a); });
       return keys.slice(0, 7);
     }
+    /* ----- app-native tools ------------------------------------------- */
+    var toolsApp = null; /* null = nothing rendered yet */
+    function toolApi() {
+      var w = state.iframe && state.iframe.contentWindow;
+      return w && w.__MOBILE_GYM_TOOLS__;
+    }
+    function compactArgs(args) {
+      return Object.keys(args).map(function (k) { return k + "=" + JSON.stringify(args[k]); }).join(", ");
+    }
+    function trimJSON(v, max) {
+      var t; try { t = JSON.stringify(v, null, 1); } catch (e) { t = String(v); }
+      return t.length > max ? t.slice(0, max) + "\u2026" : t;
+    }
+    function toolForm(d, form) {
+      var schema = d.inputSchema || {}, props = schema.properties || {}, req = schema.required || [];
+      var fields = [];
+      Object.keys(props).forEach(function (k) {
+        var pr = props[k] || {}, type = Array.isArray(pr.type) ? pr.type[0] : pr.type;
+        var lab = h("label", "lv-tool-field", form);
+        h("span", null, lab, k + (req.indexOf(k) >= 0 ? " *" : "") + (type ? " \u00b7 " + type : ""));
+        var inp = document.createElement("input");
+        if (type === "boolean") inp.type = "checkbox";
+        else { inp.type = type === "number" || type === "integer" ? "number" : "text"; inp.placeholder = pr.description || (pr.enum ? pr.enum.join(" | ") : ""); }
+        if (pr.default !== undefined && type !== "boolean") inp.value = pr.default;
+        lab.appendChild(inp);
+        fields.push({ key: k, type: type, input: inp });
+      });
+      var run = h("div", "lv-tool-run", form);
+      var go = h("button", "wt-btn is-tool", run, "Call " + d.name.split("__").slice(1).join("__"));
+      go.type = "button";
+      var status = h("span", "lv-tool-status", run);
+      var out = h("pre", "lv-tool-out", form); out.hidden = true;
+      go.addEventListener("click", function () {
+        var api = toolApi(); if (!api) return;
+        var args = {};
+        fields.forEach(function (f) {
+          if (f.type === "boolean") { if (f.input.checked) args[f.key] = true; return; }
+          var v = f.input.value;
+          if (v === "") return;
+          if (f.type === "number" || f.type === "integer") { var n = Number(v); if (!isNaN(n)) args[f.key] = n; return; }
+          if (f.type === "array" || f.type === "object") { try { args[f.key] = JSON.parse(v); return; } catch (e) { /* keep as text */ } }
+          args[f.key] = v;
+        });
+        logAction(d.name, compactArgs(args), true);
+        status.textContent = "\u2026"; status.className = "lv-tool-status";
+        var p; try { p = Promise.resolve(api.callTool(d.name, args)); } catch (e) { p = Promise.reject(e); }
+        p.then(function (res) {
+          var ok = res && res.ok !== false;
+          status.textContent = ok ? "ok" : "error"; status.className = "lv-tool-status " + (ok ? "is-ok" : "is-err");
+          out.textContent = trimJSON(ok ? res.output : (res && res.error) || res, 900); out.hidden = false;
+        }, function (err) {
+          status.textContent = "error"; status.className = "lv-tool-status is-err";
+          out.textContent = String(err && err.message || err); out.hidden = false;
+        });
+        scheduleState(300);
+      });
+    }
+    function effectTag(d) {
+      var a = d.annotations || {};
+      if (a.uiEffect === "navigation") return "opens a screen";
+      if (a.uiEffect === "draft") return "prefills a form";
+      return a.readOnlyHint ? "reads" : "writes state";
+    }
+    function closeTools() {
+      Array.prototype.forEach.call(toolsList.querySelectorAll(".lv-tool-form"), function (f) { f.hidden = true; f.innerHTML = ""; });
+      Array.prototype.forEach.call(toolsList.querySelectorAll(".lv-tool-btn"), function (b) { b.setAttribute("aria-expanded", "false"); });
+    }
+    function toolRow(d) {
+      var li = h("li", "lv-tool", toolsList);
+      var btn = h("button", "lv-tool-btn", li);
+      btn.type = "button"; btn.setAttribute("aria-expanded", "false");
+      h("span", "lv-tool-name", btn, d.name.split("__").slice(1).join("__") || d.name);
+      h("span", "lv-tool-tag", btn, effectTag(d));
+      h("span", "lv-tool-desc", btn, d.description || "");
+      var form = h("div", "lv-tool-form", li); form.hidden = true;
+      btn.addEventListener("click", function () {
+        var open = form.hidden;
+        closeTools();
+        if (open) { toolForm(d, form); form.hidden = false; btn.setAttribute("aria-expanded", "true"); }
+      });
+    }
+    function renderTools(appId) {
+      appId = appId || "";
+      if (appId === toolsApp && (toolsList.children.length || toolsEmpty.parentNode)) return;
+      toolsApp = appId;
+      while (toolsList.firstChild) toolsList.removeChild(toolsList.firstChild);
+      var api = toolApi(), defs = [];
+      try { defs = api ? (appId ? api.listTools({ app: appId }) : api.listTools()) : []; } catch (e) { defs = []; }
+      if (!appId) {
+        var apps = {}; defs.forEach(function (d) { apps[d.app] = 1; });
+        /* the tool registry can appear a moment after boot: keep retrying
+           the home-screen line until it answers */
+        if (!defs.length) toolsApp = null;
+        toolsHead.textContent = "home screen";
+        toolsEmpty.textContent = defs.length
+          ? "Open an app to see its tools: " + defs.length + " across " + Object.keys(apps).length + " apps in this build."
+          : "Open an app to see its tools.";
+        toolsPanel.appendChild(toolsEmpty);
+        return;
+      }
+      toolsHead.textContent = "apps." + appId;
+      if (!defs.length) {
+        toolsEmpty.textContent = "No app-native tools here; this app is GUI-only.";
+        toolsPanel.appendChild(toolsEmpty);
+        return;
+      }
+      if (toolsEmpty.parentNode) toolsEmpty.remove();
+      defs.forEach(toolRow);
+    }
+
     function refreshState() {
       var w = state.iframe && state.iframe.contentWindow;
       if (!w || !w.__SIM__ || !w.__OS__) return;
@@ -347,6 +525,7 @@
       try { route = w.__OS__.getAppRoute(); } catch (e) { /* noop */ }
       var appId = route && route.app;
       stApp.textContent = appId || "home";
+      renderTools(appId);
       stRoute.textContent = route && route.path && route.path !== "/" ? route.path : "";
       var st; try { st = w.__SIM__.getState(); } catch (e) { return; }
       var rows = [];
@@ -430,6 +609,8 @@
       setReady(false);
       root.classList.remove("is-on");
       stApp.textContent = "off"; stRoute.textContent = "";
+      toolsApp = null; while (toolsList.firstChild) toolsList.removeChild(toolsList.firstChild);
+      toolsHead.textContent = "home screen"; toolsEmpty.textContent = "Open an app to see its tools."; toolsPanel.appendChild(toolsEmpty);
     }
     boot.addEventListener("click", function () { state.wasOff = false; powerOn(); });
 

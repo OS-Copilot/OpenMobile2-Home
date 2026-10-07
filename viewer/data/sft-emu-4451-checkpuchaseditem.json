@@ -1,0 +1,227 @@
+{
+ "id": "sft-emu-4451-checkpuchaseditem",
+ "group": "sft",
+ "source": "OpenMobile-Data / emulator / single_app",
+ "model": "OpenMobile-Data trajectory",
+ "mode": "gui_only",
+ "title": "Open the Taodian cart, select every item and delete them",
+ "instruction": "My Taodian shopping cart has too many items in it. Please open the cart, select all of the items, and delete them to clear it out completely.",
+ "apps": [
+  "taodian"
+ ],
+ "appNames": [
+  "Taodian"
+ ],
+ "difficulty": null,
+ "scope": null,
+ "success": null,
+ "frames": {
+  "dir": "viewer/frames/sft-emu-4451-checkpuchaseditem/",
+  "count": 9,
+  "w": 540,
+  "h": 1200
+ },
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "",
+   "thought": "",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      616,
+      666
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "",
+   "route": "",
+   "thought": "The app is launching. I need to wait for it to fully load.\nAction: wait",
+   "action": "wait",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "wait",
+     "time": 2
+    }
+   },
+   "kind": "wait",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "",
+   "route": "",
+   "thought": "A pop-up ad has appeared. I need to close it to access the main app interface. The close button is an 'x' at the top of the pop-up.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      500,
+      200
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "",
+   "route": "",
+   "thought": "The pop-up is closed, and I'm on the home screen of the Taodian app.\nThe user wants to clear their shopping cart.\nI need to navigate to the shopping cart. The shopping cart icon is at the bottom navigation bar, labeled \"购物车\" (Shopping Cart). It also has a red badge indicating \"20\" items.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      625,
+      945
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "",
+   "route": "",
+   "thought": "I am now in the shopping cart. There are 20 items.\nThe user wants to select all items and delete them.\nTo delete items, I first need to enter the management mode. There is a \"管理\" (Manage) button in the top right corner.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      916,
+      133
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "",
+   "route": "",
+   "thought": "Now I am in management mode. The bottom bar has changed. There is a \"全选\" (Select All) radio button on the left and a \"删除选中\" (Delete Selected) button on the right.\nFirst, I need to select all items.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      60,
+      879
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "",
+   "route": "",
+   "thought": "All items are now selected, as indicated by the orange checkmarks next to each item and the \"全选\" button.\nNow I need to click the \"删除选中\" (Delete Selected) button to remove them.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      596,
+      879
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 8,
+   "app": "",
+   "route": "",
+   "thought": "A confirmation dialog has appeared asking \"确认要删除选中的20个商品吗?\" (Are you sure you want to delete the selected 20 items?).\nI need to click \"OK\" to confirm the deletion.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      666,
+      571
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 9,
+   "before": 8,
+   "after": 8,
+   "app": "",
+   "route": "",
+   "thought": "The shopping cart is now empty, as indicated by the text \"您的购物车还是空的\" (Your shopping cart is still empty) and \"购物车 (0)\".\nThe task is complete. I will terminate the process.\nAction: terminate",
+   "action": "terminate",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  }
+ ]
+}

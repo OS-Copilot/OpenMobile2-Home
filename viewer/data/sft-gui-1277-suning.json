@@ -1,0 +1,235 @@
+{
+ "id": "sft-gui-1277-suning",
+ "group": "sft",
+ "source": "OpenMobile-Data / simulator / gui-only",
+ "model": "OpenMobile-Data trajectory",
+ "mode": "gui_only",
+ "title": "Add a new shipping address on Suning and enter the recipient's name",
+ "instruction": "On Suning, add a new shipping address and enter the recipient's name.",
+ "apps": [
+  "suning"
+ ],
+ "appNames": [
+  "Suning"
+ ],
+ "difficulty": null,
+ "scope": null,
+ "success": null,
+ "frames": {
+  "dir": "viewer/frames/sft-gui-1277-suning/",
+  "count": 9,
+  "w": 540,
+  "h": 1200
+ },
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "",
+   "thought": "I'm currently on my device's home screen, and I don't immediately see the Suning icon. Therefore, my next logical step is to swipe left, as I anticipate it might be located on one of the subsequent screens containing my other applications.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      800,
+      500
+     ],
+     "coordinate2": [
+      200,
+      500
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "",
+   "route": "",
+   "thought": "The user wants to add a new shipping address on Suning and enter the recipient's name.\nI am currently on the second page of the home screen.\nI need to find the Suning app. It's not on this page.\nI will swipe left again to go to the next page.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      800,
+      500
+     ],
+     "coordinate2": [
+      200,
+      500
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "",
+   "route": "",
+   "thought": "I see the Suning app icon (苏宁易购) on this page. It's in the second row, second column.\nI will click on it to open the app.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      383,
+      241
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "",
+   "route": "",
+   "thought": "The Suning app is open. I need to add a new shipping address.\nUsually, this is done in the user profile or settings section.\nI see \"我的易购\" (My Suning) at the bottom right corner. I will click on it.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      875,
+      958
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "",
+   "route": "",
+   "thought": "I am now on the \"My Suning\" page.\nI see an icon for \"地址\" (Address) at the top right, next to the settings icon.\nI will click on the \"地址\" icon to manage shipping addresses.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      760,
+      88
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "",
+   "route": "",
+   "thought": "I am on the \"地址管理\" (Address Management) page.\nI see a button \"+ 新增配送地址\" (+ Add new shipping address) at the top right of the address list.\nI will click on it to add a new address.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      819,
+      143
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "",
+   "route": "",
+   "thought": "I am on the \"新增地址\" (Add New Address) page.\nThe user requested to \"add a new shipping address and enter the recipient's name\".\nI need to click on the \"收件人\" (Recipient) input field, which currently says \"请填写收件人姓名\" (Please fill in the recipient's name).\nThen I will type a name. Let's use \"张三\" (Zhang San) as a placeholder name.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      446,
+      148
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 8,
+   "app": "",
+   "route": "",
+   "thought": "The keyboard is up. I will type the recipient's name. Let's use \"张三\".",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "type",
+     "text": "张三"
+    }
+   },
+   "kind": "type",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 9,
+   "before": 8,
+   "after": 8,
+   "app": "",
+   "route": "",
+   "thought": "The recipient's name \"张三\" has been entered.\nThe user's request was to \"add a new shipping address and enter the recipient's name\".\nI have successfully navigated to the add new address page and entered the recipient's name.\nThe task is complete. I will terminate the process.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  }
+ ]
+}

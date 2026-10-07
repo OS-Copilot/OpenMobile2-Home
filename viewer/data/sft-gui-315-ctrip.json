@@ -1,0 +1,254 @@
+{
+ "id": "sft-gui-315-ctrip",
+ "group": "sft",
+ "source": "OpenMobile-Data / simulator / gui-only",
+ "model": "OpenMobile-Data trajectory",
+ "mode": "gui_only",
+ "title": "Read the guest reviews for the Sea·观海栖宿 seaview homestay on Ctrip",
+ "instruction": "Read the guest reviews for 「Sea·观海栖宿海景民宿」 on Ctrip.",
+ "apps": [
+  "ctrip"
+ ],
+ "appNames": [
+  "Ctrip"
+ ],
+ "difficulty": null,
+ "scope": null,
+ "success": null,
+ "frames": {
+  "dir": "viewer/frames/sft-gui-315-ctrip/",
+  "count": 10,
+  "w": 540,
+  "h": 1200
+ },
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "",
+   "thought": "Hmm, it's not immediately visible. I need to be thorough, so I'll perform a standard swipe gesture to the left, revealing any other app pages I might have. My goal is to locate and open Ctrip so I can proceed with the review search.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      800,
+      500
+     ],
+     "coordinate2": [
+      200,
+      500
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "",
+   "route": "",
+   "thought": "The user wants to read guest reviews for \"Sea·观海栖宿海景民宿\" on Ctrip.\nI am currently on the second page of the home screen.\nI will click on the Ctrip app to open it.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      850,
+      230
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "",
+   "route": "",
+   "thought": "The Ctrip app is open.\nI see a recommendation for \"Sea·观海栖宿海景民宿\" on the home page.\nI will click on this recommendation to view its details.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      750,
+      750
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "",
+   "route": "",
+   "thought": "Ah, clicking that card took me to a general page for Shanghai, not the specific hotel.\nLet me go back to the previous page and try searching for it instead, or maybe I misclicked.\nWait, the previous page had \"Sea·观海栖宿海景民宿\" under the \"上海\" tab, but it says \"近连云港市连岛景区\". That's weird.\nLet me go back first.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      74,
+      81
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "",
+   "route": "",
+   "thought": "I'm back on the home page.\nLet me try clicking the search bar to search for \"Sea·观海栖宿海景民宿\".",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      400,
+      400
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "",
+   "route": "",
+   "thought": "Now I will type \"Sea·观海栖宿海景民宿\" into the search bar.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "type",
+     "text": "Sea·观海栖宿海景民宿"
+    }
+   },
+   "kind": "type",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "",
+   "route": "",
+   "thought": "The search suggestions show \"Sea·观海栖宿海景民宿\".",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      300,
+      160
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 8,
+   "app": "",
+   "route": "",
+   "thought": "The search results show \"Sea·观海栖宿海景民宿\" as the second item.\nI will click on it to view the details.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      500,
+      450
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 9,
+   "before": 8,
+   "after": 9,
+   "app": "",
+   "route": "",
+   "thought": "I am now on the hotel details page for \"Sea·观海栖宿海景民宿\".\nI see a section that says \"5 超棒 · 19条点评\" (5 Excellent · 19 reviews).\nI will click on this section to read the guest reviews.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      500,
+      500
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 10,
+   "before": 9,
+   "after": 9,
+   "app": "",
+   "route": "",
+   "thought": "I have successfully navigated to the guest reviews page for \"Sea·观海栖宿海景民宿\".\nThe user's request was to \"Read the guest reviews for 「Sea·观海栖宿海景民宿」 on Ctrip.\"\nI have completed this task. I will now terminate the process.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  }
+ ]
+}

@@ -1,0 +1,753 @@
+{
+ "id": "bench-case57",
+ "group": "bench",
+ "source": "MobileGym++ Bench, hybrid_tools_v5 run",
+ "model": "Gemini 3.1 Pro Preview",
+ "mode": "hybrid",
+ "title": "Move the file the boss asked for into Documents/submission and reply with its name",
+ "instruction": "在微信看看老板最近让我补交的材料，然后在 Download/待提交 里找到对应文件，移动到 Documents/submission，并把文件名微信回复给老板。",
+ "apps": [
+  "wechat",
+  "file_manager"
+ ],
+ "appNames": [
+  "WeChat",
+  "Files"
+ ],
+ "difficulty": "L3",
+ "scope": "S2",
+ "success": true,
+ "featured": 7,
+ "pair": null,
+ "note": "",
+ "poster": 5,
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "wechat/",
+   "thought": "I need to open WeChat to check the message from the boss.",
+   "action": "Open WeChat.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "微信"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "wechat",
+   "route": "wechat/chat/wxid_boss_007",
+   "thought": "I need to open the chat with the boss to see the full message about the required materials.",
+   "action": "Click on the chat with \"Boss\".",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      300,
+      220
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "wechat",
+   "route": "",
+   "thought": "I have read the boss's message, which mentions the file was modified on the 1st of this month. Now I need to go to the file manager.",
+   "action": "Press the Home button.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "system_button",
+     "button": "Home"
+    }
+   },
+   "kind": "system_button",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "",
+   "route": "file_manager/",
+   "thought": "I need to open the file manager app to find the file.",
+   "action": "Click on the file manager app icon.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      850,
+      580
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "file_manager",
+   "route": "file_manager/",
+   "thought": "I will list the contents of the `Download/待提交` directory to find the file modified on the 1st of the month.",
+   "action": "List the directory `Download/待提交`.",
+   "call": {
+    "name": "file_manager__list_directory",
+    "args": {
+     "path": "Download/待提交"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "path": "/sdcard/Download/待提交",
+    "items": [
+     {
+      "path": "/sdcard/Download/待提交/archive",
+      "name": "archive",
+      "type": "directory",
+      "size_bytes": 0,
+      "mime_type": null,
+      "modified_at": "2026-07-12T01:00:00.000Z"
+     },
+     {
+      "path": "/sdcard/Download/待提交/供应商盖章确认.pdf",
+      "name": "供应商盖章确认.pdf",
+      "type": "file",
+      "size_bytes": 48,
+      "mime_type": "application/pdf",
+      "modified_at": "2026-06-29T03:20:00.000Z"
+     },
+     {
+      "path": "/sdcard/Download/待提交/供应商草稿确认.pdf",
+      "name": "供应商草稿确认.pdf",
+      "type": "file",
+      "size_bytes": 42,
+      "mime_type": "application/pdf",
+      "modified_at": "2026-06-29T01:10:00.000Z"
+     },
+     {
+      "path": "/sdcard/Download/待提交/合同扫描件.pdf",
+      "name": "合同扫描件.pdf",
+      "type": "file",
+      "size_bytes": 48,
+      "mime_type": "application/pdf",
+      "modified_at": "2026-07-07T02:15:00.000Z"
+     },
+     {
+      "path": "/sdcard/Download/待提交/报销汇总表.xlsx",
+      "name": "报销汇总表.xlsx",
+      "type": "file",
+      "size_bytes": 45,
+      "mime_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "modified_at": "2026-07-07T02:00:00.000Z"
+     },
+     {
+      "path": "/sdcard/Download/待提交/流水截图_A.png",
+      "name": "流水截图_A.png",
+      "type": "file",
+      "size_bytes": 47,
+      "mime_type": "image/png",
+      "modified_at": "2026-07-01T10:05:00.000Z"
+     },
+     {
+      "path": "/sdcard/Download/待提交/流水截图_B.png",
+      "name": "流水截图_B.png",
+      "type": "file",
+      "size_bytes": 45,
+      "mime_type": "image/png",
+      "modified_at": "2026-07-07T10:05:00.000Z"
+     },
+     {
+      "path": "/sdcard/Download/待提交/流水截图_C.png",
+      "name": "流水截图_C.png",
+      "type": "file",
+      "size_bytes": 43,
+      "mime_type": "image/png",
+      "modified_at": "2026-06-20T10:05:00.000Z"
+     }
+    ],
+    "total": 9,
+    "truncated": false
+   },
+   "resultTruncated": true
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "file_manager",
+   "route": "file_manager/folder?path=%2Fsdcard%2FDownload%2F%E5%BE%85%E6%8F%90%E4%BA%A4",
+   "thought": "I have identified the file modified on the 1st of the month as `流水截图_A.png`. Now I will open the `Download/待提交` folder in the GUI to move it.",
+   "action": "Open the `Download/待提交` folder in the file manager.",
+   "call": {
+    "name": "file_manager__open_path",
+    "args": {
+     "path": "Download/待提交"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": {
+    "route": "/folder?path=%2Fsdcard%2FDownload%2F%E5%BE%85%E6%8F%90%E4%BA%A4",
+    "path": "/sdcard/Download/待提交"
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "file_manager",
+   "route": "file_manager/folder?path=%2Fsdcard%2FDownload%2F%E5%BE%85%E6%8F%90%E4%BA%A4&mode=select",
+   "thought": "I need to select the file `流水截图_A.png` to move it.",
+   "action": "Long press on `流水截图_A.png`.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "long_press",
+     "coordinate": [
+      400,
+      700
+     ],
+     "time": 1.0
+    }
+   },
+   "kind": "long_press",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 8,
+   "app": "file_manager",
+   "route": "file_manager/folder?path=%2Fsdcard%2FDownload%2F%E5%BE%85%E6%8F%90%E4%BA%A4&mode=select&modal=transfer&operation=move",
+   "thought": "I will click the \"Move\" button to start moving the selected file.",
+   "action": "Click the \"Move\" button.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      375,
+      950
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 9,
+   "before": 8,
+   "after": 9,
+   "app": "file_manager",
+   "route": "file_manager/folder?path=%2Fsdcard%2FDownload%2F%E5%BE%85%E6%8F%90%E4%BA%A4&mode=select&modal=transfer&operation=move",
+   "thought": "I need to navigate to the Documents folder to move the file there.",
+   "action": "Click on the Documents folder.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      400,
+      710
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 10,
+   "before": 9,
+   "after": 10,
+   "app": "file_manager",
+   "route": "file_manager/folder?path=%2Fsdcard%2FDownload%2F%E5%BE%85%E6%8F%90%E4%BA%A4&operation=move&mode=select&modal=transfer&transferDialog=newFolder",
+   "thought": "I need to create the `submission` folder inside `Documents`.",
+   "action": "Click the new folder icon.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      770,
+      110
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 11,
+   "before": 10,
+   "after": 11,
+   "app": "file_manager",
+   "route": "file_manager/folder?path=%2Fsdcard%2FDownload%2F%E5%BE%85%E6%8F%90%E4%BA%A4&operation=move&mode=select&modal=transfer&transferDialog=newFolder",
+   "thought": "I need to type the folder name \"submission\" and create it.",
+   "action": "Type \"submission\" into the text field.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "type",
+     "text": "submission"
+    }
+   },
+   "kind": "type",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 12,
+   "before": 11,
+   "after": 12,
+   "app": "file_manager",
+   "route": "file_manager/folder?path=%2Fsdcard%2FDownload%2F%E5%BE%85%E6%8F%90%E4%BA%A4&mode=select&modal=transfer&operation=move",
+   "thought": "I need to click the \"Create\" button to finish creating the \"submission\" folder.",
+   "action": "Click the \"Create\" button.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      676,
+      571
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 13,
+   "before": 12,
+   "after": 13,
+   "app": "file_manager",
+   "route": "file_manager/folder?path=%2Fsdcard%2FDownload%2F%E5%BE%85%E6%8F%90%E4%BA%A4&mode=select&modal=transfer&operation=move",
+   "thought": "I need to enter the newly created \"submission\" folder to move the file into it.",
+   "action": "Click on the \"submission\" folder.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      400,
+      270
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 14,
+   "before": 13,
+   "after": 14,
+   "app": "file_manager",
+   "route": "file_manager/folder?path=%2Fsdcard%2FDownload%2F%E5%BE%85%E6%8F%90%E4%BA%A4",
+   "thought": "I am inside the \"submission\" folder, so I will click the checkmark to confirm moving the file here.",
+   "action": "Click the checkmark to confirm the move.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      890,
+      110
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 15,
+   "before": 14,
+   "after": 15,
+   "app": "file_manager",
+   "route": "wechat/chat/wxid_boss_007",
+   "thought": "The file has been moved successfully, so now I need to open WeChat to reply to the boss with the file name.",
+   "action": "Open WeChat.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "微信"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 16,
+   "before": 15,
+   "after": 16,
+   "app": "wechat",
+   "route": "wechat/chat/wxid_boss_007",
+   "thought": "I need to type the file name \"流水截图_A.png\" into the chat input field to reply to the boss.",
+   "action": "Type the file name into the input field.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "type",
+     "coordinate": [
+      300,
+      960
+     ],
+     "text": "流水截图_A.png"
+    }
+   },
+   "kind": "type",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 17,
+   "before": 16,
+   "after": 17,
+   "app": "wechat",
+   "route": "wechat/chat/wxid_boss_007",
+   "thought": "I need to click the \"Send\" button to send the file name to the boss.",
+   "action": "Click the \"Send\" button.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      900,
+      560
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 18,
+   "before": 17,
+   "after": 18,
+   "app": "wechat",
+   "route": "",
+   "thought": "I missed one of the requested files (\"供应商盖章确认.pdf\"). I need to go back to the file manager to move it as well.",
+   "action": "Press the Home button.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "system_button",
+     "button": "Home"
+    }
+   },
+   "kind": "system_button",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 19,
+   "before": 18,
+   "after": 19,
+   "app": "",
+   "route": "file_manager/folder?path=%2Fsdcard%2FDownload%2F%E5%BE%85%E6%8F%90%E4%BA%A4",
+   "thought": "I need to open the file manager app to move the missing file \"供应商盖章确认.pdf\".",
+   "action": "Click on the file manager app icon.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      850,
+      580
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 20,
+   "before": 19,
+   "after": 20,
+   "app": "file_manager",
+   "route": "file_manager/folder?path=%2Fsdcard%2FDownload%2F%E5%BE%85%E6%8F%90%E4%BA%A4&mode=select",
+   "thought": "I need to select the missing file \"供应商盖章确认.pdf\" to move it.",
+   "action": "Long press on \"供应商盖章确认.pdf\".",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "long_press",
+     "coordinate": [
+      400,
+      300
+     ],
+     "time": 1.0
+    }
+   },
+   "kind": "long_press",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 21,
+   "before": 20,
+   "after": 21,
+   "app": "file_manager",
+   "route": "file_manager/folder?path=%2Fsdcard%2FDownload%2F%E5%BE%85%E6%8F%90%E4%BA%A4&mode=select&modal=transfer&operation=move",
+   "thought": "I will click the \"Move\" button to start moving the selected file \"供应商盖章确认.pdf\".",
+   "action": "Click the \"Move\" button.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      375,
+      950
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 22,
+   "before": 21,
+   "after": 22,
+   "app": "file_manager",
+   "route": "file_manager/folder?path=%2Fsdcard%2FDownload%2F%E5%BE%85%E6%8F%90%E4%BA%A4&mode=select&modal=transfer&operation=move",
+   "thought": "I need to navigate to the Documents folder to move the file there.",
+   "action": "Click on the Documents folder.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      400,
+      710
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 23,
+   "before": 22,
+   "after": 23,
+   "app": "file_manager",
+   "route": "file_manager/folder?path=%2Fsdcard%2FDownload%2F%E5%BE%85%E6%8F%90%E4%BA%A4&mode=select&modal=transfer&operation=move",
+   "thought": "I need to enter the \"submission\" folder to move the second file into it.",
+   "action": "Click on the \"submission\" folder.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      400,
+      270
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 24,
+   "before": 23,
+   "after": 24,
+   "app": "file_manager",
+   "route": "file_manager/folder?path=%2Fsdcard%2FDownload%2F%E5%BE%85%E6%8F%90%E4%BA%A4",
+   "thought": "I am inside the \"submission\" folder, so I will click the checkmark to confirm moving the second file here.",
+   "action": "Click the checkmark to confirm the move.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      890,
+      110
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 25,
+   "before": 24,
+   "after": 25,
+   "app": "file_manager",
+   "route": "wechat/chat/wxid_boss_007",
+   "thought": "I need to open WeChat again to send the second file name to the boss.",
+   "action": "Open WeChat.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "微信"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 26,
+   "before": 25,
+   "after": 26,
+   "app": "wechat",
+   "route": "wechat/chat/wxid_boss_007",
+   "thought": "I need to type the second file name \"供应商盖章确认.pdf\" into the chat input field to reply to the boss.",
+   "action": "Type the file name into the input field.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "type",
+     "coordinate": [
+      300,
+      960
+     ],
+     "text": "供应商盖章确认.pdf"
+    }
+   },
+   "kind": "type",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 27,
+   "before": 26,
+   "after": 27,
+   "app": "wechat",
+   "route": "wechat/chat/wxid_boss_007",
+   "thought": "I need to click the \"Send\" button to send the second file name to the boss.",
+   "action": "Click the \"Send\" button.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      900,
+      560
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 28,
+   "before": 27,
+   "after": 28,
+   "app": "wechat",
+   "route": "wechat/chat/wxid_boss_007",
+   "thought": "I have successfully moved the requested files to the specified folder and replied to the boss with their names. The task is complete.",
+   "action": "Terminate the task with success.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": true,
+   "uiEffect": "none",
+   "result": null,
+   "resultTruncated": false
+  }
+ ],
+ "toolCalls": 2,
+ "frames": {
+  "dir": "viewer/frames/bench-case57/",
+  "count": 29,
+  "w": 540,
+  "h": 1200
+ }
+}

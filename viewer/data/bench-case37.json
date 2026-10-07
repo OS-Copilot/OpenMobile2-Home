@@ -1,0 +1,506 @@
+{
+ "id": "bench-case37",
+ "group": "bench",
+ "source": "MobileGym++ Bench, hybrid_tools_v5 run",
+ "model": "Gemini 3.1 Pro Preview",
+ "mode": "hybrid",
+ "title": "Send Chen Jing the National Museum's address with the city's current weather",
+ "instruction": "在地图中查询中国国家博物馆显示的完整详细地址，并查询该地址所在城市的当前天气，把地址、天气和温度一起微信发给陈静。",
+ "apps": [
+  "map",
+  "weather",
+  "wechat"
+ ],
+ "appNames": [
+  "Maps",
+  "Weather",
+  "WeChat"
+ ],
+ "difficulty": "L3",
+ "scope": "S3",
+ "success": true,
+ "featured": 3,
+ "pair": null,
+ "note": "",
+ "poster": 10,
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "map/",
+   "thought": "I need to open the map app to search for the National Museum of China.",
+   "action": "Open the Amap app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "高德地图"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "map",
+   "route": "map/search",
+   "thought": "I need to click on the search bar to enter the name of the museum.",
+   "action": "Click on the search bar.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      361,
+      91
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "map",
+   "route": "map/search",
+   "thought": "I need to type \"中国国家博物馆\" into the search bar.",
+   "action": "Type \"中国国家博物馆\" into the search bar.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "type",
+     "text": "中国国家博物馆"
+    }
+   },
+   "kind": "type",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "map",
+   "route": "map/search",
+   "thought": "I need to press Enter to execute the search for the National Museum of China.",
+   "action": "Press Enter on the keyboard.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "system_button",
+     "button": "Enter"
+    }
+   },
+   "kind": "system_button",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "map",
+   "route": "map/search",
+   "thought": "I need to click on the search result for the National Museum of China to view its details and get the full address.",
+   "action": "Click on the search result.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      474,
+      208
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "map",
+   "route": "map/",
+   "thought": "I need to click on the search result for the National Museum of China to view its details and get the full address.",
+   "action": "Click on the search result.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      474,
+      500
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "map",
+   "route": "map/",
+   "thought": "I need to scroll down the details panel to find the full address of the National Museum of China.",
+   "action": "Swipe up on the details panel.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      800,
+      500
+     ],
+     "coordinate2": [
+      200,
+      500
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 8,
+   "app": "map",
+   "route": "map/",
+   "thought": "I need to scroll down the details panel vertically to find the full address of the National Museum of China.",
+   "action": "Swipe up on the details panel.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      500,
+      800
+     ],
+     "coordinate2": [
+      500,
+      200
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 9,
+   "before": 8,
+   "after": 9,
+   "app": "map",
+   "route": "map/",
+   "thought": "I need to scroll down further in the details panel to find the full address of the National Museum of China.",
+   "action": "Swipe up on the details panel.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      500,
+      800
+     ],
+     "coordinate2": [
+      500,
+      200
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 10,
+   "before": 9,
+   "after": 10,
+   "app": "map",
+   "route": "map/",
+   "thought": "I will use the map search tool to get the full address of the National Museum of China directly.",
+   "action": "Search for the National Museum of China using the map tool.",
+   "call": {
+    "name": "map__search_places",
+    "args": {
+     "query": "中国国家博物馆"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "items": [
+     {
+      "place_id": "ChIJ5xGxSrlS8DURCcbo8EFiRwI",
+      "name": "中国国家博物馆",
+      "address": "中国北京市东城区前门东长安街16号 邮政编码: 100051",
+      "rating": 4.3,
+      "review_count": 515,
+      "distance_meters": 10158,
+      "open_now": true,
+      "category": "Art museum"
+     }
+    ],
+    "total": 1,
+    "truncated": false
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 11,
+   "before": 10,
+   "after": 11,
+   "app": "map",
+   "route": "weather/",
+   "thought": "I have the address of the National Museum of China. Now I need to check the weather for Beijing. I will open the Weather app.",
+   "action": "Open the Weather app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "天气"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 12,
+   "before": 11,
+   "after": 12,
+   "app": "weather",
+   "route": "weather/",
+   "thought": "I will use the weather tool to get the current weather for Beijing.",
+   "action": "Get the current weather for Beijing.",
+   "call": {
+    "name": "weather__get_current_weather",
+    "args": {
+     "city_id": "北京"
+    }
+   },
+   "kind": "tool",
+   "ok": false,
+   "uiEffect": "none",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 13,
+   "before": 12,
+   "after": 13,
+   "app": "weather",
+   "route": "weather/",
+   "thought": "I need to search for the city \"北京\" in the weather app to get the correct city ID.",
+   "action": "Search for the city \"北京\".",
+   "call": {
+    "name": "weather__search_cities",
+    "args": {
+     "query": "北京"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "items": [
+     {
+      "city_id": "beijing",
+      "name": "北京市",
+      "province": "北京",
+      "prefecture": "北京市"
+     },
+     {
+      "city_id": "chaoyang",
+      "name": "朝阳区",
+      "province": "北京",
+      "prefecture": "朝阳区"
+     },
+     {
+      "city_id": "haidian",
+      "name": "海淀区",
+      "province": "北京",
+      "prefecture": "海淀区"
+     },
+     {
+      "city_id": "huairou",
+      "name": "怀柔区",
+      "province": "北京",
+      "prefecture": "怀柔区"
+     }
+    ],
+    "total": 4,
+    "truncated": false
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 14,
+   "before": 13,
+   "after": 14,
+   "app": "weather",
+   "route": "weather/",
+   "thought": "I will use the weather tool to get the current weather for Beijing using the city ID \"beijing\".",
+   "action": "Get the current weather for Beijing.",
+   "call": {
+    "name": "weather__get_current_weather",
+    "args": {
+     "city_id": "beijing"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "city_id": "beijing",
+    "city": "北京市",
+    "observed_at": "2026-07-12T01:00:00.000Z",
+    "temperature_c": 20,
+    "feels_like_c": 17,
+    "condition": "霾",
+    "humidity_percent": 47,
+    "precipitation_mm": 0,
+    "wind": "北风1"
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 15,
+   "before": 14,
+   "after": 15,
+   "app": "weather",
+   "route": "wechat/",
+   "thought": "I have the address and weather information. Now I need to open WeChat to send this information to Chen Jing.",
+   "action": "Open the WeChat app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "微信"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 16,
+   "before": 15,
+   "after": 16,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "I need to search for Chen Jing's contact in WeChat to send her the information.",
+   "action": "Search for Chen Jing in WeChat contacts.",
+   "call": {
+    "name": "wechat__search_contacts",
+    "args": {
+     "query": "陈静"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "contacts": [
+     {
+      "contact_id": "wxid_chenjing_silent",
+      "name": "陈静",
+      "alias": null
+     }
+    ],
+    "total": 1,
+    "truncated": false
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 17,
+   "before": 16,
+   "after": 17,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "I will use the WeChat tool to send the gathered address, weather, and temperature information to Chen Jing.",
+   "action": "Send a text message to Chen Jing.",
+   "call": {
+    "name": "wechat__send_text_message",
+    "args": {
+     "contact_id": "wxid_chenjing_silent",
+     "text": "中国国家博物馆地址：中国北京市东城区前门东长安街16号 邮政编码: 100051。当前天气：霾，温度：20℃。"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "contact_id": "wxid_chenjing_silent",
+    "message_id": "1783818000000",
+    "sent_at": "2026-07-12T01:00:00.000Z"
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 18,
+   "before": 17,
+   "after": 18,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "The task is complete as I have successfully sent the address, weather, and temperature of the National Museum of China to Chen Jing via WeChat.",
+   "action": "Terminate the task with success.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": true,
+   "uiEffect": "none",
+   "result": null,
+   "resultTruncated": false
+  }
+ ],
+ "toolCalls": 6,
+ "frames": {
+  "dir": "viewer/frames/bench-case37/",
+  "count": 19,
+  "w": 540,
+  "h": 1200
+ }
+}

@@ -1,0 +1,297 @@
+{
+ "id": "sft-hyb-1681-weiboliketravel318",
+ "group": "sft",
+ "source": "OpenMobile-Data / simulator / hybrid",
+ "model": "OpenMobile-Data trajectory",
+ "mode": "hybrid",
+ "title": "Like Azhen's Weibo post about driving the G318 over the pass to the sunlit golden peaks",
+ "instruction": "打开微博。在路上的阿真写自驾三一八翻垭口、看见日照金山，把这条点赞，给我打气出发。",
+ "apps": [
+  "weibo"
+ ],
+ "appNames": [
+  "Weibo"
+ ],
+ "difficulty": null,
+ "scope": null,
+ "success": null,
+ "frames": {
+  "dir": "viewer/frames/sft-hyb-1681-weiboliketravel318/",
+  "count": 12,
+  "w": 540,
+  "h": 1200
+ },
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "weibo",
+   "route": "",
+   "thought": "Alright, my objective is clear: I need to access Weibo and interact with a very specific post. My thought process begins with the immediate need to get into the application. To do this, I'll initiate the `open_app` action, specifying \"微博\" as the target application. This is the foundational step before any further actions can be taken.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "text": "微博"
+    }
+   },
+   "kind": "open_app",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "weibo",
+   "route": "",
+   "thought": "The user wants to find a post by \"在路上的阿真\" about \"自驾三一八翻垭口、看见日照金山\" and like it.\nI can use the `weibo__search_statuses` tool to find the post.",
+   "action": "",
+   "call": {
+    "name": "weibo__search_statuses",
+    "args": {
+     "query": "在路上的阿真 自驾三一八翻垭口、看见日照金山"
+    }
+   },
+   "kind": "tool",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "weibo",
+   "route": "",
+   "thought": "The search returned no results. Let me try searching just for the user \"在路上的阿真\" or a shorter query.\nI'll use the UI search function.\nFirst, click on the \"发现\" (Discover) tab at the bottom.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      500,
+      940
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "weibo",
+   "route": "",
+   "thought": "Now I'm on the Discover page. I need to click the search bar at the top.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      380,
+      85
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "weibo",
+   "route": "",
+   "thought": "Now I will type \"在路上的阿真\" into the search bar.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "type",
+     "text": "在路上的阿真"
+    }
+   },
+   "kind": "type",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "weibo",
+   "route": "",
+   "thought": "I see the user \"在路上的阿真\" in the search suggestions. I will click on it.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      330,
+      390
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "weibo",
+   "route": "",
+   "thought": "I am on the user's profile. I see a post starting with \"自驾318第七天:今天翻过了海拔4600的垭口,雪\". This matches the user's request \"自驾三一八翻垭口、看见日照金山\".\nI need to scroll down to see the full post and the like button.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      500,
+      800
+     ],
+     "coordinate2": [
+      500,
+      200
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 8,
+   "app": "weibo",
+   "route": "",
+   "thought": "I swiped down, but now I see a different post. The previous post was partially visible. Let me swipe up a bit to see the previous post again.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      500,
+      200
+     ],
+     "coordinate2": [
+      500,
+      800
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 9,
+   "before": 8,
+   "after": 9,
+   "app": "weibo",
+   "route": "",
+   "thought": "I need to click on the post \"自驾318第七天:今天翻过了海拔4600的垭口,雪\" to open it and then like it.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      500,
+      950
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 10,
+   "before": 9,
+   "after": 10,
+   "app": "weibo",
+   "route": "",
+   "thought": "I am now on the post page. The post text is \"自驾318第七天:今天翻过了海拔4600的垭口,雪山就在眼前。人这一生总要看一次日照金山吧 #旅行日记# 理塘\". This perfectly matches the user's request.\nI need to like this post. The like button is at the bottom right, with the number 8900.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      800,
+      950
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 11,
+   "before": 10,
+   "after": 11,
+   "app": "weibo",
+   "route": "",
+   "thought": "The like button didn't seem to register the click, or maybe I clicked slightly off. Let me try clicking the like button again.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      850,
+      950
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 12,
+   "before": 11,
+   "after": 11,
+   "app": "weibo",
+   "route": "",
+   "thought": "The like button is now orange, and the number increased to 8901. The task is complete.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  }
+ ]
+}

@@ -1,0 +1,364 @@
+{
+ "id": "sft-emu-403-drawopenapp",
+ "group": "sft",
+ "source": "OpenMobile-Data / emulator / cross_app",
+ "model": "OpenMobile-Data trajectory",
+ "mode": "gui_only",
+ "title": "Draw a blue line in Draw and share it to a new Tasks task titled 'Blue Line Draft'",
+ "instruction": "In the draw app, change the brush color to blue and draw a single straight line. Then, use the top share icon to send this drawing to the Tasks app, attaching it to a newly created task titled 'Blue Line Draft'.",
+ "apps": [
+  "draw",
+  "tasks"
+ ],
+ "appNames": [
+  "Draw",
+  "Tasks"
+ ],
+ "difficulty": null,
+ "scope": null,
+ "success": null,
+ "frames": {
+  "dir": "viewer/frames/sft-emu-403-drawopenapp/",
+  "count": 14,
+  "w": 540,
+  "h": 1200
+ },
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "",
+   "thought": "I'll begin by swiping left across the screen. This action should reveal subsequent pages of my home screen, and if that doesn't yield the 'draw' app, I'll then access the app drawer for a more comprehensive list. My hypothesis is that it's likely just on the next screen over or easily accessible within the drawer.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      800,
+      500
+     ],
+     "coordinate2": [
+      200,
+      500
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "",
+   "route": "",
+   "thought": "The user wants to open the \"draw\" app.\nI swiped left on the home screen, but the \"draw\" app is not here.\nI should open the app drawer by swiping up from the bottom.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      500,
+      900
+     ],
+     "coordinate2": [
+      500,
+      200
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "",
+   "route": "",
+   "thought": "The app drawer is open. I see the \"Draw\" app at the bottom right.\nI will click on the \"Draw\" app to open it.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      843,
+      843
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "",
+   "route": "",
+   "thought": "The \"Draw\" app is open. The current brush color is yellow (indicated by the yellow square at the top right and the yellow circle at the bottom).\nI need to change the brush color to blue.\nI will click on the yellow square at the top right to open the color picker.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      941,
+      149
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "",
+   "route": "",
+   "thought": "The color picker is open. I see a blue circle at the top.\nI will click on the blue circle to select the blue color.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      500,
+      285
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "",
+   "route": "",
+   "thought": "The blue color is selected. Now I need to click \"OK\" to confirm the color change.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      780,
+      734
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "",
+   "route": "",
+   "thought": "The brush color is now blue.\nI need to draw a single straight line. I will swipe from the middle left to the middle right.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      200,
+      500
+     ],
+     "coordinate2": [
+      800,
+      500
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 8,
+   "app": "",
+   "route": "",
+   "thought": "I have drawn a single straight blue line.\nNow I need to use the top share icon to send this drawing to the Tasks app.\nI will click on the share icon at the top right.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      843,
+      88
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 9,
+   "before": 8,
+   "after": 9,
+   "app": "",
+   "route": "",
+   "thought": "The share menu is open. I need to find the \"Tasks\" app.\nIt's not visible in the first row of apps. I will swipe left on the app list to see more apps.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      800,
+      880
+     ],
+     "coordinate2": [
+      200,
+      880
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 10,
+   "before": 9,
+   "after": 10,
+   "app": "",
+   "route": "",
+   "thought": "The swipe didn't seem to move the app list. Let me try swiping up to expand the share menu.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      500,
+      800
+     ],
+     "coordinate2": [
+      500,
+      200
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 11,
+   "before": 10,
+   "after": 11,
+   "app": "",
+   "route": "",
+   "thought": "The share menu is expanded. I see the \"Tasks\" app at the bottom right.\nI will click on the \"Tasks\" app to share the drawing to it.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      624,
+      886
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 12,
+   "before": 11,
+   "after": 12,
+   "app": "",
+   "route": "",
+   "thought": "The Tasks app is open, and it's creating a new task.\nI need to title the task 'Blue Line Draft'.\nThe cursor is already in the \"Task name\" field. I will type the title.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "type",
+     "text": "Blue Line Draft"
+    }
+   },
+   "kind": "type",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 13,
+   "before": 12,
+   "after": 13,
+   "app": "",
+   "route": "",
+   "thought": "The title is typed. Now I need to save the task.\nI see a save icon (floppy disk) at the top left.\nI will click on it to save the task.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      68,
+      83
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 14,
+   "before": 13,
+   "after": 13,
+   "app": "",
+   "route": "",
+   "thought": "The task is saved and I am back in the Draw app.\nThe user's request is complete:\n1. Open draw app.\n2. Change brush color to blue.\n3. Draw a single straight line.\n4. Use top share icon to send drawing to Tasks app.\n5. Attach to a newly created task titled 'Blue Line Draft'.\nI will terminate the task with success.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  }
+ ]
+}

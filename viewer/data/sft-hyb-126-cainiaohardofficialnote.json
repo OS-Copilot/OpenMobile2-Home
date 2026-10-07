@@ -1,0 +1,181 @@
+{
+ "id": "sft-hyb-126-cainiaohardofficialnote",
+ "group": "sft",
+ "source": "OpenMobile-Data / simulator / hybrid",
+ "model": "OpenMobile-Data trajectory",
+ "mode": "hybrid",
+ "title": "Save the official Cainiao Express parcel's tracking number to a Notes note",
+ "instruction": "打开菜鸟。菜鸟速递官方那件手机尾号包裹的运单号记到笔记「官方件单号」。",
+ "apps": [
+  "cainiao",
+  "notes"
+ ],
+ "appNames": [
+  "Cainiao",
+  "Notes"
+ ],
+ "difficulty": null,
+ "scope": null,
+ "success": null,
+ "frames": {
+  "dir": "viewer/frames/sft-hyb-126-cainiaohardofficialnote/",
+  "count": 7,
+  "w": 540,
+  "h": 1200
+ },
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "cainiao",
+   "route": "",
+   "thought": "Alright, the core objective here is clear: I need to get the tracking number for a specific Cainiao Express package and store it securely. The package is identified by a phone number suffix, and it's from \"Cainiao Express Official.\" I'm tasked with saving this tracking number into a note labeled \"官方件单号\" (Official Package Tracking Number).\n\nTo begin, the most logical first step is to access the necessary tool. That means opening the \"菜鸟\" (Cainiao) application. I can achieve this directly by invoking the `open_app` function and specifying \"菜鸟\" as the target application. This will bring up the Cainiao app interface, allowing me to proceed with the search.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "text": "菜鸟"
+    }
+   },
+   "kind": "open_app",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "cainiao",
+   "route": "",
+   "thought": "The user wants to find the tracking number of a package from \"菜鸟速递官方\" (Cainiao Express Official) with a \"手机尾号\" (phone number suffix) and save it to a note named \"官方件单号\".\nI am currently on the Cainiao app home page.\nI can see a package \"到站包裹\" (Arrived package) which is \"极兔速递\" (J&T Express).\nI can see \"近日签收\" (Recently signed) packages.\nI should scroll down to find the package from \"菜鸟速递官方\".",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      500,
+      800
+     ],
+     "coordinate2": [
+      500,
+      200
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "cainiao",
+   "route": "",
+   "thought": "I see the package \"手机尾号1234的包裹\" (Package with phone number suffix 1234) from \"菜鸟速递\" (Cainiao Express).\nI need to click on it to get the tracking number.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      500,
+      100
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "cainiao",
+   "route": "",
+   "thought": "The tracking number is CN2026778812901.\nI need to copy it. There is a \"复制\" (Copy) button next to it.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      780,
+      390
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "notes",
+   "route": "",
+   "thought": "The tracking number is copied. Now I need to open the Notes app and save it.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "text": "笔记"
+    }
+   },
+   "kind": "open_app",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "notes",
+   "route": "",
+   "thought": "I need to create a new note with the title \"官方件单号\" and the content being the tracking number I just copied (CN2026778812901).\nI can use the `notes__create_note` tool to do this directly.",
+   "action": "",
+   "call": {
+    "name": "notes__create_note",
+    "args": {
+     "content": "CN2026778812901",
+     "title": "官方件单号"
+    }
+   },
+   "kind": "tool",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 6,
+   "app": "notes",
+   "route": "",
+   "thought": "The note has been created successfully. I can terminate the task.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  }
+ ]
+}

@@ -1,0 +1,184 @@
+{
+ "id": "bench-case15",
+ "group": "bench",
+ "source": "MobileGym++ Bench, hybrid_tools_v5 run",
+ "model": "Gemini 3.1 Pro Preview",
+ "mode": "hybrid",
+ "title": "Summarise the two newest notes in a Moments post",
+ "instruction": "按更新时间找出笔记中最新的两条，简单汇总后发一条朋友圈，记得包含这两条笔记的标题。",
+ "apps": [
+  "notes",
+  "wechat"
+ ],
+ "appNames": [
+  "Notes",
+  "WeChat"
+ ],
+ "difficulty": "L4",
+ "scope": "S2",
+ "success": true,
+ "featured": null,
+ "pair": null,
+ "note": "",
+ "poster": 2,
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "notes/",
+   "thought": "I need to open the Notes app to find the two most recently updated notes.",
+   "action": "Open the Notes app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "笔记"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "notes",
+   "route": "notes/",
+   "thought": "I will use the tool to list the two most recently updated notes to get their titles and content.",
+   "action": "List the two most recent notes.",
+   "call": {
+    "name": "notes__list_recent_notes",
+    "args": {
+     "limit": 2
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "notes": [
+     {
+      "note_id": "xn_1",
+      "title": "购物清单",
+      "snippet": "牛奶 鸡蛋 洗衣液",
+      "folder_id": "unfiled",
+      "pinned": false,
+      "updated_at": "2026-02-04T10:25:00.000Z"
+     },
+     {
+      "note_id": "xn_2",
+      "title": "客户来电记录",
+      "snippet": "合同寄出 下周回电",
+      "folder_id": "call",
+      "pinned": false,
+      "updated_at": "2026-02-04T10:06:00.000Z"
+     }
+    ],
+    "total": 5,
+    "truncated": true
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "notes",
+   "route": "wechat/",
+   "thought": "I have the two most recent notes, so I will open WeChat to post a Moment.",
+   "action": "Open WeChat.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "微信"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "wechat",
+   "route": "wechat/post-text-moment",
+   "thought": "I will prepare a WeChat Moment draft with the summary and titles of the two most recent notes.",
+   "action": "Prepare a Moment draft.",
+   "call": {
+    "name": "wechat__prepare_moment_draft",
+    "args": {
+     "text": "最近的两条笔记汇总：1.《购物清单》：牛奶 鸡蛋 洗衣液；2.《客户来电记录》：合同寄出 下周回电。"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "draft",
+   "result": {
+    "route": "/post-text-moment",
+    "persisted": false
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "I will click the \"发表\" (Publish) button to post the Moment.",
+   "action": "Click the \"发表\" button.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      890,
+      68
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "The Moment has been successfully published and the app returned to the main screen, so the task is complete.",
+   "action": "Terminate the task.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": true,
+   "uiEffect": "none",
+   "result": null,
+   "resultTruncated": false
+  }
+ ],
+ "toolCalls": 2,
+ "frames": {
+  "dir": "viewer/frames/bench-case15/",
+  "count": 7,
+  "w": 540,
+  "h": 1200
+ }
+}

@@ -1,0 +1,397 @@
+{
+ "id": "bench-case73",
+ "group": "bench",
+ "source": "MobileGym++ Bench, hybrid_tools_v5 run",
+ "model": "Gemini 3.1 Pro Preview",
+ "mode": "hybrid",
+ "title": "Add a prep day a week before the earliest Days Matter deadline and tell Mia Wang",
+ "instruction": "找出 Days Matter 中最早到期且尚未归档的工作事项，提前一周在日历建立同名全天准备日，并把原截止日期和准备日期微信告诉 Mia Wang。",
+ "apps": [
+  "daysmatter",
+  "calendar",
+  "wechat"
+ ],
+ "appNames": [
+  "Days Matter",
+  "Calendar",
+  "WeChat"
+ ],
+ "difficulty": "L4",
+ "scope": "S3",
+ "success": true,
+ "featured": 5,
+ "pair": "bench-case73-gui",
+ "note": "",
+ "poster": 5,
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "",
+   "thought": "I need to open the Days Matter app to find the earliest unarchived work event.",
+   "action": "Open the Days Matter app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "倒数日"
+    }
+   },
+   "kind": "open_app",
+   "ok": false,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "",
+   "route": "",
+   "thought": "The app name \"倒数日\" was not recognized, so I will try opening \"Days Matter\" instead.",
+   "action": "Open the Days Matter app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "Days Matter"
+    }
+   },
+   "kind": "open_app",
+   "ok": false,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "",
+   "route": "",
+   "thought": "The app is not on the current home screen page, so I will swipe left to find it.",
+   "action": "Swipe left on the home screen.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      800,
+      500
+     ],
+     "coordinate2": [
+      200,
+      500
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "",
+   "route": "daysmatter/",
+   "thought": "I see the Days Matter (倒数日) app icon on the screen, so I will click it to open the app.",
+   "action": "Click on the Days Matter app icon.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      850,
+      120
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "daysmatter",
+   "route": "daysmatter/",
+   "thought": "I need to find the \"Work\" notebook to filter the events, so I will list the notebooks.",
+   "action": "List Days Matter notebooks.",
+   "call": {
+    "name": "daysmatter__list_notebooks",
+    "args": {}
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "notebooks": [
+     {
+      "notebook_id": "nb_life",
+      "name": "生活",
+      "icon": "📔",
+      "event_count": 2,
+      "system": true
+     },
+     {
+      "notebook_id": "nb_work",
+      "name": "工作",
+      "icon": "💼",
+      "event_count": 4,
+      "system": true
+     },
+     {
+      "notebook_id": "nb_anniv",
+      "name": "纪念日",
+      "icon": "🎂",
+      "event_count": 2,
+      "system": true
+     },
+     {
+      "notebook_id": "nb_study",
+      "name": "学习",
+      "icon": "🎯",
+      "event_count": 1,
+      "system": false
+     }
+    ]
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "daysmatter",
+   "route": "daysmatter/",
+   "thought": "I will list the upcoming events in the \"Work\" notebook to find the earliest one.",
+   "action": "List upcoming events in the Work notebook.",
+   "call": {
+    "name": "daysmatter__list_upcoming_events",
+    "args": {
+     "notebook_id": "nb_work"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "events": [
+     {
+      "event_id": "ht_dm_contract",
+      "title": "Contract renewal",
+      "target_date": "2026-08-20",
+      "state": "future",
+      "days": 39,
+      "notebook_id": "nb_work",
+      "pinned": false
+     },
+     {
+      "event_id": "e_launch",
+      "title": "项目上线",
+      "target_date": "2026-09-15",
+      "state": "future",
+      "days": 65,
+      "notebook_id": "nb_work",
+      "pinned": true
+     },
+     {
+      "event_id": "ht_dm_launch",
+      "title": "Atlas public launch",
+      "target_date": "2026-09-15",
+      "state": "future",
+      "days": 65,
+      "notebook_id": "nb_work",
+      "pinned": true
+     }
+    ],
+    "total": 3,
+    "truncated": false
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "daysmatter",
+   "route": "calendar/",
+   "thought": "The earliest upcoming work event is \"Contract renewal\" on 2026-08-20. I will open the Calendar app to create a preparation event one week before this date.",
+   "action": "Open the Calendar app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "calendar"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 8,
+   "app": "calendar",
+   "route": "calendar/new-event?source=tool&title=Contract+renewal&date=2026-08-13&allDay=true",
+   "thought": "I will prepare a draft for the all-day preparation event in the calendar, set for one week before the deadline (2026-08-13).",
+   "action": "Prepare a calendar event draft.",
+   "call": {
+    "name": "calendar__prepare_event_draft",
+    "args": {
+     "title": "Contract renewal",
+     "date": "2026-08-13",
+     "all_day": true
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "draft",
+   "result": {
+    "route": "/new-event?source=tool&title=Contract+renewal&date=2026-08-13&allDay=true",
+    "persisted": false
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 9,
+   "before": 8,
+   "after": 9,
+   "app": "calendar",
+   "route": "calendar/",
+   "thought": "I will save the calendar event draft by clicking the checkmark at the top right.",
+   "action": "Click the save button.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      898,
+      74
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 10,
+   "before": 9,
+   "after": 10,
+   "app": "calendar",
+   "route": "wechat/",
+   "thought": "I need to open WeChat to send a message to Mia Wang.",
+   "action": "Open the WeChat app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "wechat"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 11,
+   "before": 10,
+   "after": 11,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "I will search for Mia Wang's contact in WeChat to get her contact ID.",
+   "action": "Search for Mia Wang in WeChat contacts.",
+   "call": {
+    "name": "wechat__search_contacts",
+    "args": {
+     "query": "Mia Wang"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "contacts": [
+     {
+      "contact_id": "ht_mia",
+      "name": "Mia Wang",
+      "alias": "Mia"
+     }
+    ],
+    "total": 1,
+    "truncated": false
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 12,
+   "before": 11,
+   "after": 12,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "I will send a text message to Mia Wang with the original deadline and the preparation date for the Contract renewal event.",
+   "action": "Send a text message to Mia Wang.",
+   "call": {
+    "name": "wechat__send_text_message",
+    "args": {
+     "contact_id": "ht_mia",
+     "text": "Contract renewal的原截止日期是2026-08-20，准备日期是2026-08-13。"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "contact_id": "ht_mia",
+    "message_id": "1783818000000",
+    "sent_at": "2026-07-12T01:00:00.000Z"
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 13,
+   "before": 12,
+   "after": 13,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "All tasks have been completed successfully, so I will terminate the process.",
+   "action": "Terminate the task.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": true,
+   "uiEffect": "none",
+   "result": null,
+   "resultTruncated": false
+  }
+ ],
+ "toolCalls": 5,
+ "frames": {
+  "dir": "viewer/frames/bench-case73/",
+  "count": 14,
+  "w": 540,
+  "h": 1200
+ }
+}

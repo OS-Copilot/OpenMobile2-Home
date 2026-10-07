@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trajectory viewer · OpenMobile-2</title>
+  <meta name="description"
+    content="Recorded mobile-agent episodes on MobileGym++ and samples from OpenMobile-Data, replayed step by step with the agent's reasoning, GUI actions and app-native tool calls.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#02091a">
+
+  <link rel="icon" href="public/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="public/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="public/favicon-16.png">
+  <link rel="apple-touch-icon" href="public/apple-touch-icon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://os-copilot.github.io/OpenMobile2-Home/viewer.html">
+  <meta property="og:site_name" content="OpenMobile-2">
+  <meta property="og:title" content="OpenMobile-2 trajectory viewer">
+  <meta property="og:description" content="Recorded mobile-agent episodes on MobileGym++ and samples from OpenMobile-Data, replayed step by step.">
+  <meta name="twitter:card" content="summary">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/om2-viewer.css">
+  <!-- Reveal-on-scroll hides content until JS un-hides it, so only opt in when
+       JS is running; and the theme must be set before first paint. Both happen
+       here, before the body renders. -->
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.className += " js";
+      var t;
+      try { t = localStorage.getItem("openmobile2-theme"); } catch (e) { /* private mode */ }
+      if (t !== "light" && t !== "dark") {
+        t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      }
+      d.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+
+<body class="tv-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="cosmos" aria-hidden="true"></div>
+
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="nav-brand" href="index.html">
+        <!-- TODO: interim mark (the OpenMobile v1 robot); swap public/logo.png
+             for the v2 mark and run tools/build_icons.py. -->
+        <img src="public/favicon-512.png" alt="">
+        <span>OpenMobile-2</span>
+      </a>
+      <button class="icon-btn nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Menu">
+        <svg aria-hidden="true" width="17" height="17" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M2 4h12M2 8h12M2 12h12" stroke-linecap="round" />
+        </svg>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <!-- TODO: settle the sibling-project list for this page. -->
+        <li class="nav-more" id="navMore" data-open="false">
+          <button type="button" aria-expanded="false" aria-haspopup="true">
+            More research
+            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <path d="M1.5 3.5 5 7l3.5-3.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+          <ul>
+            <li><a href="https://njucckevin.github.io/openmobile/" target="_blank" rel="noopener">
+              <img src="public/logos/projects/openmobile.png" alt="">
+              <span>OpenMobile <small>Open Mobile Agents</small></span></a></li>
+            <li><a href="https://os-copilot.github.io/OSReward-Home/" target="_blank" rel="noopener">
+              <img src="public/logos/projects/osreward.png" alt="">
+              <span>OSReward <small>CUA Reward Eval &amp; Open Models</small></span></a></li>
+            <li><a href="https://qiushisun.github.io/OS-Sentinel-Home/" target="_blank" rel="noopener">
+              <img src="public/logos/projects/os-sentinel.png" alt="">
+              <span>OS-Sentinel <small>Mobile GUI Safety</small></span></a></li>
+            <li><a href="https://qiushisun.github.io/ScienceBoard-Home/" target="_blank" rel="noopener">
+              <img src="public/logos/projects/scienceboard.png" alt="">
+              <span>ScienceBoard <small>CUA for Science</small></span></a></li>
+            <li><a href="https://qiushisun.github.io/OS-Genesis-Home/" target="_blank" rel="noopener">
+              <img src="public/logos/projects/os-genesis.png" alt="">
+              <span>OS-Genesis <small>Annotation-Free Trajectory Synthesis</small></span></a></li>
+            <li><a href="https://osatlas.github.io/" target="_blank" rel="noopener">
+              <img src="public/logos/projects/os-atlas.png" alt="">
+              <span>OS-Atlas <small>GUI Action Foundation Model</small></span></a></li>
+            <li><a href="https://aclanthology.org/2024.acl-long.505" target="_blank" rel="noopener">
+              <img src="public/logos/projects/seeclick.png" alt="">
+              <span>SeeClick <small>GUI Grounding</small></span></a></li>
+          </ul>
+        </li>
+        <!-- Section links double as the scroll-spy list (main.js reads them). -->
+        <li><a href="index.html#overview">Overview</a></li>
+        <li><a href="index.html#environment">Environment</a></li>
+        <li><a href="index.html#live">Live demo</a></li>
+        <li><a class="active" href="viewer.html" aria-current="page">Examples</a></li>
+        <li><a href="index.html#data">Data</a></li>
+        <li><a href="index.html#tools">Tools</a></li>
+        <li><a href="index.html#results">Results</a></li>
+        <li><a href="index.html#analysis">Analysis</a></li>
+        <li><a href="index.html#resources">Resources</a></li>
+      </ul>
+      <div class="nav-tools">
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch to light theme">
+          <svg class="i-moon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"
+            aria-hidden="true">
+            <path d="M14 9.3A6 6 0 0 1 6.7 2a6.2 6.2 0 1 0 7.3 7.3Z" stroke-linejoin="round" />
+          </svg>
+          <svg class="i-sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"
+            aria-hidden="true">
+            <circle cx="8" cy="8" r="3.1" />
+            <path d="M8 1v1.7M8 13.3V15M1 8h1.7M13.3 8H15M3 3l1.2 1.2M11.8 11.8 13 13M13 3l-1.2 1.2M4.2 11.8 3 13"
+              stroke-linecap="round" />
+          </svg>
+        </button>
+        <!-- TODO: GitHub button once the code repository is public.
+        <a class="icon-btn" href="https://github.com/…" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="…GitHub mark, see the Code button below…" /></svg>
+        </a> -->
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <!-- Data: viewer/data/index.json and viewer/data/<id>.json, written by
+         tools/build_viewer_data.py (MobileGym++ episodes) and
+         tools/sample_openmobile_data.py (OpenMobile-Data samples). -->
+    <section class="band-tight" id="viewer-section">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Trajectory viewer</span>
+          <h2 class="section-title">Recorded episodes, <span class="accent">step by step</span></h2>
+          <p class="section-sub">Each episode replays the screen before every action with the agent's reasoning,
+            the GUI action or app-native tool call it chose, and what the tool returned. The Bench and new-app
+            groups were run by Gemini 3.1 Pro Preview on MobileGym++. The OpenMobile-Data group samples the
+            released training trajectories.</p>
+        </div>
+        <div id="viewer"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <div class="cols">
+        <div>
+          <div class="brand-line">
+            <img src="public/favicon-512.png" alt="">
+            <span>OpenMobile-2</span>
+          </div>
+          <p style="font-size:14.5px;color:var(--text-dim);max-width:380px">
+            An open stack for mobile agents: a simulated playground of commercial apps, the trajectories and
+            verifiable tasks collected on it, and the agents trained from them.
+          </p>
+        </div>
+        <div>
+          <h2>Project</h2>
+          <ul>
+            <li><a href="index.html#overview">Overview</a></li>
+            <li><a href="index.html#environment">Environment</a></li>
+            <li><a href="index.html#live">Live demo</a></li>
+            <li><a href="viewer.html">Examples</a></li>
+            <li><a href="index.html#data">Data</a></li>
+            <li><a href="index.html#tools">Tools</a></li>
+            <li><a href="index.html#results">Results</a></li>
+            <li><a href="index.html#analysis">Analysis</a></li>
+            <li><a href="index.html#cite">Cite</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Artifacts</h2>
+          <ul>
+            <li><a href="index.html#resources">MobileGym++</a></li>
+            <li><a href="index.html#resources">OpenMobile-Data</a></li>
+            <li><a href="index.html#resources">Models</a></li>
+            <li><a href="index.html#resources">Code</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="fine">
+        <span>© 2026 The OpenMobile-2 authors.</span>
+        <span>Page content licensed
+          <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>.</span>
+        <span>Live demo built on
+          <a href="https://github.com/Purewhiter/mobilegym" target="_blank" rel="noopener">MobileGym</a>
+          (Apache-2.0 code, CC BY-NC 4.0 data).</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="static/js/main.js"></script>
+  <script src="static/js/om2-viewer.js"></script>
+  <script>
+    (function () {
+      var el = document.getElementById("viewer");
+      if (el && window.OM2Widgets && OM2Widgets.trajViewer) OM2Widgets.trajViewer(el, { base: "viewer/" });
+    })();
+  </script>
+</body>
+
+</html>

@@ -45,6 +45,7 @@
   <link rel="stylesheet" href="static/css/om2-crossapp.css">
   <link rel="stylesheet" href="static/css/om2-live.css">
   <link rel="stylesheet" href="static/css/om2-pipeline.css">
+  <link rel="stylesheet" href="static/css/om2-viewer.css">
   <!-- Reveal-on-scroll hides content until JS un-hides it, so only opt in when
        JS is running; and the theme must be set before first paint. Both happen
        here, before the body renders. -->
@@ -119,6 +120,7 @@
         <li><a href="#overview">Overview</a></li>
         <li><a href="#environment">Environment</a></li>
         <li><a href="#live">Live demo</a></li>
+        <li><a href="#examples">Examples</a></li>
         <li><a href="#data">Data</a></li>
         <li><a href="#tools">Tools</a></li>
         <li><a href="#results">Results</a></li>
@@ -222,7 +224,7 @@
             </svg>
             Paper
           </a>
-          <a class="btn pending" data-link="code">
+          <a class="btn" data-link="code" href="https://github.com/OpenMobile2/OpenMobile2-Code" target="_blank" rel="noopener">
             <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
               <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
             </svg>
@@ -235,11 +237,11 @@
             </svg>
             MobileGym++
           </a>
-          <a class="btn pending" data-link="data">
+          <a class="btn" data-link="data" href="https://huggingface.co/datasets/OpenMobile-2/OpenMobile-Data" target="_blank" rel="noopener">
             <span class="ic" aria-hidden="true">🤗</span>
             Data
           </a>
-          <a class="btn pending" data-link="models">
+          <a class="btn" data-link="models" href="https://huggingface.co/OpenMobile-2" target="_blank" rel="noopener">
             <span class="ic" aria-hidden="true">🤗</span>
             Models
           </a>
@@ -386,10 +388,10 @@
 
     <!-- ================================================================== -->
     <!-- Live demo — the simulator itself, in the page                       -->
-    <!-- sim/ is a static build of the simulator served from this origin     -->
-    <!-- (prototype: the public MobileGym base, built with                   -->
-    <!-- VITE_BASE=/OpenMobile2-Home/sim/). om2-live.js mounts it on power-on -->
-    <!-- and drives it through window.__OS__ / __SIM__.                      -->
+    <!-- The MobileGym++ build is served by the sibling Pages site           -->
+    <!-- /OpenMobile2-Sim/ (same origin; assembled by tools/assemble_sim.py).  -->
+    <!-- om2-live.js mounts it on power-on and drives it through             -->
+    <!-- window.__OS__ / __SIM__ / __MOBILE_GYM_TOOLS__.                     -->
     <!-- ================================================================== -->
     <section class="band" id="live">
       <div class="wrap">
@@ -397,10 +399,33 @@
           <span class="eyebrow">Live demo</span>
           <h2 class="section-title">The playground, <span class="accent">running in this page</span></h2>
           <p class="section-sub">The simulator behind the playground needs no server: the whole phone runs in
-            the browser, with its state as one snapshot that resets in a click.</p>
+            the browser, its state is one snapshot that resets in a click, and every app-native tool can be
+            called from the panel beside it.</p>
         </div>
         <div class="card chart-card rise">
           <div id="live-sim"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- Examples — recorded episodes, replayed                              -->
+    <!-- Cards come from viewer/data/index.json (the featured episodes);     -->
+    <!-- the full viewer is viewer.html. Data: tools/build_viewer_data.py.   -->
+    <!-- ================================================================== -->
+    <section class="band" id="examples">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Examples</span>
+          <h2 class="section-title">Episodes on the playground, <span class="accent">step by step</span></h2>
+          <p class="section-sub">MobileGym++ Bench tasks run by Gemini 3.1 Pro Preview in hybrid mode, replayed
+            tap by tap with the reasoning behind each action and every app-native tool call.</p>
+        </div>
+        <div class="rise" id="example-cards"></div>
+        <div class="wt-controls rise" style="margin-top:22px">
+          <a class="btn btn-primary" href="viewer.html">Open the trajectory viewer</a>
+          <span class="wt-note" style="margin:0">Every recorded episode, filtered by app, mode and tool use, plus
+            samples from OpenMobile-Data.</span>
         </div>
       </div>
     </section>
@@ -438,7 +463,9 @@
 
         <div class="card chart-card rise">
           <div class="chart-head"><h3>One benchmark task, two ways</h3></div>
-          <div id="task-lanes"></div>
+          <p class="chart-note">The same instruction run twice by Gemini 3.1 Pro Preview, first with taps only and
+            then with the apps' tools switched on.</p>
+          <div id="task-pairs"></div>
         </div>
 
         <div class="grid grid-2 rise" style="margin-top:24px;align-items:start">
@@ -529,7 +556,7 @@
             <h3>MobileGym++</h3>
             <p>The simulated clients, the app-native tools and MobileGym++ Bench.</p>
           </a>
-          <a class="card feature pending-card" data-link="data">
+          <a class="card feature" data-link="data" href="https://huggingface.co/datasets/OpenMobile-2/OpenMobile-Data" target="_blank" rel="noopener">
             <div class="ico">
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
                 <ellipse cx="12" cy="6" rx="8" ry="3" />
@@ -537,9 +564,9 @@
               </svg>
             </div>
             <h3>OpenMobile-Data</h3>
-            <p>Demonstration trajectories and executable RL tasks with their verifiers.</p>
+            <p>The released trajectories and the verifier-backed RL tasks, on Hugging Face.</p>
           </a>
-          <a class="card feature pending-card" data-link="models">
+          <a class="card feature" data-link="models" href="https://huggingface.co/OpenMobile-2" target="_blank" rel="noopener">
             <div class="ico">
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
                 <path d="M12 3l7.5 4.2v9.6L12 21l-7.5-4.2V7.2L12 3Z" stroke-linejoin="round" />
@@ -547,9 +574,9 @@
               </svg>
             </div>
             <h3>Models</h3>
-            <p>OpenMobile-2 9B and 27B checkpoints after each training stage.</p>
+            <p>Checkpoints of both agents after each training stage.</p>
           </a>
-          <a class="card feature pending-card" data-link="code">
+          <a class="card feature" data-link="code" href="https://github.com/OpenMobile2/OpenMobile2-Code" target="_blank" rel="noopener">
             <div class="ico">
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
                 <path d="m8 6-6 6 6 6M16 6l6 6-6 6M14 3l-4 18" stroke-linecap="round" stroke-linejoin="round" />
@@ -617,6 +644,7 @@
             <li><a href="#overview">Overview</a></li>
             <li><a href="#environment">Environment</a></li>
             <li><a href="#live">Live demo</a></li>
+            <li><a href="#examples">Examples</a></li>
             <li><a href="#data">Data</a></li>
             <li><a href="#tools">Tools</a></li>
             <li><a href="#results">Results</a></li>
@@ -631,6 +659,7 @@
             <li><a href="#resources">OpenMobile-Data</a></li>
             <li><a href="#resources">Models</a></li>
             <li><a href="#resources">Code</a></li>
+            <li><a href="viewer.html">Trajectory viewer</a></li>
           </ul>
         </div>
       </div>
@@ -638,7 +667,7 @@
         <span>© 2026 The OpenMobile-2 authors.</span>
         <span>Page content licensed
           <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>.</span>
-        <span>Live demo built on
+        <span>Live demo: MobileGym++, built on
           <a href="https://github.com/Purewhiter/mobilegym" target="_blank" rel="noopener">MobileGym</a>
           (Apache-2.0 code, CC BY-NC 4.0 data).</span>
       </div>
@@ -646,6 +675,7 @@
   </footer>
 
   <script src="static/js/om2-data.js"></script>
+  <script src="static/js/om2-sim-apps.js"></script>
   <script src="static/js/om2-appwall.js"></script>
   <script src="static/js/om2-stepper.js"></script>
   <script src="static/js/om2-lanes.js"></script>
@@ -654,6 +684,7 @@
   <script src="static/js/om2-crossapp.js"></script>
   <script src="static/js/om2-live.js"></script>
   <script src="static/js/om2-pipeline.js"></script>
+  <script src="static/js/om2-viewer.js"></script>
   <script src="static/js/main.js"></script>
   <script src="static/js/om2-page.js"></script>
 </body>

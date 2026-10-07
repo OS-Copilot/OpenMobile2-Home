@@ -1,0 +1,250 @@
+{
+ "id": "bench-case05",
+ "group": "bench",
+ "source": "MobileGym++ Bench, hybrid_tools_v5 run",
+ "model": "Gemini 3.1 Pro Preview",
+ "mode": "hybrid",
+ "title": "Find the cheapest fan on eBay and note its title and price",
+ "instruction": "在eBay搜电风扇，找到最便宜的那个，把标题和价格记到笔记里",
+ "apps": [
+  "ebay",
+  "notes"
+ ],
+ "appNames": [
+  "eBay",
+  "Notes"
+ ],
+ "difficulty": "L3",
+ "scope": "S2",
+ "success": true,
+ "featured": null,
+ "pair": null,
+ "note": "",
+ "poster": 2,
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "ebay/",
+   "thought": "I need to open the eBay app to search for an electric fan.",
+   "action": "Open the eBay app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "eBay"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "ebay",
+   "route": "ebay/",
+   "thought": "I will use the eBay search tool to find the cheapest electric fan.",
+   "action": "Search for electric fans sorted by lowest total price.",
+   "call": {
+    "name": "ebay__search_products",
+    "args": {
+     "query": "电风扇",
+     "sort_by": "total_price_asc"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "items": [
+     {
+      "product_id": "241",
+      "title": "Dyson 电风扇 电子产品 241",
+      "brand": "Dyson",
+      "category": "电子产品",
+      "condition": "全新",
+      "price": 90.34,
+      "shipping": 0,
+      "total_price": 90.34,
+      "free_shipping": true,
+      "buying_format": "buyItNow",
+      "location": "中国"
+     },
+     {
+      "product_id": "41",
+      "title": "Dyson 电风扇 电子产品 41",
+      "brand": "Dyson",
+      "category": "电子产品",
+      "condition": "二手",
+      "price": 90.59,
+      "shipping": 0,
+      "total_price": 90.59,
+      "free_shipping": true,
+      "buying_format": "auction",
+      "location": "德国"
+     },
+     {
+      "product_id": "101",
+      "title": "Dyson 电风扇 电子产品 101",
+      "brand": "Dyson",
+      "category": "电子产品",
+      "condition": "二手",
+      "price": 91.34,
+      "shipping": 0,
+      "total_price": 91.34,
+      "free_shipping": true,
+      "buying_format": "auction",
+      "location": "德国"
+     },
+     {
+      "product_id": "1",
+      "title": "Dyson 电风扇 电子产品 1",
+      "brand": "Dyson",
+      "category": "电子产品",
+      "condition": "全新",
+      "price": 93.03,
+      "shipping": 0,
+      "total_price": 93.03,
+      "free_shipping": true,
+      "buying_format": "buyItNow",
+      "location": "中国"
+     },
+     {
+      "product_id": "81",
+      "title": "Dyson 电风扇 电子产品 81",
+      "brand": "Dyson",
+      "category": "电子产品",
+      "condition": "翻新",
+      "price": 93.18,
+      "shipping": 0,
+      "total_price": 93.18,
+      "free_shipping": true,
+      "buying_format": "offer",
+      "location": "澳大利亚"
+     },
+     {
+      "product_id": "281",
+      "title": "Dyson 电风扇 电子产品 281",
+      "brand": "Dyson",
+      "category": "电子产品",
+      "condition": "二手",
+      "price": 94.75,
+      "shipping": 0,
+      "total_price": 94.75,
+      "free_shipping": true,
+      "buying_format": "auction",
+      "location": "德国"
+     },
+     {
+      "product_id": "161",
+      "title": "Dyson 电风扇 电子产品 161",
+      "brand": "Dyson",
+      "category": "电子产品",
+      "condition": "二手",
+      "price": 94.89,
+      "shipping": 0,
+      "total_price": 94.89,
+      "free_shipping": true,
+      "buying_format": "auction",
+      "location": "德国"
+     },
+     {
+      "product_id": "181",
+      "title": "Dyson 电风扇 电子产品 181",
+      "brand": "Dyson",
+      "category": "电子产品",
+      "condition": "全新",
+      "price": 95.4,
+      "shipping": 0,
+      "total_price": 95.4,
+      "free_shipping": true,
+      "buying_format": "buyItNow",
+      "location": "中国"
+     }
+    ],
+    "total": 300,
+    "truncated": true
+   },
+   "resultTruncated": true
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "ebay",
+   "route": "notes/",
+   "thought": "I have found the cheapest electric fan. Now I need to open the Notes app to record its title and price.",
+   "action": "Open the Notes app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "notes"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "notes",
+   "route": "notes/",
+   "thought": "I will create a new note with the title and price of the cheapest electric fan I found on eBay.",
+   "action": "Create a new note with the product details.",
+   "call": {
+    "name": "notes__create_note",
+    "args": {
+     "title": "最便宜的电风扇",
+     "content": "标题：Dyson 电风扇 电子产品 241\n价格：90.34"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "note_id": "967xovje",
+    "created_at": "2026-07-12T01:00:00.000Z"
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "notes",
+   "route": "notes/",
+   "thought": "The note has been successfully created with the title and price of the cheapest electric fan. The task is complete.",
+   "action": "Terminate the task.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": true,
+   "uiEffect": "none",
+   "result": null,
+   "resultTruncated": false
+  }
+ ],
+ "toolCalls": 2,
+ "frames": {
+  "dir": "viewer/frames/bench-case05/",
+  "count": 6,
+  "w": 540,
+  "h": 1200
+ }
+}

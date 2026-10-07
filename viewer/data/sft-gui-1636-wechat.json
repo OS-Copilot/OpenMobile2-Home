@@ -1,0 +1,184 @@
+{
+ "id": "sft-gui-1636-wechat",
+ "group": "sft",
+ "source": "OpenMobile-Data / simulator / gui-only",
+ "model": "OpenMobile-Data trajectory",
+ "mode": "gui_only",
+ "title": "Send a picture to 王芳 on WeChat",
+ "instruction": "Send a picture to 「王芳」 on Wechat.",
+ "apps": [
+  "wechat"
+ ],
+ "appNames": [
+  "WeChat"
+ ],
+ "difficulty": null,
+ "scope": null,
+ "success": null,
+ "frames": {
+  "dir": "viewer/frames/sft-gui-1636-wechat/",
+  "count": 7,
+  "w": 540,
+  "h": 1200
+ },
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "",
+   "thought": "Specifically, I've located it in the bottom right-hand corner. Once WeChat is open, I'll then proceed with the subsequent steps to select the contact and attach the image.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      850,
+      911
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "",
+   "route": "",
+   "thought": "The user wants to send a picture to \"王芳\" on WeChat.\nI have opened WeChat.\nNow I see the chat list. I need to find \"王芳\".\n\"王芳\" is in the chat list. I should click on her chat.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      230,
+      380
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "",
+   "route": "",
+   "thought": "I am now in the chat with \"王芳\".\nTo send a picture, I need to click the \"+\" button at the bottom right to open the attachment menu.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      930,
+      960
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "",
+   "route": "",
+   "thought": "The attachment menu is open.\nI need to select \"相册\" (Album) to choose a picture.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      130,
+      710
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "",
+   "route": "",
+   "thought": "The album is open. I need to select a picture.\nI'll select the first picture in the top left corner.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      190,
+      130
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "",
+   "route": "",
+   "thought": "The picture is selected.\nNow I need to click the \"发送\" (Send) button at the bottom right.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      850,
+      970
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 6,
+   "app": "",
+   "route": "",
+   "thought": "The picture has been sent successfully.\nI can terminate the task.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  }
+ ]
+}

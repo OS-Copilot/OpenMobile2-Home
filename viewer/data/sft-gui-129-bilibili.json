@@ -1,0 +1,142 @@
+{
+ "id": "sft-gui-129-bilibili",
+ "group": "sft",
+ "source": "OpenMobile-Data / simulator / gui-only",
+ "model": "OpenMobile-Data trajectory",
+ "mode": "gui_only",
+ "title": "Change the Bilibili search keyword to 凡人修仙传 from the results page",
+ "instruction": "While viewing search results on Bilibili, change my search keyword to 「凡人修仙传」.",
+ "apps": [
+  "bilibili"
+ ],
+ "appNames": [
+  "Bilibili"
+ ],
+ "difficulty": null,
+ "scope": null,
+ "success": null,
+ "frames": {
+  "dir": "viewer/frames/sft-gui-129-bilibili/",
+  "count": 5,
+  "w": 540,
+  "h": 1200
+ },
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "",
+   "thought": "I'll achieve this by swiping left, a common navigation gesture. This action is intended to reveal the search bar or a way to modify the existing search query.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      800,
+      500
+     ],
+     "coordinate2": [
+      200,
+      500
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "",
+   "route": "",
+   "thought": "The user wants to change the search keyword to \"凡人修仙传\" while viewing search results on Bilibili.\nFirst, I need to open the Bilibili app.\nI will click on it to open the app.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      616,
+      124
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "",
+   "route": "",
+   "thought": "The app is open. The user wants to change the search keyword to \"凡人修仙传\" while viewing search results.\nCurrently, I am on the home page. I need to click the search bar at the top to enter the search page.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      400,
+      70
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "",
+   "route": "",
+   "thought": "I am now on the search page. The keyboard is up.\nThe user wants to search for \"凡人修仙传\".\nI will click on it to perform the search.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      150,
+      420
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 4,
+   "app": "",
+   "route": "",
+   "thought": "The search results for \"凡人修仙传\" are now displayed.\nThe task is complete. I will terminate the process.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  }
+ ]
+}

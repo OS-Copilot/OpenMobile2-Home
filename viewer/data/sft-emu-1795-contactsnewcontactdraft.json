@@ -1,0 +1,286 @@
+{
+ "id": "sft-emu-1795-contactsnewcontactdraft",
+ "group": "sft",
+ "source": "OpenMobile-Data / emulator / cross_app",
+ "model": "OpenMobile-Data trajectory",
+ "mode": "gui_only",
+ "title": "Open the Contacts privacy policy link and share its URL to Joplin",
+ "instruction": "Open the Contacts app, find and open the 'Terms of Service' or 'Privacy Policy' link (usually located in the Help & feedback or About menu), and share the displayed URL to the Joplin app.",
+ "apps": [
+  "contacts",
+  "joplin"
+ ],
+ "appNames": [
+  "Contacts",
+  "Joplin"
+ ],
+ "difficulty": null,
+ "scope": null,
+ "success": null,
+ "frames": {
+  "dir": "viewer/frames/sft-emu-1795-contactsnewcontactdraft/",
+  "count": 11,
+  "w": 540,
+  "h": 1200
+ },
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "",
+   "thought": "My next logical move is to access the app drawer, which is typically done by swiping up from the bottom of the screen. Once the app drawer is open, I'll then need to find and tap the Contacts app icon to launch it. From there, the real work begins: navigating within the app's settings or menus to find those crucial legal links.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      500,
+      900
+     ],
+     "coordinate2": [
+      500,
+      100
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "",
+   "route": "",
+   "thought": "The app drawer is open. I see the Contacts app icon.\nI will click on the Contacts app icon to open it.\nCoordinates for Contacts app: x=164, y=586.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      164,
+      586
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "",
+   "route": "",
+   "thought": "The Contacts app is open. There's a tooltip pointing to the profile icon in the top right corner, saying \"Paramètres et Aide et commentaires se trouvent désormais ici\" (Settings and Help & feedback are now here).\nI need to find the 'Terms of Service' or 'Privacy Policy' link, which is usually in Help & feedback or About.\nI will click on the profile icon in the top right corner.\nCoordinates: x=896, y=90.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      896,
+      90
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "",
+   "route": "",
+   "thought": "The menu is open. I see \"Règles de confidentialité\" (Privacy Policy) and \"Conditions d'utilisation\" (Terms of Service) at the bottom.\nI will click on \"Règles de confidentialité\".\nCoordinates: x=300, y=530.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      300,
+      530
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "",
+   "route": "",
+   "thought": "Chrome is opening for the first time. I need to accept the terms.\nI will click on \"Accepter et continuer\" (Accept and continue).\nCoordinates: x=500, y=920.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      500,
+      920
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "",
+   "route": "",
+   "thought": "Chrome is asking to turn on sync. I will click \"Non, merci\" (No, thanks).\nCoordinates: x=150, y=920.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      150,
+      920
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "",
+   "route": "",
+   "thought": "The Privacy Policy page is loading in Chrome. I see the share icon in the top right corner.\nI will click on the share icon.\nCoordinates: x=840, y=80.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      840,
+      80
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 8,
+   "app": "",
+   "route": "",
+   "thought": "The share menu didn't open. Let me try clicking the share icon again.\nCoordinates: x=840, y=80.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      840,
+      80
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 9,
+   "before": 8,
+   "after": 9,
+   "app": "",
+   "route": "",
+   "thought": "The share menu is open. I need to share it to the Joplin app.\nI don't see Joplin in the immediate list of apps. I should swipe up on the share menu to see more apps.\nCoordinates: swipe from x=500, y=800 to x=500, y=400.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      500,
+      800
+     ],
+     "coordinate2": [
+      500,
+      400
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 10,
+   "before": 9,
+   "after": 10,
+   "app": "",
+   "route": "",
+   "thought": "I see the Joplin app in the share menu.\nI will click on the Joplin app icon.\nCoordinates: x=374, y=710.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      374,
+      710
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 11,
+   "before": 10,
+   "after": 10,
+   "app": "",
+   "route": "",
+   "thought": "The URL has been shared to Joplin. The task is complete.\nI will terminate the task.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  }
+ ]
+}

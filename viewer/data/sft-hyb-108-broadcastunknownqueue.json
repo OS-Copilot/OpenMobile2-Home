@@ -1,0 +1,200 @@
+{
+ "id": "sft-hyb-108-broadcastunknownqueue",
+ "group": "sft",
+ "source": "OpenMobile-Data / simulator / hybrid",
+ "model": "OpenMobile-Data trajectory",
+ "mode": "hybrid",
+ "title": "Queue the No One Knows episode on what investors get wrong in cycles, then follow the show",
+ "instruction": "打开播客。行情又晃，把「无人知晓」讲普通投资者在周期里最容易做错什么的那期加进队列，再关注这档节目。",
+ "apps": [
+  "broadcast"
+ ],
+ "appNames": [
+  "Podcasts"
+ ],
+ "difficulty": null,
+ "scope": null,
+ "success": null,
+ "frames": {
+  "dir": "viewer/frames/sft-hyb-108-broadcastunknownqueue/",
+  "count": 8,
+  "w": 540,
+  "h": 1200
+ },
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "broadcast",
+   "route": "",
+   "thought": "My primary objective is to find and queue up a particular podcast episode. To achieve this, I know I'll need to interact with a podcast application. My initial thought is to access this application, and I anticipate using a command like `open_app`. I'll then need to specify which app to open, considering common podcast apps. I'm thinking of using a search term that would likely bring up a podcast app, such as \"播客\" (podcast) or perhaps a specific, popular app like \"小宇宙\" (xiaoyuzhou). My immediate inclination is to try \"小宇宙\" first, as it's a known entity and likely to be effective.\n\nOnce the app is open, my next step will be to search for the podcast itself. The specific title I'm looking for is \"无人知晓\" (wú rén zhī xiǎo). This search will be crucial to narrow down the content. After locating the podcast, I'll need to find the relevant episode. The subject matter of this episode is described as focusing on the mistakes ordinary investors make during market cycles. This detail is important for confirming I've found the correct episode among potentially many others.\n\nOnce I've identified and confirmed the episode, my next action will be to add it to my playback queue. This means I intend to listen to it in the near future and want it readily available. Finally, to ensure I don't miss future episodes or updates from this podcast, I'll follow it. This action will allow me to stay informed about new releases from \"无人知晓\".",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "text": "小宇宙"
+    }
+   },
+   "kind": "open_app",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "broadcast",
+   "route": "",
+   "thought": "The user wants to find the podcast \"无人知晓\", find the episode about what ordinary investors do wrong in cycles, add it to the queue, and follow the podcast.\nI can use the `broadcast__search_episodes` tool to find the episode.\nQuery: \"无人知晓 普通投资者 周期\"",
+   "action": "",
+   "call": {
+    "name": "broadcast__search_episodes",
+    "args": {
+     "query": "无人知晓 普通投资者 周期"
+    }
+   },
+   "kind": "tool",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "broadcast",
+   "route": "",
+   "thought": "The search returned 0 items. Let me try searching for the show first.",
+   "action": "",
+   "call": {
+    "name": "broadcast__search_shows",
+    "args": {
+     "query": "无人知晓"
+    }
+   },
+   "kind": "tool",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "broadcast",
+   "route": "/show/s_unknown",
+   "thought": "I found the show \"无人知晓\" with `show_id` \"s_unknown\".\nNow I will open the show page to see the episodes and follow it.",
+   "action": "",
+   "call": {
+    "name": "broadcast__open_show",
+    "args": {
+     "show_id": "s_unknown"
+    }
+   },
+   "kind": "tool",
+   "ok": null,
+   "uiEffect": null,
+   "result": {
+    "call_id": "tool_call_3",
+    "name": "broadcast__open_show",
+    "ok": true,
+    "output": {
+     "route": "/show/s_unknown",
+     "show_id": "s_unknown"
+    }
+   }
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "broadcast",
+   "route": "",
+   "thought": "I am on the show page for \"无人知晓\".\nI need to follow the show.\nI also need to add the episode \"在周期里，普通投资者最容易做错什么？\" to the queue.\nLet's click the \"+\" button to follow the show first.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      800,
+      80
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "broadcast",
+   "route": "",
+   "thought": "The show is now followed (the \"+\" changed to a checkmark).\nNow I need to add the episode \"在周期里，普通投资者最容易做错什么？\" to the queue.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      900,
+      790
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "broadcast",
+   "route": "",
+   "thought": "The menu is open. I need to click \"添加到队列\" (Add to queue).",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      200,
+      590
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 7,
+   "app": "broadcast",
+   "route": "",
+   "thought": "The episode has been added to the queue (\"已加入队列\" toast is visible).\nThe show is followed.\nThe task is complete.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  }
+ ]
+}

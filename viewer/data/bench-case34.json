@@ -1,0 +1,347 @@
+{
+ "id": "bench-case34",
+ "group": "bench",
+ "source": "MobileGym++ Bench, hybrid_tools_v5 run",
+ "model": "Gemini 3.1 Pro Preview",
+ "mode": "hybrid",
+ "title": "Look up the Forbidden City's address on Maps and send it to Chen Jing",
+ "instruction": "帮我在地图上搜一下故宫的地址，发给微信好友陈静",
+ "apps": [
+  "map",
+  "wechat"
+ ],
+ "appNames": [
+  "Maps",
+  "WeChat"
+ ],
+ "difficulty": "L3",
+ "scope": "S2",
+ "success": true,
+ "featured": null,
+ "pair": null,
+ "note": "",
+ "poster": 5,
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "",
+   "thought": "I need to find the map app, so I will swipe left to check the next page of the home screen.",
+   "action": "Swipe left on the home screen.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      800,
+      500
+     ],
+     "coordinate2": [
+      200,
+      500
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "",
+   "route": "",
+   "thought": "I see the Map app on the screen, so I will click it to open it.",
+   "action": "Click on the Map app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      344,
+      138
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "bilibili",
+   "route": "",
+   "thought": "I accidentally opened Bilibili, so I will press the Home button to return to the home screen.",
+   "action": "Press the Home button.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "system_button",
+     "button": "Home"
+    }
+   },
+   "kind": "system_button",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "",
+   "route": "map/",
+   "thought": "I need to open the Map app to search for the Forbidden City.",
+   "action": "Click on the Map app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      144,
+      350
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "map",
+   "route": "map/",
+   "thought": "I will use the map tool to search for the Forbidden City (故宫).",
+   "action": "Search for \"故宫\" using the map tool.",
+   "call": {
+    "name": "map__open_search_results",
+    "args": {
+     "query": "故宫"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": {
+    "route": "/",
+    "query": "故宫",
+    "result_count": 20
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "map",
+   "route": "map/search",
+   "thought": "The search results didn't appear, so I will manually click the search bar to enter the query.",
+   "action": "Click the search bar.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      350,
+      90
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "map",
+   "route": "map/search",
+   "thought": "I see \"故宫\" in the recent search history, so I will click it to view the results.",
+   "action": "Click on \"故宫\" in the recent searches.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      200,
+      230
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 8,
+   "app": "map",
+   "route": "map/",
+   "thought": "I will click on the first search result for \"故宫\" to view its details and find the address.",
+   "action": "Click on the first search result.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      200,
+      480
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 9,
+   "before": 8,
+   "after": 9,
+   "app": "map",
+   "route": "map/",
+   "thought": "I will click the share button to send the location to WeChat.",
+   "action": "Click the share button.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      770,
+      490
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 10,
+   "before": 9,
+   "after": 10,
+   "app": "map",
+   "route": "wechat/",
+   "thought": "I have found the address of the Forbidden City. Now I will open WeChat to send it to Chen Jing.",
+   "action": "Open the WeChat app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "WeChat"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 11,
+   "before": 10,
+   "after": 11,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "I will search for the contact \"陈静\" in WeChat to send her the address of the Forbidden City.",
+   "action": "Search for the contact \"陈静\".",
+   "call": {
+    "name": "wechat__search_contacts",
+    "args": {
+     "query": "陈静"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "contacts": [
+     {
+      "contact_id": "wxid_chenjing_silent",
+      "name": "陈静",
+      "alias": null
+     }
+    ],
+    "total": 1,
+    "truncated": false
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 12,
+   "before": 11,
+   "after": 12,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "I have found the contact for Chen Jing and will now send her the address of the Forbidden City.",
+   "action": "Send a text message to Chen Jing with the address.",
+   "call": {
+    "name": "wechat__send_text_message",
+    "args": {
+     "contact_id": "wxid_chenjing_silent",
+     "text": "故宫的地址是北京市东城区景山前街4号"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "contact_id": "wxid_chenjing_silent",
+    "message_id": "1783818000000",
+    "sent_at": "2026-07-12T01:00:00.000Z"
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 13,
+   "before": 12,
+   "after": 13,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "The address of the Forbidden City has been successfully sent to Chen Jing, so the task is complete.",
+   "action": "Terminate the task with success.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": true,
+   "uiEffect": "none",
+   "result": null,
+   "resultTruncated": false
+  }
+ ],
+ "toolCalls": 3,
+ "frames": {
+  "dir": "viewer/frames/bench-case34/",
+  "count": 14,
+  "w": 540,
+  "h": 1200
+ }
+}

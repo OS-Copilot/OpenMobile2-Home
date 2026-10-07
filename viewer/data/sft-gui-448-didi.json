@@ -1,0 +1,280 @@
+{
+ "id": "sft-gui-448-didi",
+ "group": "sft",
+ "source": "OpenMobile-Data / simulator / gui-only",
+ "model": "OpenMobile-Data trajectory",
+ "mode": "gui_only",
+ "title": "Set up family and friend pay in DiDi so someone else can pay for my rides",
+ "instruction": "Set up the family and friend pay feature in Didi so someone else can pay for my rides.",
+ "apps": [
+  "didi"
+ ],
+ "appNames": [
+  "Didi"
+ ],
+ "difficulty": null,
+ "scope": null,
+ "success": null,
+ "frames": {
+  "dir": "viewer/frames/sft-gui-448-didi/",
+  "count": 11,
+  "w": 540,
+  "h": 1200
+ },
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "",
+   "thought": "A quick scan of my current home screen reveals it's not immediately visible. This tells me I'll need to expand my search by navigating to the subsequent pages of my home screen. Therefore, I'll proceed by swiping left to reveal those additional app layouts.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      800,
+      500
+     ],
+     "coordinate2": [
+      200,
+      500
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "",
+   "route": "",
+   "thought": "The user wants to set up the family and friend pay feature in Didi.\nI swiped to the next page of the home screen.\nNow I see the Didi app (滴滴出行). It's the orange icon with a car, located at row 3, column 3.\nI will click on the Didi app to open it.\nCoordinates for Didi app: x=615, y=345.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      615,
+      345
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "",
+   "route": "",
+   "thought": "The Didi app is open.\nI need to find the \"family and friend pay\" (亲友代付) feature.\nUsually, payment settings or family accounts are located in the user profile or \"My\" (我的) section.\nI see the \"我的\" (My) tab at the bottom right corner.\nI will click on \"我的\" to access my profile and settings.\nCoordinates for \"我的\": x=875, y=940.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      875,
+      940
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "",
+   "route": "",
+   "thought": "I am now on the \"My\" (我的) page.\nI need to find the family and friend pay feature.\nLooking at the options, I see \"家庭账户\" (Family Account) in the grid of icons. This is likely where I can set up family and friend pay.\nThe icon is an orange circle with the character \"家\" (Family) inside.\nCoordinates for \"家庭账户\": x=500, y=680.\nI will click on \"家庭账户\".",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      500,
+      680
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "",
+   "route": "",
+   "thought": "The click on \"家庭账户\" didn't seem to register or open a new page. The screenshot is the same.\nLet me try clicking it again.\nCoordinates for \"家庭账户\": x=500, y=680.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      500,
+      680
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "",
+   "route": "",
+   "thought": "The click on \"家庭账户\" still didn't work. Maybe it's not a clickable element or it's taking time to load.\nLet me try clicking on \"设置\" (Settings) in the top right corner to see if the option is there.\nCoordinates for \"设置\": x=910, y=90.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      910,
+      90
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "",
+   "route": "",
+   "thought": "I am now in the \"设置\" (Settings) menu.\nI see \"支付设置\" (Payment Settings). This is a very likely place to find the family and friend pay feature.\nI will click on \"支付设置\".\nCoordinates for \"支付设置\": x=500, y=330.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      500,
+      330
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 8,
+   "app": "",
+   "route": "",
+   "thought": "I am now in the \"支付设置\" (Payment Settings) menu.\nI see the option \"亲友代付设置\" (Family and Friend Pay Settings). This is exactly what the user asked for.\nI will click on \"亲友代付设置\" to proceed with the setup.\nCoordinates for \"亲友代付设置\": x=500, y=300.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      500,
+      300
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 9,
+   "before": 8,
+   "after": 9,
+   "app": "",
+   "route": "",
+   "thought": "I am now on the \"亲友代付\" (Family and Friend Pay) page.\nThe user wants to set it up so \"someone else can pay for my rides\".\nCurrently, the tab \"我为TA代付\" (I pay for them) is selected.\nI need to switch to the \"TA为我代付\" (They pay for me) tab.\nCoordinates for \"TA为我代付\": x=720, y=300.\nI will click on \"TA为我代付\".",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      720,
+      300
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 10,
+   "before": 9,
+   "after": 10,
+   "app": "",
+   "route": "",
+   "thought": "I have successfully switched to the \"TA为我代付\" (They pay for me) tab.\nThe screen now shows a button \"我的二维码\" (My QR Code).\nThe user needs to show this QR code to their family/friend so they can scan it and set up the payment.\nI will click on \"我的二维码\" to display the QR code.\nCoordinates for \"我的二维码\": x=500, y=400.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      500,
+      400
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 11,
+   "before": 10,
+   "after": 10,
+   "app": "",
+   "route": "",
+   "thought": "The QR code is now displayed on the screen.\nThe text below the QR code says: \"如果亲友想为您垫付车费,请让 TA 使用滴滴扫一扫此二维码,开通后您打车 TA 付钱\" (If a family member or friend wants to pay for your ride, please ask them to use Didi to scan this QR code. After activation, you take the ride and they pay).\nThis completes the user's request to set up the feature so someone else can pay for their rides. They just need to show this QR code to the person who will pay.\nI will terminate the task and report success.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  }
+ ]
+}

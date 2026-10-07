@@ -1,0 +1,203 @@
+{
+ "id": "bench-case51",
+ "group": "bench",
+ "source": "MobileGym++ Bench, hybrid_tools_v5 run",
+ "model": "Gemini 3.1 Pro Preview",
+ "mode": "hybrid",
+ "title": "If tomorrow 03:30 is free, book a Tencent Meeting, add it to Calendar, share the ID",
+ "instruction": "检查日历上明天03:30有没有安排，如果有空就在腾讯会议预约主题为「临时协调会」的会议，日历创建同名日程（开始时间与会议一致，设提前15分钟的提醒闹钟），会议号微信发给陈静，短信发给张三；有安排的话微信告诉陈静那个时间不行",
+ "apps": [
+  "calendar",
+  "tencent_meeting",
+  "wechat",
+  "sms"
+ ],
+ "appNames": [
+  "Calendar",
+  "Tencent Meeting",
+  "WeChat",
+  "Messages"
+ ],
+ "difficulty": "L4",
+ "scope": "S3",
+ "success": true,
+ "featured": 8,
+ "pair": null,
+ "note": "",
+ "poster": 5,
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "calendar/",
+   "thought": "I need to open the Calendar app to check tomorrow's schedule.",
+   "action": "Open the Calendar app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "日历"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "calendar",
+   "route": "calendar/",
+   "thought": "I need to click on tomorrow's date (July 13th) to check the schedule.",
+   "action": "Click on July 13th.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      100,
+      330
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "calendar",
+   "route": "calendar/event/crossapp_work_conflict_block",
+   "thought": "I need to click on the event \"占用的固定安排\" to check its duration and see if it overlaps with 03:30.",
+   "action": "Click on the event card.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      500,
+      650
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "calendar",
+   "route": "wechat/",
+   "thought": "The calendar shows an event from 02:30 to 05:30 tomorrow, which means 03:30 is busy, so I need to open WeChat to tell Chen Jing that the time doesn't work.",
+   "action": "Open WeChat.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "微信"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "I need to search for Chen Jing's contact in WeChat to send her a message.",
+   "action": "Search for Chen Jing's contact.",
+   "call": {
+    "name": "wechat__search_contacts",
+    "args": {
+     "query": "陈静"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "contacts": [
+     {
+      "contact_id": "wxid_chenjing_silent",
+      "name": "陈静",
+      "alias": null
+     }
+    ],
+    "total": 1,
+    "truncated": false
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "I found Chen Jing's contact ID, now I will send her a message telling her that the time doesn't work.",
+   "action": "Send a text message to Chen Jing.",
+   "call": {
+    "name": "wechat__send_text_message",
+    "args": {
+     "contact_id": "wxid_chenjing_silent",
+     "text": "那个时间不行"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "contact_id": "wxid_chenjing_silent",
+    "message_id": "1783818000000",
+    "sent_at": "2026-07-12T01:00:00.000Z"
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "I have successfully checked the calendar, found that there is an arrangement at 03:30 tomorrow, and sent a WeChat message to Chen Jing informing her that the time doesn't work. The task is complete.",
+   "action": "Terminate the task with success.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": true,
+   "uiEffect": "none",
+   "result": null,
+   "resultTruncated": false
+  }
+ ],
+ "toolCalls": 2,
+ "frames": {
+  "dir": "viewer/frames/bench-case51/",
+  "count": 8,
+  "w": 540,
+  "h": 1200
+ }
+}

@@ -1,0 +1,784 @@
+{
+ "id": "bench-case29",
+ "group": "bench",
+ "source": "MobileGym++ Bench, hybrid_tools_v5 run",
+ "model": "Gemini 3.1 Pro Preview",
+ "mode": "hybrid",
+ "title": "Find the top travel author's most-saved RedNote post and send its stats to Chen Jing",
+ "instruction": "在小红书搜索“旅行”，把前 10 篇帖子中点赞最多的一个帖子的作者主页发过的收藏最多的帖子的标题和这个作者的昵称和获赞与收藏数微信发给“陈静”。",
+ "apps": [
+  "redbook",
+  "wechat"
+ ],
+ "appNames": [
+  "RedNote",
+  "WeChat"
+ ],
+ "difficulty": "L4",
+ "scope": "S2",
+ "success": true,
+ "featured": 2,
+ "pair": null,
+ "note": "",
+ "poster": 2,
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "redbook/?tab=discover",
+   "thought": "I need to open the Xiaohongshu app to search for \"旅行\".",
+   "action": "Open the Xiaohongshu app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "小红书"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "redbook",
+   "route": "redbook/?tab=discover",
+   "thought": "I will search for \"旅行\" using the app's search tool to get the top 10 posts.",
+   "action": "Search for \"旅行\" notes.",
+   "call": {
+    "name": "redbook__search_notes",
+    "args": {
+     "query": "旅行",
+     "limit": 10
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "items": [
+     {
+      "note_id": "9e1v6b6le",
+      "title": "冰城两天一晚怎么玩？这份行程人均花销大概1500多",
+      "author_id": "bl9hwbgtb",
+      "author": "KK想自由",
+      "likes": 3,
+      "collections": 6,
+      "comments": 3,
+      "created_at": "2026-01-15T08:31:29.641Z",
+      "tags": [
+       "北方冬游",
+       "两天一晚旅行",
+       "冬日出行",
+       "雪景打卡",
+       "城市周末游",
+       "旅行清单",
+       "寒季攻略",
+       "高性价比出游"
+      ]
+     },
+     {
+      "note_id": "7h1bdgkum",
+      "title": "广西这处山水秘境，真的很少被外地人挤到",
+      "author_id": "bm0wxz2ik",
+      "author": "治愈系小二",
+      "likes": 7,
+      "collections": 2,
+      "comments": 4,
+      "created_at": "2026-01-15T05:47:28.495Z",
+      "tags": [
+       "广西山水",
+       "冷门旅行灵感",
+       "小众出行",
+       "自然风光",
+       "雨后风景",
+       "拍照好去处",
+       "周末短途游",
+       "秘境感"
+      ]
+     },
+     {
+      "note_id": "c4dwonica",
+      "title": "关于肉食选择的底线，有人觉得不该给某些动物贴标签。我本人对吃狗肉没有生理排斥，若真到了生存危机时刻，为了活下去我也能接受。但当下环境并非如此...",
+      "author_id": "ff89nw54f",
+      "author": "北境糯糯",
+      "likes": 12,
+      "collections": 1,
+      "comments": 60,
+      "created_at": "2026-01-15T05:45:52.252Z",
+      "tags": [
+       "理性看待饮食",
+       "生命教育思考",
+       "宠物与人类关系",
+       "文明生活探讨",
+       "多元价值观",
+       "食品安全意识",
+       "社会议题观察"
+      ]
+     },
+     {
+      "note_id": "ndd49x1sq",
+      "title": "关于南亚某国女性安全困境的几点思考，欢迎理性探讨",
+      "author_id": "ff89nw54f",
+      "author": "北境糯糯",
+      "likes": 2,
+      "collections": 1,
+      "comments": 2,
+      "created_at": "2026-01-15T05:45:52.269Z",
+      "tags": [
+       "社会观察",
+       "女性话题",
+       "国际见闻",
+       "深度思考",
+       "观点分享"
+      ]
+     },
+     {
+      "note_id": "5tyeygq7q",
+      "title": "关于那个南亚国家的阶层固化，之前发过一篇了，这次就不重复啰嗦，直接聊聊核心观点。",
+      "author_id": "ff89nw54f",
+      "author": "北境糯糯",
+      "likes": 21,
+      "collections": 4,
+      "comments": 24,
+      "created_at": "2026-01-15T05:45:52.269Z",
+      "tags": [
+       "社会观察",
+       "异国见闻",
+       "深度思考",
+       "文化差异",
+       "热点话题",
+       "一起来聊聊"
+      ]
+     },
+     {
+      "note_id": "3nralazwa",
+      "title": "刷到一条让人特别难过的消息，某地发生了一起令人愤慨的恶性事件，受害者是一位年轻女孩。",
+      "author_id": "ff89nw54f",
+      "author": "北境糯糯",
+      "likes": 1,
+      "collections": 0,
+      "comments": 1,
+      "created_at": "2026-01-15T05:45:52.287Z",
+      "tags": [
+       "守护女孩",
+       "拒绝暴力",
+       "社会热点",
+       "女性力量"
+      ]
+     },
+     {
+      "note_id": "niu7umfz2",
+      "title": "藏在江西的冬日仙境，美到失语",
+      "author_id": "bm0wxz2ik",
+      "author": "治愈系小二",
+      "likes": 8,
+      "collections": 3,
+      "comments": 2,
+      "created_at": "2026-01-15T05:47:28.418Z",
+      "tags": [
+       "冬日限定美景",
+       "南方看雪指南",
+       "治愈系风景",
+       "小众旅行地"
+      ]
+     },
+     {
+      "note_id": "1xyxtxp4p",
+      "title": "趁着年轻去远方流浪吧西北西南都超治愈",
+      "author_id": "bm0wxz2ik",
+      "author": "治愈系小二",
+      "likes": 2,
+      "collections": 0,
+      "comments": 1,
+      "created_at": "2026-01-15T05:47:28.457Z",
+      "tags": [
+       "旅行碎片",
+       "治愈系风景",
+       "说走就走的旅行",
+       "年轻就要闯"
+      ]
+     }
+    ],
+    "total": 28,
+    "truncated": true
+   },
+   "resultTruncated": true
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "redbook",
+   "route": "redbook/user/bm0wxz2ik",
+   "thought": "I found the post with the most likes (39 likes) among the top 10. The author is \"治愈系小二\" (id: bm0wxz2ik). I will open their profile to find their total likes and collections, and their most collected post.",
+   "action": "Open the user's profile.",
+   "call": {
+    "name": "redbook__open_user",
+    "args": {
+     "user_id": "bm0wxz2ik"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": {
+    "route": "/user/bm0wxz2ik",
+    "user_id": "bm0wxz2ik"
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "redbook",
+   "route": "redbook/user/bm0wxz2ik",
+   "thought": "I need to find the author's most collected post, so I will search for their notes to compare the collection counts.",
+   "action": "Search for the author's notes.",
+   "call": {
+    "name": "redbook__search_notes",
+    "args": {
+     "query": "治愈系小二",
+     "limit": 50
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "items": [],
+    "total": 0,
+    "truncated": false
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "redbook",
+   "route": "redbook/note/5tnqe34ow",
+   "thought": "I will click on the first note on the author's profile to check its collection count.",
+   "action": "Click the first note.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      250,
+      500
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "redbook",
+   "route": "redbook/user/bm0wxz2ik",
+   "thought": "I need to go back to the author's profile to see their total likes and collections, and check other posts for their collection counts.",
+   "action": "Click the back button.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "system_button",
+     "button": "Back"
+    }
+   },
+   "kind": "system_button",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "redbook",
+   "route": "redbook/?tab=discover",
+   "thought": "I need to go back to the author's profile to see their total likes and collections, and check other posts.",
+   "action": "Click the back button on the top left.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      90,
+      70
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 8,
+   "app": "redbook",
+   "route": "redbook/user/bm0wxz2ik",
+   "thought": "I need to open the author's profile again to see their total likes and collections, and find their most collected post.",
+   "action": "Open the user's profile.",
+   "call": {
+    "name": "redbook__open_user",
+    "args": {
+     "user_id": "bm0wxz2ik"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": {
+    "route": "/user/bm0wxz2ik",
+    "user_id": "bm0wxz2ik"
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 9,
+   "before": 8,
+   "after": 9,
+   "app": "redbook",
+   "route": "redbook/note/5tnqe34ow",
+   "thought": "I will click on the first note \"在瑞昌发现了一处很会出片的野餐露营地\" to check its collection count.",
+   "action": "Click the first note.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      250,
+      500
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 10,
+   "before": 9,
+   "after": 10,
+   "app": "redbook",
+   "route": "redbook/user/bm0wxz2ik",
+   "thought": "I need to go back to the author's profile to see their total likes and collections, and check other posts for their collection counts.",
+   "action": "Click the back button.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "system_button",
+     "button": "Back"
+    }
+   },
+   "kind": "system_button",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 11,
+   "before": 10,
+   "after": 11,
+   "app": "redbook",
+   "route": "redbook/user/bm0wxz2ik",
+   "thought": "I will search for the first note's title to find its collection count.",
+   "action": "Search for the first note.",
+   "call": {
+    "name": "redbook__search_notes",
+    "args": {
+     "query": "在瑞昌发现了一处很会出片的野餐露营地",
+     "limit": 10
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "items": [
+     {
+      "note_id": "5tnqe34ow",
+      "title": "在瑞昌发现了一处很会出片的野餐露营地",
+      "author_id": "bm0wxz2ik",
+      "author": "治愈系小二",
+      "likes": 17,
+      "collections": 13,
+      "comments": 10,
+      "created_at": "2026-01-15T05:47:28.495Z",
+      "tags": [
+       "周末出游记录",
+       "松弛感露营",
+       "山野草坡",
+       "江西周边小众地",
+       "看云和日落",
+       "短途自驾",
+       "像电影一样的风景",
+       "周边游推荐"
+      ]
+     }
+    ],
+    "total": 1,
+    "truncated": false
+   },
+   "resultTruncated": true
+  },
+  {
+   "n": 12,
+   "before": 11,
+   "after": 12,
+   "app": "redbook",
+   "route": "redbook/user/bm0wxz2ik",
+   "thought": "I need to scroll down on the author's profile to see all their posts and find the one with the most collections.",
+   "action": "Swipe up to scroll down.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      500,
+      800
+     ],
+     "coordinate2": [
+      500,
+      200
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 13,
+   "before": 12,
+   "after": 13,
+   "app": "redbook",
+   "route": "redbook/user/bm0wxz2ik",
+   "thought": "I will search for the user \"治愈系小二\" to get their total likes and collections.",
+   "action": "Search for the user.",
+   "call": {
+    "name": "redbook__search_users",
+    "args": {
+     "query": "治愈系小二",
+     "limit": 10
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "items": [
+     {
+      "user_id": "bm0wxz2ik",
+      "name": "治愈系小二",
+      "introduction": "把日子过成能治愈自己的样子",
+      "location": "江西",
+      "followers": 992
+     }
+    ],
+    "total": 1,
+    "truncated": false
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 14,
+   "before": 13,
+   "after": 14,
+   "app": "redbook",
+   "route": "redbook/user/bm0wxz2ik",
+   "thought": "I need to scroll up to the top of the author's profile to see their total likes and collections.",
+   "action": "Swipe down to scroll up.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      500,
+      200
+     ],
+     "coordinate2": [
+      500,
+      800
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 15,
+   "before": 14,
+   "after": 15,
+   "app": "redbook",
+   "route": "redbook/user/bm0wxz2ik",
+   "thought": "I need to scroll down to see the rest of the author's posts to find the one with the most collections.",
+   "action": "Swipe up to scroll down.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      500,
+      800
+     ],
+     "coordinate2": [
+      500,
+      200
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 16,
+   "before": 15,
+   "after": 16,
+   "app": "redbook",
+   "route": "redbook/user/bm0wxz2ik",
+   "thought": "I will search for the note \"终于入手了心心念念的新机\" to check its collection count.",
+   "action": "Search for the note.",
+   "call": {
+    "name": "redbook__search_notes",
+    "args": {
+     "query": "终于入手了心心念念的新机",
+     "limit": 10
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "items": [
+     {
+      "note_id": "70eaqs5ci",
+      "title": "终于入手了心心念念的新机，太开心啦！",
+      "author_id": "bm0wxz2ik",
+      "author": "治愈系小二",
+      "likes": 2,
+      "collections": 0,
+      "comments": 1,
+      "created_at": "2026-01-15T05:47:28.457Z",
+      "tags": [
+       "新机入手",
+       "数码日常",
+       "提升幸福感的小物",
+       "生活碎片",
+       "数码好物推荐",
+       "心情日记",
+       "江西日常"
+      ]
+     }
+    ],
+    "total": 1,
+    "truncated": false
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 17,
+   "before": 16,
+   "after": 17,
+   "app": "redbook",
+   "route": "redbook/user/bm0wxz2ik",
+   "thought": "I will search for the note \"金秋清晨的云端日出\" to check its collection count.",
+   "action": "Search for the note.",
+   "call": {
+    "name": "redbook__search_notes",
+    "args": {
+     "query": "金秋清晨的云端日出",
+     "limit": 10
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "items": [
+     {
+      "note_id": "dvtp5fj2i",
+      "title": "金秋清晨的云端日出，太治愈了✨",
+      "author_id": "bm0wxz2ik",
+      "author": "治愈系小二",
+      "likes": 3,
+      "collections": 0,
+      "comments": 11,
+      "created_at": "2026-01-15T05:47:28.457Z",
+      "tags": [
+       "秋日旅行",
+       "治愈系风景",
+       "户外徒步",
+       "云海日出",
+       "小众打卡地",
+       "自然之美"
+      ]
+     }
+    ],
+    "total": 1,
+    "truncated": false
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 18,
+   "before": 17,
+   "after": 18,
+   "app": "redbook",
+   "route": "redbook/user/bm0wxz2ik",
+   "thought": "I need to scroll up to the top of the author's profile to see their total likes and collections.",
+   "action": "Swipe down to scroll up.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      500,
+      200
+     ],
+     "coordinate2": [
+      500,
+      800
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 19,
+   "before": 18,
+   "after": 19,
+   "app": "redbook",
+   "route": "wechat/",
+   "thought": "I have found the author's nickname (\"治愈系小二\"), their total likes and collections (25412), and their most collected post (\"在瑞昌发现了一处很会出片的野餐露营地\"). Now I will open WeChat to send this information to \"陈静\".",
+   "action": "Open WeChat.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "微信"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 20,
+   "before": 19,
+   "after": 20,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "I will search for the contact \"陈静\" in WeChat to send the message.",
+   "action": "Search for \"陈静\" in WeChat contacts.",
+   "call": {
+    "name": "wechat__search_contacts",
+    "args": {
+     "query": "陈静"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "contacts": [
+     {
+      "contact_id": "wxid_chenjing_silent",
+      "name": "陈静",
+      "alias": null
+     }
+    ],
+    "total": 1,
+    "truncated": false
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 21,
+   "before": 20,
+   "after": 21,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "I will send the collected information to \"陈静\" using the WeChat send text message tool.",
+   "action": "Send the text message to \"陈静\".",
+   "call": {
+    "name": "wechat__send_text_message",
+    "args": {
+     "contact_id": "wxid_chenjing_silent",
+     "text": "标题：在瑞昌发现了一处很会出片的野餐露营地，昵称：治愈系小二，获赞与收藏数：25412"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "contact_id": "wxid_chenjing_silent",
+    "message_id": "1783818000000",
+    "sent_at": "2026-07-12T01:00:00.000Z"
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 22,
+   "before": 21,
+   "after": 22,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "The message has been successfully sent to \"陈静\" with the required information. The task is complete.",
+   "action": "Terminate the task with success.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": true,
+   "uiEffect": "none",
+   "result": null,
+   "resultTruncated": false
+  }
+ ],
+ "toolCalls": 10,
+ "frames": {
+  "dir": "viewer/frames/bench-case29/",
+  "count": 23,
+  "w": 540,
+  "h": 1200
+ }
+}

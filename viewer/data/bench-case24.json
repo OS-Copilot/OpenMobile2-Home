@@ -1,0 +1,175 @@
+{
+ "id": "bench-case24",
+ "group": "bench",
+ "source": "MobileGym++ Bench, hybrid_tools_v5 run",
+ "model": "Gemini 3.1 Pro Preview",
+ "mode": "hybrid",
+ "title": "Find the day with the most reading time in WeRead this week and tell Chen Jing",
+ "instruction": "查看微信读书从今天起往前7天（包含今天）的记录，找出阅读时长最多的一天及当天总时长，告诉微信好友陈静。",
+ "apps": [
+  "wechat_reading",
+  "wechat"
+ ],
+ "appNames": [
+  "WeRead",
+  "WeChat"
+ ],
+ "difficulty": "L4",
+ "scope": "S2",
+ "success": true,
+ "featured": null,
+ "pair": null,
+ "note": "",
+ "poster": 4,
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "wechat_reading/",
+   "thought": "I need to open the WeChat Read app to check the reading records.",
+   "action": "Open the WeChat Read app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "微信读书"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "wechat_reading",
+   "route": "wechat_reading/my-reading?tab=week",
+   "thought": "I need to view the detailed reading statistics to find the daily reading times for the past 7 days.",
+   "action": "Click on the \"This week's reading\" card.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      618,
+      243
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "wechat_reading",
+   "route": "wechat/",
+   "thought": "I have found the day with the most reading time (Tuesday) and the duration (226 minutes), now I need to open WeChat to send this information.",
+   "action": "Open the WeChat app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "微信"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "I need to search for the contact \"陈静\" in WeChat to send her the reading statistics.",
+   "action": "Search for the contact \"陈静\".",
+   "call": {
+    "name": "wechat__search_contacts",
+    "args": {
+     "query": "陈静"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "contacts": [
+     {
+      "contact_id": "wxid_chenjing_silent",
+      "name": "陈静",
+      "alias": null
+     }
+    ],
+    "total": 1,
+    "truncated": false
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "I have found the contact \"陈静\", now I will send her the reading statistics using the send text message tool.",
+   "action": "Send a text message to \"陈静\" with the reading statistics.",
+   "call": {
+    "name": "wechat__send_text_message",
+    "args": {
+     "contact_id": "wxid_chenjing_silent",
+     "text": "过去7天阅读时长最多的一天是周二，总时长为226分钟"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "contact_id": "wxid_chenjing_silent",
+    "message_id": "1783818000000",
+    "sent_at": "2026-07-12T01:00:00.000Z"
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "The message has been successfully sent to Chen Jing, completing the task.",
+   "action": "Terminate the task.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": true,
+   "uiEffect": "none",
+   "result": null,
+   "resultTruncated": false
+  }
+ ],
+ "toolCalls": 2,
+ "frames": {
+  "dir": "viewer/frames/bench-case24/",
+  "count": 7,
+  "w": 540,
+  "h": 1200
+ }
+}

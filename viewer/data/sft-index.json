@@ -1,0 +1,616 @@
+[
+ {
+  "id": "sft-emu-403-drawopenapp",
+  "group": "sft",
+  "source": "OpenMobile-Data / emulator / cross_app",
+  "model": "OpenMobile-Data trajectory",
+  "mode": "gui_only",
+  "title": "Draw a blue line in Draw and share it to a new Tasks task titled 'Blue Line Draft'",
+  "instruction": "In the draw app, change the brush color to blue and draw a single straight line. Then, use the top share icon to send this drawing to the Tasks app, attaching it to a newly created task titled 'Blue Line Draft'.",
+  "apps": [
+   "draw",
+   "tasks"
+  ],
+  "appNames": [
+   "Draw",
+   "Tasks"
+  ],
+  "difficulty": null,
+  "scope": null,
+  "success": null,
+  "frames": {
+   "dir": "viewer/frames/sft-emu-403-drawopenapp/",
+   "count": 14,
+   "w": 540,
+   "h": 1200
+  },
+  "steps": 14,
+  "toolCalls": 0,
+  "featured": null,
+  "pair": null,
+  "note": "",
+  "poster": 6
+ },
+ {
+  "id": "sft-emu-2770-readqwen3papertask1",
+  "group": "sft",
+  "source": "OpenMobile-Data / emulator / cross_app",
+  "model": "OpenMobile-Data trajectory",
+  "mode": "gui_only",
+  "title": "Share the Qwen3 Technical Report PDF from Files via Mail to david@research.com",
+  "instruction": "In the Files app, locate the 'Qwen3 Technical Report' PDF and share it via Mail to david@research.com. Set the subject to 'Qwen3 Report' and the body to 'Please review the attached paper.'",
+  "apps": [
+   "files",
+   "mail"
+  ],
+  "appNames": [
+   "Files",
+   "Mail"
+  ],
+  "difficulty": null,
+  "scope": null,
+  "success": null,
+  "frames": {
+   "dir": "viewer/frames/sft-emu-2770-readqwen3papertask1/",
+   "count": 14,
+   "w": 540,
+   "h": 1200
+  },
+  "steps": 14,
+  "toolCalls": 0,
+  "featured": null,
+  "pair": null,
+  "note": "",
+  "poster": 6
+ },
+ {
+  "id": "sft-emu-388-audiorecorderopenapp",
+  "group": "sft",
+  "source": "OpenMobile-Data / emulator / cross_app",
+  "model": "OpenMobile-Data trajectory",
+  "mode": "gui_only",
+  "title": "Empty the Audio Recorder trash, then clear the MiXplorer recycle bin",
+  "instruction": "Permanently delete all discarded items by emptying the Trash folder in the Audio Recorder app, then open the Mixplorer app and clear its recycle bin as well.",
+  "apps": [
+   "audio_recorder",
+   "mixplorer"
+  ],
+  "appNames": [
+   "Audio Recorder",
+   "MiXplorer"
+  ],
+  "difficulty": null,
+  "scope": null,
+  "success": null,
+  "frames": {
+   "dir": "viewer/frames/sft-emu-388-audiorecorderopenapp/",
+   "count": 14,
+   "w": 540,
+   "h": 1200
+  },
+  "steps": 14,
+  "toolCalls": 0,
+  "featured": null,
+  "pair": null,
+  "note": "",
+  "poster": 6
+ },
+ {
+  "id": "sft-emu-1795-contactsnewcontactdraft",
+  "group": "sft",
+  "source": "OpenMobile-Data / emulator / cross_app",
+  "model": "OpenMobile-Data trajectory",
+  "mode": "gui_only",
+  "title": "Open the Contacts privacy policy link and share its URL to Joplin",
+  "instruction": "Open the Contacts app, find and open the 'Terms of Service' or 'Privacy Policy' link (usually located in the Help & feedback or About menu), and share the displayed URL to the Joplin app.",
+  "apps": [
+   "contacts",
+   "joplin"
+  ],
+  "appNames": [
+   "Contacts",
+   "Joplin"
+  ],
+  "difficulty": null,
+  "scope": null,
+  "success": null,
+  "frames": {
+   "dir": "viewer/frames/sft-emu-1795-contactsnewcontactdraft/",
+   "count": 11,
+   "w": 540,
+   "h": 1200
+  },
+  "steps": 11,
+  "toolCalls": 0,
+  "featured": null,
+  "pair": null,
+  "note": "",
+  "poster": 5
+ },
+ {
+  "id": "sft-emu-4451-checkpuchaseditem",
+  "group": "sft",
+  "source": "OpenMobile-Data / emulator / single_app",
+  "model": "OpenMobile-Data trajectory",
+  "mode": "gui_only",
+  "title": "Open the Taodian cart, select every item and delete them",
+  "instruction": "My Taodian shopping cart has too many items in it. Please open the cart, select all of the items, and delete them to clear it out completely.",
+  "apps": [
+   "taodian"
+  ],
+  "appNames": [
+   "Taodian"
+  ],
+  "difficulty": null,
+  "scope": null,
+  "success": null,
+  "frames": {
+   "dir": "viewer/frames/sft-emu-4451-checkpuchaseditem/",
+   "count": 9,
+   "w": 540,
+   "h": 1200
+  },
+  "steps": 9,
+  "toolCalls": 0,
+  "featured": null,
+  "pair": null,
+  "note": "",
+  "poster": 4
+ },
+ {
+  "id": "sft-emu-3378-mastodonmanagemultilisttask",
+  "group": "sft",
+  "source": "OpenMobile-Data / emulator / single_app",
+  "model": "OpenMobile-Data trajectory",
+  "mode": "gui_only",
+  "title": "Post a Mastodon poll asking for a favorite programming language with three options",
+  "instruction": "In the Mastodon app, create a new post with a poll asking 'What is your favorite programming language?' and add 'Python', 'Java', and 'C++' as the poll options.",
+  "apps": [
+   "mastodon"
+  ],
+  "appNames": [
+   "Mastodon"
+  ],
+  "difficulty": null,
+  "scope": null,
+  "success": null,
+  "frames": {
+   "dir": "viewer/frames/sft-emu-3378-mastodonmanagemultilisttask/",
+   "count": 14,
+   "w": 540,
+   "h": 1200
+  },
+  "steps": 14,
+  "toolCalls": 0,
+  "featured": null,
+  "pair": null,
+  "note": "",
+  "poster": 6
+ },
+ {
+  "id": "sft-emu-402-fdroidopenapp",
+  "group": "sft",
+  "source": "OpenMobile-Data / emulator / single_app",
+  "model": "OpenMobile-Data trajectory",
+  "mode": "gui_only",
+  "title": "Set F-Droid to check for updates weekly and install them in the background",
+  "instruction": "In the F-Droid app, configure the settings to automatically check for updates on a weekly basis and enable the background automatic installation of updates.",
+  "apps": [
+   "fdroid"
+  ],
+  "appNames": [
+   "F-Droid"
+  ],
+  "difficulty": null,
+  "scope": null,
+  "success": null,
+  "frames": {
+   "dir": "viewer/frames/sft-emu-402-fdroidopenapp/",
+   "count": 10,
+   "w": 540,
+   "h": 1200
+  },
+  "steps": 10,
+  "toolCalls": 0,
+  "featured": null,
+  "pair": null,
+  "note": "",
+  "poster": 4
+ },
+ {
+  "id": "sft-emu-1925-simplesmsresend",
+  "group": "sft",
+  "source": "OpenMobile-Data / emulator / single_app",
+  "model": "OpenMobile-Data trajectory",
+  "mode": "gui_only",
+  "title": "Report the MMS resize limit and the Recycle Bin setting in Simple SMS Messenger",
+  "instruction": "In the settings of Simple SMS Messenger, what is the currently selected limit for resizing sent MMS images, and is the option to move deleted items into the Recycle Bin enabled? Answer with the exact size limit and Yes/No separated by a comma.",
+  "apps": [
+   "simple_sms_messenger"
+  ],
+  "appNames": [
+   "Simple SMS Messenger"
+  ],
+  "difficulty": null,
+  "scope": null,
+  "success": null,
+  "frames": {
+   "dir": "viewer/frames/sft-emu-1925-simplesmsresend/",
+   "count": 8,
+   "w": 540,
+   "h": 1200
+  },
+  "steps": 8,
+  "toolCalls": 0,
+  "featured": null,
+  "pair": null,
+  "note": "",
+  "poster": 3
+ },
+ {
+  "id": "sft-gui-1636-wechat",
+  "group": "sft",
+  "source": "OpenMobile-Data / simulator / gui-only",
+  "model": "OpenMobile-Data trajectory",
+  "mode": "gui_only",
+  "title": "Send a picture to 王芳 on WeChat",
+  "instruction": "Send a picture to 「王芳」 on Wechat.",
+  "apps": [
+   "wechat"
+  ],
+  "appNames": [
+   "WeChat"
+  ],
+  "difficulty": null,
+  "scope": null,
+  "success": null,
+  "frames": {
+   "dir": "viewer/frames/sft-gui-1636-wechat/",
+   "count": 7,
+   "w": 540,
+   "h": 1200
+  },
+  "steps": 7,
+  "toolCalls": 0,
+  "featured": null,
+  "pair": null,
+  "note": "",
+  "poster": 3
+ },
+ {
+  "id": "sft-gui-129-bilibili",
+  "group": "sft",
+  "source": "OpenMobile-Data / simulator / gui-only",
+  "model": "OpenMobile-Data trajectory",
+  "mode": "gui_only",
+  "title": "Change the Bilibili search keyword to 凡人修仙传 from the results page",
+  "instruction": "While viewing search results on Bilibili, change my search keyword to 「凡人修仙传」.",
+  "apps": [
+   "bilibili"
+  ],
+  "appNames": [
+   "Bilibili"
+  ],
+  "difficulty": null,
+  "scope": null,
+  "success": null,
+  "frames": {
+   "dir": "viewer/frames/sft-gui-129-bilibili/",
+   "count": 5,
+   "w": 540,
+   "h": 1200
+  },
+  "steps": 5,
+  "toolCalls": 0,
+  "featured": null,
+  "pair": null,
+  "note": "",
+  "poster": 2
+ },
+ {
+  "id": "sft-gui-1021-pinduoduo",
+  "group": "sft",
+  "source": "OpenMobile-Data / simulator / gui-only",
+  "model": "OpenMobile-Data trajectory",
+  "mode": "gui_only",
+  "title": "Search Pinduoduo for toilet paper and favorite the 18-roll unbleached pack",
+  "instruction": "Search for toilet paper and favorite the item 「【5斤18卷】原生木浆本色卷纸家用厕纸大粗卷」 on Pinduoduo.",
+  "apps": [
+   "pinduoduo"
+  ],
+  "appNames": [
+   "Pinduoduo"
+  ],
+  "difficulty": null,
+  "scope": null,
+  "success": null,
+  "frames": {
+   "dir": "viewer/frames/sft-gui-1021-pinduoduo/",
+   "count": 6,
+   "w": 540,
+   "h": 1200
+  },
+  "steps": 6,
+  "toolCalls": 0,
+  "featured": null,
+  "pair": null,
+  "note": "",
+  "poster": 2
+ },
+ {
+  "id": "sft-gui-315-ctrip",
+  "group": "sft",
+  "source": "OpenMobile-Data / simulator / gui-only",
+  "model": "OpenMobile-Data trajectory",
+  "mode": "gui_only",
+  "title": "Read the guest reviews for the Sea·观海栖宿 seaview homestay on Ctrip",
+  "instruction": "Read the guest reviews for 「Sea·观海栖宿海景民宿」 on Ctrip.",
+  "apps": [
+   "ctrip"
+  ],
+  "appNames": [
+   "Ctrip"
+  ],
+  "difficulty": null,
+  "scope": null,
+  "success": null,
+  "frames": {
+   "dir": "viewer/frames/sft-gui-315-ctrip/",
+   "count": 10,
+   "w": 540,
+   "h": 1200
+  },
+  "steps": 10,
+  "toolCalls": 0,
+  "featured": null,
+  "pair": null,
+  "note": "",
+  "poster": 4
+ },
+ {
+  "id": "sft-gui-1277-suning",
+  "group": "sft",
+  "source": "OpenMobile-Data / simulator / gui-only",
+  "model": "OpenMobile-Data trajectory",
+  "mode": "gui_only",
+  "title": "Add a new shipping address on Suning and enter the recipient's name",
+  "instruction": "On Suning, add a new shipping address and enter the recipient's name.",
+  "apps": [
+   "suning"
+  ],
+  "appNames": [
+   "Suning"
+  ],
+  "difficulty": null,
+  "scope": null,
+  "success": null,
+  "frames": {
+   "dir": "viewer/frames/sft-gui-1277-suning/",
+   "count": 9,
+   "w": 540,
+   "h": 1200
+  },
+  "steps": 9,
+  "toolCalls": 0,
+  "featured": null,
+  "pair": null,
+  "note": "",
+  "poster": 4
+ },
+ {
+  "id": "sft-gui-448-didi",
+  "group": "sft",
+  "source": "OpenMobile-Data / simulator / gui-only",
+  "model": "OpenMobile-Data trajectory",
+  "mode": "gui_only",
+  "title": "Set up family and friend pay in DiDi so someone else can pay for my rides",
+  "instruction": "Set up the family and friend pay feature in Didi so someone else can pay for my rides.",
+  "apps": [
+   "didi"
+  ],
+  "appNames": [
+   "Didi"
+  ],
+  "difficulty": null,
+  "scope": null,
+  "success": null,
+  "frames": {
+   "dir": "viewer/frames/sft-gui-448-didi/",
+   "count": 11,
+   "w": 540,
+   "h": 1200
+  },
+  "steps": 11,
+  "toolCalls": 0,
+  "featured": null,
+  "pair": null,
+  "note": "",
+  "poster": 5
+ },
+ {
+  "id": "sft-hyb-108-broadcastunknownqueue",
+  "group": "sft",
+  "source": "OpenMobile-Data / simulator / hybrid",
+  "model": "OpenMobile-Data trajectory",
+  "mode": "hybrid",
+  "title": "Queue the No One Knows episode on what investors get wrong in cycles, then follow the show",
+  "instruction": "打开播客。行情又晃，把「无人知晓」讲普通投资者在周期里最容易做错什么的那期加进队列，再关注这档节目。",
+  "apps": [
+   "broadcast"
+  ],
+  "appNames": [
+   "Podcasts"
+  ],
+  "difficulty": null,
+  "scope": null,
+  "success": null,
+  "frames": {
+   "dir": "viewer/frames/sft-hyb-108-broadcastunknownqueue/",
+   "count": 8,
+   "w": 540,
+   "h": 1200
+  },
+  "steps": 8,
+  "toolCalls": 3,
+  "featured": null,
+  "pair": null,
+  "note": "",
+  "poster": 3
+ },
+ {
+  "id": "sft-hyb-1397-railwaylinaorder",
+  "group": "sft",
+  "source": "OpenMobile-Data / simulator / hybrid",
+  "model": "OpenMobile-Data trajectory",
+  "mode": "hybrid",
+  "title": "Send Li Na the train number of the completed Hangzhou East to Shanghai Hongqiao order",
+  "instruction": "打开铁路12306。已完成订单里杭州东到上海虹桥那趟，把车次发给微信李娜。",
+  "apps": [
+   "railway12306",
+   "wechat"
+  ],
+  "appNames": [
+   "Railway 12306",
+   "WeChat"
+  ],
+  "difficulty": null,
+  "scope": null,
+  "success": null,
+  "frames": {
+   "dir": "viewer/frames/sft-hyb-1397-railwaylinaorder/",
+   "count": 6,
+   "w": 540,
+   "h": 1200
+  },
+  "steps": 6,
+  "toolCalls": 3,
+  "featured": null,
+  "pair": null,
+  "note": "",
+  "poster": 2
+ },
+ {
+  "id": "sft-hyb-1681-weiboliketravel318",
+  "group": "sft",
+  "source": "OpenMobile-Data / simulator / hybrid",
+  "model": "OpenMobile-Data trajectory",
+  "mode": "hybrid",
+  "title": "Like Azhen's Weibo post about driving the G318 over the pass to the sunlit golden peaks",
+  "instruction": "打开微博。在路上的阿真写自驾三一八翻垭口、看见日照金山，把这条点赞，给我打气出发。",
+  "apps": [
+   "weibo"
+  ],
+  "appNames": [
+   "Weibo"
+  ],
+  "difficulty": null,
+  "scope": null,
+  "success": null,
+  "frames": {
+   "dir": "viewer/frames/sft-hyb-1681-weiboliketravel318/",
+   "count": 12,
+   "w": 540,
+   "h": 1200
+  },
+  "steps": 12,
+  "toolCalls": 1,
+  "featured": null,
+  "pair": null,
+  "note": "",
+  "poster": 5
+ },
+ {
+  "id": "sft-hyb-409-filemanagerdidavendorkeep",
+  "group": "sft",
+  "source": "OpenMobile-Data / simulator / hybrid",
+  "model": "OpenMobile-Data trajectory",
+  "mode": "hybrid",
+  "title": "Add a TickTick task 'keep vendor_list_0.xlsx' for the vendor list marked do-not-delete",
+  "instruction": "打开文件。供应商清单正文标了不能删，滴答写「保留vendor_list_0.xlsx」，备份文件别写进这条。",
+  "apps": [
+   "file_manager",
+   "dida"
+  ],
+  "appNames": [
+   "Files",
+   "TickTick"
+  ],
+  "difficulty": null,
+  "scope": null,
+  "success": null,
+  "frames": {
+   "dir": "viewer/frames/sft-hyb-409-filemanagerdidavendorkeep/",
+   "count": 13,
+   "w": 540,
+   "h": 1200
+  },
+  "steps": 13,
+  "toolCalls": 9,
+  "featured": null,
+  "pair": null,
+  "note": "",
+  "poster": 6
+ },
+ {
+  "id": "sft-hyb-126-cainiaohardofficialnote",
+  "group": "sft",
+  "source": "OpenMobile-Data / simulator / hybrid",
+  "model": "OpenMobile-Data trajectory",
+  "mode": "hybrid",
+  "title": "Save the official Cainiao Express parcel's tracking number to a Notes note",
+  "instruction": "打开菜鸟。菜鸟速递官方那件手机尾号包裹的运单号记到笔记「官方件单号」。",
+  "apps": [
+   "cainiao",
+   "notes"
+  ],
+  "appNames": [
+   "Cainiao",
+   "Notes"
+  ],
+  "difficulty": null,
+  "scope": null,
+  "success": null,
+  "frames": {
+   "dir": "viewer/frames/sft-hyb-126-cainiaohardofficialnote/",
+   "count": 7,
+   "w": 540,
+   "h": 1200
+  },
+  "steps": 7,
+  "toolCalls": 1,
+  "featured": null,
+  "pair": null,
+  "note": "",
+  "poster": 3
+ },
+ {
+  "id": "sft-hyb-1180-jingdongfavcheaperbuds",
+  "group": "sft",
+  "source": "OpenMobile-Data / simulator / hybrid",
+  "model": "OpenMobile-Data trajectory",
+  "mode": "hybrid",
+  "title": "Compare two wireless earbuds on JD.com and favorite only the cheaper pair",
+  "instruction": "打开京东。同是无线耳机，漫步者199元和华为FreeBuds SE的209元放一起比，只收藏更便宜的那副。",
+  "apps": [
+   "jingdong"
+  ],
+  "appNames": [
+   "JD.com"
+  ],
+  "difficulty": null,
+  "scope": null,
+  "success": null,
+  "frames": {
+   "dir": "viewer/frames/sft-hyb-1180-jingdongfavcheaperbuds/",
+   "count": 7,
+   "w": 540,
+   "h": 1200
+  },
+  "steps": 7,
+  "toolCalls": 3,
+  "featured": null,
+  "pair": null,
+  "note": "",
+  "poster": 3
+ }
+]

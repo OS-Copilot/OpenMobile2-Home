@@ -1,0 +1,232 @@
+{
+ "id": "newapps-mail-n203",
+ "group": "newapps",
+ "source": "MobileGym++ new apps, newapps-v2 run",
+ "model": "Gemini 3.1 Pro Preview",
+ "mode": "hybrid",
+ "title": "Mark the failed Nimbus payment email as read",
+ "instruction": "把主题为「$200.00 payment to Nimbus was unsuccessful」的未读邮件标为已读。",
+ "apps": [
+  "mail"
+ ],
+ "appNames": [
+  "Mail"
+ ],
+ "difficulty": "L3",
+ "scope": "S2",
+ "success": true,
+ "featured": null,
+ "pair": null,
+ "note": "",
+ "poster": 6,
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "",
+   "thought": "I need to open the Email app to find the unread email.",
+   "action": "Open the Email app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "Email"
+    }
+   },
+   "kind": "open_app",
+   "ok": false,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "",
+   "route": "contacts/",
+   "thought": "I need to open the email app by clicking its icon on the home screen.",
+   "action": "Click the email app icon.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      163,
+      918
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "contacts",
+   "route": "",
+   "thought": "I am currently in the Phone app, so I need to go back to the home screen to find the Email app.",
+   "action": "Press the Home button.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "system_button",
+     "button": "Home"
+    }
+   },
+   "kind": "system_button",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "",
+   "route": "",
+   "thought": "I need to find the email app, so I will swipe left to view the next page of the home screen.",
+   "action": "Swipe left on the home screen.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      800,
+      500
+     ],
+     "coordinate2": [
+      200,
+      500
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "",
+   "route": "mail/",
+   "thought": "I see the Mail app icon on the screen, so I will click it to open the app.",
+   "action": "Click the Mail app icon.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      616,
+      691
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "mail",
+   "route": "mail/",
+   "thought": "I will search for the email with the specified subject to find it quickly.",
+   "action": "Search for the email using the mail__search_messages tool.",
+   "call": {
+    "name": "mail__search_messages",
+    "args": {
+     "query": "$200.00 payment to Nimbus was unsuccessful"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "items": [
+     {
+      "mail_id": "m-nimbus-1",
+      "account_id": "school",
+      "folder": "inbox",
+      "subject": "$200.00 payment to Nimbus was unsuccessful",
+      "preview": "We weren't able to charge the credit card you provided.",
+      "from_name": "Nimbus",
+      "from_address": "billing@nimbus.dev",
+      "is_read": false,
+      "is_flagged": false,
+      "category": "transactions",
+      "attachment_names": []
+     }
+    ],
+    "total": 1,
+    "truncated": false
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "mail",
+   "route": "mail/",
+   "thought": "I found the email, so I will mark it as read using the mail__set_read tool.",
+   "action": "Mark the email as read.",
+   "call": {
+    "name": "mail__set_read",
+    "args": {
+     "is_read": true,
+     "mail_id": "m-nimbus-1"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "mail_id": "m-nimbus-1",
+    "is_read": true
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 8,
+   "app": "mail",
+   "route": "mail/",
+   "thought": "The email has been successfully marked as read, so the task is complete.",
+   "action": "Terminate the task with success.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": true,
+   "uiEffect": "none",
+   "result": null,
+   "resultTruncated": false
+  }
+ ],
+ "toolCalls": 2,
+ "frames": {
+  "dir": "viewer/frames/newapps-mail-n203/",
+  "count": 9,
+  "w": 540,
+  "h": 1200
+ }
+}

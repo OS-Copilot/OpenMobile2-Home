@@ -1,0 +1,360 @@
+{
+ "id": "sft-emu-388-audiorecorderopenapp",
+ "group": "sft",
+ "source": "OpenMobile-Data / emulator / cross_app",
+ "model": "OpenMobile-Data trajectory",
+ "mode": "gui_only",
+ "title": "Empty the Audio Recorder trash, then clear the MiXplorer recycle bin",
+ "instruction": "Permanently delete all discarded items by emptying the Trash folder in the Audio Recorder app, then open the Mixplorer app and clear its recycle bin as well.",
+ "apps": [
+  "audio_recorder",
+  "mixplorer"
+ ],
+ "appNames": [
+  "Audio Recorder",
+  "MiXplorer"
+ ],
+ "difficulty": null,
+ "scope": null,
+ "success": null,
+ "frames": {
+  "dir": "viewer/frames/sft-emu-388-audiorecorderopenapp/",
+  "count": 14,
+  "w": 540,
+  "h": 1200
+ },
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "",
+   "thought": "This is the most immediate and often the quickest way to find an app if it's simply organized on a different screen. If that doesn't yield results, my next thought would be to access the app drawer, which provides a comprehensive list of all installed applications.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      800,
+      500
+     ],
+     "coordinate2": [
+      200,
+      500
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "",
+   "route": "",
+   "thought": "The user wants to empty the Trash folder in the Audio Recorder app and clear the recycle bin in the Mixplorer app.\nI swiped left on the home screen, but I don't see Audio Recorder or Mixplorer here either.\nI should open the app drawer to find them.\nI will swipe up from the bottom of the screen to open the app drawer.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      500,
+      800
+     ],
+     "coordinate2": [
+      500,
+      200
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "",
+   "route": "",
+   "thought": "I see the Audio Recorder app in the app drawer.\nI will click on it to open it.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      380,
+      450
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "",
+   "route": "",
+   "thought": "The Audio Recorder app is open.\nI need to find the Trash folder.\nThere's a menu icon (three dots) in the top right corner, and a list icon in the bottom right corner.\nThe list icon usually represents recordings. Let's check the list icon first.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      900,
+      900
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "",
+   "route": "",
+   "thought": "This is the Records list. I don't see a Trash folder here.\nLet's go back to the main screen and check the settings or the three dots menu.\nI'll click the back arrow in the top left corner.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      70,
+      80
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "",
+   "route": "",
+   "thought": "Now I'm back on the main screen.\nLet's check the settings icon in the bottom left corner.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      100,
+      900
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "",
+   "route": "",
+   "thought": "Ah, here is the Trash option in the Settings menu.\nI will click on \"Trash\".",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      200,
+      140
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 8,
+   "app": "",
+   "route": "",
+   "thought": "The Trash folder is already empty.\nNow I need to open the Mixplorer app and clear its recycle bin.\nI will press the Home button to go back to the desktop.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "system_button",
+     "button": "Home"
+    }
+   },
+   "kind": "system_button",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 9,
+   "before": 8,
+   "after": 9,
+   "app": "",
+   "route": "",
+   "thought": "I am back on the home screen.\nI need to open the app drawer again to find Mixplorer.\nI will swipe up from the bottom.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      500,
+      800
+     ],
+     "coordinate2": [
+      500,
+      200
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 10,
+   "before": 9,
+   "after": 10,
+   "app": "",
+   "route": "",
+   "thought": "I am in the app drawer. I need to find Mixplorer.\nIt's not visible on this screen. I will scroll down.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      500,
+      800
+     ],
+     "coordinate2": [
+      500,
+      200
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 11,
+   "before": 10,
+   "after": 11,
+   "app": "",
+   "route": "",
+   "thought": "I see the Mixplorer app (labeled \"MiX\").\nI will click on it to open it.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      380,
+      670
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 12,
+   "before": 11,
+   "after": 12,
+   "app": "",
+   "route": "",
+   "thought": "Mixplorer is open. I need to find its recycle bin and clear it.\nI see a hamburger menu icon in the top left corner. Let's click that to see if the recycle bin is there.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      70,
+      80
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 13,
+   "before": 12,
+   "after": 13,
+   "app": "",
+   "route": "",
+   "thought": "I see \"Recycle bin\" at the bottom of the menu.\nI will click on it.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      250,
+      820
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  },
+  {
+   "n": 14,
+   "before": 13,
+   "after": 13,
+   "app": "",
+   "route": "",
+   "thought": "The recycle bin in Mixplorer is also empty (\"No item\").\nI have completed both tasks: checked/emptied the Trash in Audio Recorder and checked/cleared the recycle bin in Mixplorer.\nI can now terminate the task.",
+   "action": "",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": null,
+   "uiEffect": null,
+   "result": null
+  }
+ ]
+}

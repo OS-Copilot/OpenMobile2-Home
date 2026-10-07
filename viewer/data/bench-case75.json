@@ -1,0 +1,418 @@
+{
+ "id": "bench-case75",
+ "group": "bench",
+ "source": "MobileGym++ Bench, hybrid_tools_v5 run",
+ "model": "Gemini 3.1 Pro Preview",
+ "mode": "hybrid",
+ "title": "Schedule gift prep a week before Mia's birthday and tell Alice Chen the date",
+ "instruction": "查看 Days Matter 中 Mia 的生日，在生日一周前19:00创建30分钟的“准备 Mia 生日礼物”日程，设置提前一天提醒并打开闹钟提醒，再微信把完整准备日期（年月日）告诉 Alice Chen。",
+ "apps": [
+  "daysmatter",
+  "calendar",
+  "wechat"
+ ],
+ "appNames": [
+  "Days Matter",
+  "Calendar",
+  "WeChat"
+ ],
+ "difficulty": "L4",
+ "scope": "S3",
+ "success": true,
+ "featured": null,
+ "pair": null,
+ "note": "",
+ "poster": 8,
+ "steps": [
+  {
+   "n": 1,
+   "before": 0,
+   "after": 1,
+   "app": "",
+   "route": "",
+   "thought": "I need to open the Days Matter app to check Mia's birthday.",
+   "action": "Open the Days Matter app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "Days Matter"
+    }
+   },
+   "kind": "open_app",
+   "ok": false,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 2,
+   "before": 1,
+   "after": 2,
+   "app": "",
+   "route": "",
+   "thought": "The Days Matter app wasn't found by name, so I will click on its widget on the home screen.",
+   "action": "Click the Days Matter widget.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      726,
+      418
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 3,
+   "before": 2,
+   "after": 3,
+   "app": "",
+   "route": "",
+   "thought": "I will open the Days Matter app using its Chinese name \"倒数日\".",
+   "action": "Open the Days Matter app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "倒数日"
+    }
+   },
+   "kind": "open_app",
+   "ok": false,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 4,
+   "before": 3,
+   "after": 4,
+   "app": "",
+   "route": "",
+   "thought": "I need to swipe left to find the Days Matter app on the next page of the home screen.",
+   "action": "Swipe left on the home screen.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "swipe",
+     "coordinate": [
+      800,
+      500
+     ],
+     "coordinate2": [
+      200,
+      500
+     ]
+    }
+   },
+   "kind": "swipe",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 5,
+   "before": 4,
+   "after": 5,
+   "app": "",
+   "route": "daysmatter/",
+   "thought": "I see the Days Matter (倒数日) app icon on the screen, so I will click it to open the app.",
+   "action": "Click the Days Matter app icon.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      850,
+      120
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 6,
+   "before": 5,
+   "after": 6,
+   "app": "daysmatter",
+   "route": "daysmatter/event/ht_dm_birthday",
+   "thought": "I need to check the exact date of Mia's birthday by clicking on the \"Mia birthday\" event in the list.",
+   "action": "Click on the \"Mia birthday\" event.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      450,
+      740
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 7,
+   "before": 6,
+   "after": 7,
+   "app": "daysmatter",
+   "route": "calendar/",
+   "thought": "I have found Mia's birthday (2026-11-08). One week before is 2026-11-01. Now I will open the Calendar app to create the event.",
+   "action": "Open the Calendar app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "calendar"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 8,
+   "before": 7,
+   "after": 8,
+   "app": "calendar",
+   "route": "calendar/new-event?source=tool&title=%E5%87%86%E5%A4%87+Mia+%E7%94%9F%E6%97%A5%E7%A4%BC%E7%89%A9&date=2026-11-01&allDay=false&startTime=19%3A00&endTime=19%3A30",
+   "thought": "I will use the calendar tool to prepare the event draft for \"准备 Mia 生日礼物\" on 2026-11-01 from 19:00 to 19:30.",
+   "action": "Prepare the event draft.",
+   "call": {
+    "name": "calendar__prepare_event_draft",
+    "args": {
+     "title": "准备 Mia 生日礼物",
+     "date": "2026-11-01",
+     "start_time": "19:00",
+     "end_time": "19:30",
+     "all_day": false
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "draft",
+   "result": {
+    "route": "/new-event?source=tool&title=%E5%87%86%E5%A4%87+Mia+%E7%94%9F%E6%97%A5%E7%A4%BC%E7%89%A9&date=2026-11-01&allDay=false&startTime=19%3A00&endTime=19%3A30",
+    "persisted": false
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 9,
+   "before": 8,
+   "after": 9,
+   "app": "calendar",
+   "route": "calendar/new-event?source=tool&title=%E5%87%86%E5%A4%87+Mia+%E7%94%9F%E6%97%A5%E7%A4%BC%E7%89%A9&date=2026-11-01&allDay=false&startTime=19%3A00&endTime=19%3A30",
+   "thought": "I need to change the reminder to one day before, so I will click on the reminder option.",
+   "action": "Click the reminder option.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      800,
+      700
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 10,
+   "before": 9,
+   "after": 10,
+   "app": "calendar",
+   "route": "calendar/new-event?source=tool&title=%E5%87%86%E5%A4%87+Mia+%E7%94%9F%E6%97%A5%E7%A4%BC%E7%89%A9&date=2026-11-01&allDay=false&startTime=19%3A00&endTime=19%3A30",
+   "thought": "I will select the \"提前1天\" (1 day before) option for the reminder.",
+   "action": "Click on \"提前1天\".",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      500,
+      850
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 11,
+   "before": 10,
+   "after": 11,
+   "app": "calendar",
+   "route": "calendar/new-event?source=tool&title=%E5%87%86%E5%A4%87+Mia+%E7%94%9F%E6%97%A5%E7%A4%BC%E7%89%A9&date=2026-11-01&allDay=false&startTime=19%3A00&endTime=19%3A30",
+   "thought": "I need to turn on the alarm reminder (\"闹钟提醒\") by clicking its switch.",
+   "action": "Click the alarm reminder switch.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      850,
+      790
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 12,
+   "before": 11,
+   "after": 12,
+   "app": "calendar",
+   "route": "calendar/",
+   "thought": "I will save the calendar event by clicking the checkmark at the top right.",
+   "action": "Click the save button.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "click",
+     "coordinate": [
+      900,
+      75
+     ]
+    }
+   },
+   "kind": "click",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 13,
+   "before": 12,
+   "after": 13,
+   "app": "calendar",
+   "route": "wechat/",
+   "thought": "I have successfully created the calendar event. Now I need to open WeChat to send the preparation date to Alice Chen.",
+   "action": "Open the WeChat app.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "open_app",
+     "app": "WeChat"
+    }
+   },
+   "kind": "open_app",
+   "ok": true,
+   "uiEffect": "navigation",
+   "result": null,
+   "resultTruncated": false
+  },
+  {
+   "n": 14,
+   "before": 13,
+   "after": 14,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "I will search for Alice Chen's contact ID in WeChat to send her the preparation date.",
+   "action": "Search for Alice Chen in WeChat contacts.",
+   "call": {
+    "name": "wechat__search_contacts",
+    "args": {
+     "query": "Alice Chen"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "contacts": [
+     {
+      "contact_id": "ht_alice",
+      "name": "Alice Chen",
+      "alias": "Alice"
+     }
+    ],
+    "total": 1,
+    "truncated": false
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 15,
+   "before": 14,
+   "after": 15,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "I will send the preparation date (2026-11-01) to Alice Chen using the WeChat send text message tool.",
+   "action": "Send a text message to Alice Chen.",
+   "call": {
+    "name": "wechat__send_text_message",
+    "args": {
+     "contact_id": "ht_alice",
+     "text": "2026年11月1日"
+    }
+   },
+   "kind": "tool",
+   "ok": true,
+   "uiEffect": "none",
+   "result": {
+    "contact_id": "ht_alice",
+    "message_id": "1783818000000",
+    "sent_at": "2026-07-12T01:00:00.000Z"
+   },
+   "resultTruncated": false
+  },
+  {
+   "n": 16,
+   "before": 15,
+   "after": 16,
+   "app": "wechat",
+   "route": "wechat/",
+   "thought": "All tasks have been completed successfully, including checking the birthday, creating the calendar event with the specified settings, and sending the date to Alice Chen on WeChat.",
+   "action": "Terminate the task with success.",
+   "call": {
+    "name": "mobile_use",
+    "args": {
+     "action": "terminate",
+     "status": "success"
+    }
+   },
+   "kind": "terminate",
+   "ok": true,
+   "uiEffect": "none",
+   "result": null,
+   "resultTruncated": false
+  }
+ ],
+ "toolCalls": 3,
+ "frames": {
+  "dir": "viewer/frames/bench-case75/",
+  "count": 17,
+  "w": 540,
+  "h": 1200
+ }
+}
