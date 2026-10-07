@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="RTL">0</string>
+  <string name="high_i18n">Висока </string>
+  <string name="low_i18n">Низька </string>
+  <string name="aqi_good_i18n">Добре</string>
+  <string name="aqi_moderate_i18n">Задовільне</string>
+  <string name="aqi_pollution_i18n">Прийнятне</string>
+  <string name="aqi_unhealthy_i18n">Погане</string>
+  <string name="aqi_dangerous_i18n">Небезпечне</string>
+  <string name="aqi_hazardous_i18n">Ризиковане</string>
+  <string name="humidness_i18n">Вологість</string>
+  <string name="now_i18n">Зараз</string>
+  <string name="location_i18n">Місце</string>
+  <string name="weather_i18n">Погода</string>
+  <string name="low_temp_i18n">Мінімальна</string>
+  <string name="aqi_i18n">ІЯП</string>
+  <string name="weather_auth_tip_i18n">Натисніть, щоб отримати інформацію про погоду</string>
+  <string name="tomorrow_i18n">Завтра</string>
+  <string name="sunrise_i18n">Схід сонця</string>
+  <string name="sunset_i18n">Захід сонця</string>
+  <string name="sunrising_i18n">Сонце сходить</string>
+  <string name="sunseting_i18n">Сонце заходить</string>
+  <string name="sunrise_sunset_i18n">Схід та захід</string>
+  <string name="hour_after_i18n">\'Через \'+#sun_hour+\' год\'</string>
+  <string name="minute_after_i18n">\'Через \'+#sun_minute+\'хв\'</string>
+  <string name="morning_i18n">#sun_morning+\' ДП\'</string>
+  <string name="afternoon_i18n">#sun_afternoon+\' ПП\'</string>
+  <string name="authorization_and_open_i18n">Надайте дозволи для перегляду погоди</string>
+  <string name="wind_level_i18n"></string>
+  <string name="talkback_temperature_range">Максимальна температура: 变量1. Мінімальна температура: 变量2</string>
+  <string name="talkback_humidity">Вологість: 变量3</string>
+  <string name="talkback_wind">Вітер: сила 变量4</string>
+</resources>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="RTL">0</string>
+  <string name="high_i18n">Hoog </string>
+  <string name="low_i18n">Laag </string>
+  <string name="aqi_good_i18n">Erg goed</string>
+  <string name="aqi_moderate_i18n">Goed</string>
+  <string name="aqi_pollution_i18n">Gemiddeld</string>
+  <string name="aqi_unhealthy_i18n">Ongezond</string>
+  <string name="aqi_dangerous_i18n">Ernstig</string>
+  <string name="aqi_hazardous_i18n">Gevaarlijk</string>
+  <string name="humidness_i18n">Luchtvochtigheid</string>
+  <string name="now_i18n">Nu</string>
+  <string name="location_i18n">Locatie</string>
+  <string name="weather_i18n">Weer</string>
+  <string name="low_temp_i18n">Laag</string>
+  <string name="aqi_i18n">AQI</string>
+  <string name="weather_auth_tip_i18n">Tik om weer info te krijgen</string>
+  <string name="tomorrow_i18n">Morgen</string>
+  <string name="sunrise_i18n">Zonsopgang</string>
+  <string name="sunset_i18n">Zonsondergang</string>
+  <string name="sunrising_i18n">De zon komt op</string>
+  <string name="sunseting_i18n">De zon gaat onder</string>
+  <string name="sunrise_sunset_i18n">Zonsopgang en zonsondergang</string>
+  <string name="hour_after_i18n">\'Over \'+#sun_hour+\' u\'</string>
+  <string name="minute_after_i18n">\'Over \'+#sun_minute+\' min.\'</string>
+  <string name="morning_i18n">#sun_morning+\' AM\'</string>
+  <string name="afternoon_i18n">#sun_afternoon+\' PM\'</string>
+  <string name="authorization_and_open_i18n">Geef toestemming om het weer te bekijken</string>
+  <string name="wind_level_i18n"></string>
+  <string name="talkback_temperature_range">Maximumtemperatuur: 变量1. Minimumtemperatuur: 变量2</string>
+  <string name="talkback_humidity">Luchtvochtigheid: 变量3</string>
+  <string name="talkback_wind">Wind: Kracht 变量4</string>
+</resources>

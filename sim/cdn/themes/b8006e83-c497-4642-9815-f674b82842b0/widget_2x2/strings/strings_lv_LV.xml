@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="RTL">0</string>
+  <string name="high_i18n">Augsta </string>
+  <string name="low_i18n">Zema </string>
+  <string name="aqi_good_i18n">Labs</string>
+  <string name="aqi_moderate_i18n">Mērens</string>
+  <string name="aqi_pollution_i18n">Vidējs</string>
+  <string name="aqi_unhealthy_i18n">Neveselīgs</string>
+  <string name="aqi_dangerous_i18n">Ļoti neveselīgs</string>
+  <string name="aqi_hazardous_i18n">Ļoti bīstams</string>
+  <string name="humidness_i18n">Mitrums</string>
+  <string name="now_i18n">Tagad</string>
+  <string name="location_i18n">Atrašanās vieta</string>
+  <string name="weather_i18n">Laikapstākļi</string>
+  <string name="low_temp_i18n">Zema</string>
+  <string name="aqi_i18n">GKI</string>
+  <string name="weather_auth_tip_i18n">Pieskarieties, lai iegūtu laikapstākļu informāciju</string>
+  <string name="tomorrow_i18n">Rīt</string>
+  <string name="sunrise_i18n">Saullēkts</string>
+  <string name="sunset_i18n">Saulriets</string>
+  <string name="sunrising_i18n">Saule aust</string>
+  <string name="sunseting_i18n">Saule riet</string>
+  <string name="sunrise_sunset_i18n">Saullēkts un saulriets</string>
+  <string name="hour_after_i18n">\'Pēc \'+#sun_hour+\'st.\'</string>
+  <string name="minute_after_i18n">\'Pēc \'+#sun_minute+\'min.\'</string>
+  <string name="morning_i18n">#sun_morning+\' AM\'</string>
+  <string name="afternoon_i18n">#sun_afternoon+\' PM\'</string>
+  <string name="authorization_and_open_i18n">Piešķirt atļaujas, lai skatītu laikapstākļus</string>
+  <string name="wind_level_i18n"></string>
+  <string name="talkback_temperature_range">Maksimālā temperatūra: 变量1. Minimālā temperatūra: 变量2</string>
+  <string name="talkback_humidity">Mitrums: 变量3</string>
+  <string name="talkback_wind">Vējš: Spēks 变量4</string>
+</resources>

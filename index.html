@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- TODO: the title follows the ICLR 2027 submission; confirm before release. -->
+  <title>OpenMobile-2: Building Versatile Mobile Agents with Scalable Environments and App-Native Tools</title>
+  <meta name="description"
+    content="OpenMobile-2 is an open stack for mobile agents: MobileGym++, a simulated playground of replicated commercial apps; OpenMobile-Data, trajectories and verifiable RL tasks collected on it; and open agents that interleave GUI actions with app-native tool calls.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#02091a">
+
+  <link rel="icon" href="public/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="public/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="public/favicon-16.png">
+  <link rel="apple-touch-icon" href="public/apple-touch-icon.png">
+
+  <!-- Open Graph / Twitter.
+       NOTE: absolute URLs are required by social scrapers. The page is served at
+       https://os-copilot.github.io/OpenMobile2-Home/; update every absolute URL
+       together if the host changes.
+       TODO: add a 1200x630 card at public/social/og-image.png, then add og:image /
+       twitter:image and switch twitter:card to summary_large_image. -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://os-copilot.github.io/OpenMobile2-Home/">
+  <meta property="og:site_name" content="OpenMobile-2">
+  <meta property="og:title" content="OpenMobile-2: Building Versatile Mobile Agents with Scalable Environments and App-Native Tools">
+  <meta property="og:description" content="OpenMobile-2 is an open stack for mobile agents: MobileGym++, a simulated playground of replicated commercial apps; OpenMobile-Data, trajectories and verifiable RL tasks collected on it; and open agents that interleave GUI actions with app-native tool calls.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@qiushi_sun">
+  <meta name="twitter:title" content="OpenMobile-2: Building Versatile Mobile Agents with Scalable Environments and App-Native Tools">
+  <meta name="twitter:description" content="OpenMobile-2 is an open stack for mobile agents: MobileGym++, a simulated playground of replicated commercial apps; OpenMobile-Data, trajectories and verifiable RL tasks collected on it; and open agents that interleave GUI actions with app-native tool calls.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/om2-appwall.css">
+  <link rel="stylesheet" href="static/css/om2-stepper.css">
+  <link rel="stylesheet" href="static/css/om2-lanes.css">
+  <link rel="stylesheet" href="static/css/om2-charts.css">
+  <link rel="stylesheet" href="static/css/om2-table.css">
+  <link rel="stylesheet" href="static/css/om2-crossapp.css">
+  <link rel="stylesheet" href="static/css/om2-live.css">
+  <link rel="stylesheet" href="static/css/om2-pipeline.css">
+  <!-- Reveal-on-scroll hides content until JS un-hides it, so only opt in when
+       JS is running; and the theme must be set before first paint. Both happen
+       here, before the body renders. -->
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.className += " js";
+      var t;
+      try { t = localStorage.getItem("openmobile2-theme"); } catch (e) { /* private mode */ }
+      if (t !== "light" && t !== "dark") {
+        t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      }
+      d.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="cosmos" aria-hidden="true"></div>
+
+  <!-- ==================================================================== -->
+  <!-- Navigation                                                            -->
+  <!-- ==================================================================== -->
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a class="nav-brand" href="#top">
+        <!-- TODO: interim mark (the OpenMobile v1 robot); swap public/logo.png
+             for the v2 mark and run tools/build_icons.py. -->
+        <img src="public/favicon-512.png" alt="">
+        <span>OpenMobile-2</span>
+      </a>
+      <button class="icon-btn nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Menu">
+        <svg aria-hidden="true" width="17" height="17" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M2 4h12M2 8h12M2 12h12" stroke-linecap="round" />
+        </svg>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <!-- TODO: settle the sibling-project list for this page. -->
+        <li class="nav-more" id="navMore" data-open="false">
+          <button type="button" aria-expanded="false" aria-haspopup="true">
+            More research
+            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <path d="M1.5 3.5 5 7l3.5-3.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+          <ul>
+            <li><a href="https://njucckevin.github.io/openmobile/" target="_blank" rel="noopener">
+              <img src="public/logos/projects/openmobile.png" alt="">
+              <span>OpenMobile <small>Open Mobile Agents</small></span></a></li>
+            <li><a href="https://os-copilot.github.io/OSReward-Home/" target="_blank" rel="noopener">
+              <img src="public/logos/projects/osreward.png" alt="">
+              <span>OSReward <small>CUA Reward Eval &amp; Open Models</small></span></a></li>
+            <li><a href="https://qiushisun.github.io/OS-Sentinel-Home/" target="_blank" rel="noopener">
+              <img src="public/logos/projects/os-sentinel.png" alt="">
+              <span>OS-Sentinel <small>Mobile GUI Safety</small></span></a></li>
+            <li><a href="https://qiushisun.github.io/ScienceBoard-Home/" target="_blank" rel="noopener">
+              <img src="public/logos/projects/scienceboard.png" alt="">
+              <span>ScienceBoard <small>CUA for Science</small></span></a></li>
+            <li><a href="https://qiushisun.github.io/OS-Genesis-Home/" target="_blank" rel="noopener">
+              <img src="public/logos/projects/os-genesis.png" alt="">
+              <span>OS-Genesis <small>Annotation-Free Trajectory Synthesis</small></span></a></li>
+            <li><a href="https://osatlas.github.io/" target="_blank" rel="noopener">
+              <img src="public/logos/projects/os-atlas.png" alt="">
+              <span>OS-Atlas <small>GUI Action Foundation Model</small></span></a></li>
+            <li><a href="https://aclanthology.org/2024.acl-long.505" target="_blank" rel="noopener">
+              <img src="public/logos/projects/seeclick.png" alt="">
+              <span>SeeClick <small>GUI Grounding</small></span></a></li>
+          </ul>
+        </li>
+        <!-- Section links double as the scroll-spy list (main.js reads them). -->
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#environment">Environment</a></li>
+        <li><a href="#live">Live demo</a></li>
+        <li><a href="#data">Data</a></li>
+        <li><a href="#tools">Tools</a></li>
+        <li><a href="#results">Results</a></li>
+        <li><a href="#analysis">Analysis</a></li>
+        <li><a href="#resources">Resources</a></li>
+      </ul>
+      <div class="nav-tools">
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch to light theme">
+          <svg class="i-moon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"
+            aria-hidden="true">
+            <path d="M14 9.3A6 6 0 0 1 6.7 2a6.2 6.2 0 1 0 7.3 7.3Z" stroke-linejoin="round" />
+          </svg>
+          <svg class="i-sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"
+            aria-hidden="true">
+            <circle cx="8" cy="8" r="3.1" />
+            <path d="M8 1v1.7M8 13.3V15M1 8h1.7M13.3 8H15M3 3l1.2 1.2M11.8 11.8 13 13M13 3l-1.2 1.2M4.2 11.8 3 13"
+              stroke-linecap="round" />
+          </svg>
+        </button>
+        <!-- TODO: GitHub button once the code repository is public.
+        <a class="icon-btn" href="https://github.com/…" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="…GitHub mark, see the Code button below…" /></svg>
+        </a> -->
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================================================================== -->
+  <!-- Hero — split layout: content left, key art right                      -->
+  <!-- ==================================================================== -->
+  <header class="hero" id="top">
+    <div class="wrap wrap-wide hero-split">
+      <div class="hero-content">
+        <h1><span class="accent">OpenMobile-2</span></h1>
+        <p class="tagline">Building Versatile Mobile Agents<br class="br-lg">
+          with Scalable Environments and App-Native Tools</p>
+        <!-- TODO: venue line on acceptance.
+        <p class="venue">…</p> -->
+
+        <p class="lede">Mobile agents learn from interaction experience, and the trajectories behind the
+          strongest agents are proprietary. Open efforts collect theirs on a few dozen emulator apps, mostly
+          system utilities and open-source clients, because third-party apps rarely reset cleanly and the
+          full Android stack is costly to replicate at training scale. OpenMobile-2 is an open stack for
+          closing that gap, with the environments, data, recipes and trained agents all released.</p>
+
+        <ul class="bullets">
+          <li>
+            <span class="b-ico" aria-hidden="true">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="6" y="2.5" width="12" height="19" rx="2.5" /><path d="M10.5 18.5h3" stroke-linecap="round" />
+              </svg>
+            </span>
+            <span><b>MobileGym++</b>: commercial apps rebuilt as high-fidelity simulated clients, with
+              persistent business state, clean reset and cross-app workflows</span>
+          </li>
+          <li>
+            <span class="b-ico" aria-hidden="true">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <ellipse cx="12" cy="6" rx="8" ry="3" />
+                <path d="M4 6v6c0 1.66 3.58 3 8 3s8-1.34 8-3V6M4 12v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6" />
+              </svg>
+            </span>
+            <span><b>OpenMobile-Data</b>: demonstration trajectories for supervised fine-tuning and the
+              largest open set of executable, verifier-backed RL tasks for mobile agents, released with the
+              training recipes</span>
+          </li>
+          <li>
+            <span class="b-ico" aria-hidden="true">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M4 17l6-5-6-5M12 19h8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span><b>App-native tools</b> alongside the GUI: apps expose selected functions as tools that act
+              on the same state, so an agent can interleave GUI actions and tool calls within one task,
+              trained and evaluated on MobileGym++ Bench</span>
+          </li>
+          <li>
+            <span class="b-ico" aria-hidden="true">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M12 3l7.5 4.2v9.6L12 21l-7.5-4.2V7.2L12 3Z" stroke-linejoin="round" />
+                <path d="M12 12v9M12 12 4.5 7.8M12 12l7.5-4.2" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span><b>OpenMobile-2 9B / 27B</b>: open-data agents trained with GUI-only SFT, hybrid SFT and
+              RL on the playground, competitive on established benchmarks and carrying the gain to real
+              devices</span>
+          </li>
+        </ul>
+
+        <!-- Release links. Each is parked (class "pending", no href) until its
+             artifact is public: then drop "pending" and add the href. -->
+        <div class="links">
+          <a class="btn btn-primary pending" data-link="paper">
+            <!-- arXiv logomark -->
+            <svg viewBox="0 0 17.732 24.269" aria-hidden="true">
+              <g transform="translate(-566.984 -271.548)">
+                <path d="M573.549,280.916l2.266,2.738,6.674-7.84c.353-.47.52-.717.353-1.117a1.218,1.218,0,0,0-1.061-.748h0a.953.953,0,0,0-.712.262Z" fill="currentColor"/>
+                <path d="M579.525,282.225l-10.606-10.174a1.413,1.413,0,0,0-.834-.5,1.09,1.09,0,0,0-1.027.66c-.167.4-.047.681.319,1.206l8.44,10.242h0l-6.282,7.716a1.336,1.336,0,0,0-.323,1.3,1.114,1.114,0,0,0,1.04.69A.992.992,0,0,0,571,293l8.519-7.92A1.924,1.924,0,0,0,579.525,282.225Z" fill="#b31b1b"/>
+                <path d="M584.32,293.912l-8.525-10.275,0,0L573.53,280.9l-1.389,1.254a2.063,2.063,0,0,0,0,2.965l10.812,10.419a.925.925,0,0,0,.742.282,1.039,1.039,0,0,0,.953-.667A1.261,1.261,0,0,0,584.32,293.912Z" fill="currentColor"/>
+              </g>
+            </svg>
+            Paper
+          </a>
+          <a class="btn pending" data-link="code">
+            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
+            </svg>
+            Code
+          </a>
+          <a class="btn pending" data-link="environment">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <rect x="6" y="2.5" width="12" height="19" rx="2.5" />
+              <path d="M10.5 18.5h3" stroke-linecap="round" />
+            </svg>
+            MobileGym++
+          </a>
+          <a class="btn pending" data-link="data">
+            <span class="ic" aria-hidden="true">🤗</span>
+            Data
+          </a>
+          <a class="btn pending" data-link="models">
+            <span class="ic" aria-hidden="true">🤗</span>
+            Models
+          </a>
+        </div>
+      </div>
+
+      <!-- Key art: the playground itself. om2-appwall.js draws every app in
+           MobileGym++ and the emulator set as a tile on a phone, coloured by
+           domain (data: om2-data.js). -->
+      <figure class="hero-art">
+        <div id="app-wall" aria-label="All applications in the playground, coloured by domain"></div>
+      </figure>
+    </div>
+  </header>
+
+  <!-- Byline: restored when the author list is public. Markup kept in
+       HANDOFF.md ("au eq" colours an equal-contribution author; crests are
+       96x96 PNG pairs in public/affil/). -->
+
+  <main id="main">
+
+    <!-- ================================================================== -->
+    <!-- Overview                                                            -->
+    <!-- ================================================================== -->
+    <section class="band-tight" id="overview">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Overview</span>
+          <h2 class="section-title">Scaling mobile agents by <span class="accent">scaling their
+              environments</span></h2>
+        </div>
+
+        <div class="card abstract rise">
+          <p>A mobile agent improves with the interaction experience it is trained on, and the open community
+            has had little of it. Human demonstrations are fixed once recorded, emulator rollouts cover a few
+            dozen utilities and open-source clients, and simulated apps have been few and shallow.</p>
+          <p><strong>OpenMobile-2 puts environment scaling into practice.</strong> It rebuilds commercial apps
+            as controllable simulated clients, collects training data on them, trains agents with that data,
+            and releases all of it.</p>
+
+          <ol class="contribs">
+            <li>
+              <a href="#environment"><b>Environment scaling with replicated applications.</b></a>
+              MobileGym++ rebuilds 35 commercial apps as simulated clients with persistent business state,
+              clean reset and cross-app workflows, in a playground of more than 110 apps.
+            </li>
+            <li>
+              <a href="#data"><b>Open training data and recipes at scale.</b></a>
+              OpenMobile-Data holds 11.6K demonstration trajectories and more than 2K executable RL tasks
+              with verifiers, released with the SFT and RL recipes.
+            </li>
+            <li>
+              <a href="#tools"><b>A unified framework for GUI and app-native tool use.</b></a>
+              More than 300 app-native tools across 50+ apps write the same state as the GUI, and
+              MobileGym++ Bench compares GUI-only and hybrid agents on the same 215 tasks.
+            </li>
+            <li>
+              <a href="#results"><b>Open-data agents that transfer.</b></a>
+              OpenMobile-2 9B and 27B are competitive on AndroidWorld and MobileWorld and carry the gain to
+              real devices on SPA-Bench.
+            </li>
+          </ol>
+        </div>
+
+        <div class="grid grid-4 rise" style="margin-top:22px">
+          <a class="card feature" href="#environment">
+            <div class="ico">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <rect x="6" y="2.5" width="12" height="19" rx="2.5" />
+                <path d="M10.5 18.5h3M9 7h6M9 10.5h6M9 14h3" stroke-linecap="round" />
+              </svg>
+            </div>
+            <h3>The playground</h3>
+            <p>Commercial apps rebuilt as simulated clients, with the emulator apps alongside.</p>
+          </a>
+          <a class="card feature" href="#data">
+            <div class="ico">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <ellipse cx="12" cy="6" rx="8" ry="3" />
+                <path d="M4 6v6c0 1.66 3.58 3 8 3s8-1.34 8-3V6M4 12v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6" />
+              </svg>
+            </div>
+            <h3>The data</h3>
+            <p>Demonstration trajectories and executable RL tasks, with the recipes that use them.</p>
+          </a>
+          <a class="card feature" href="#tools">
+            <div class="ico">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <path d="M4 17l6-5-6-5M12 19h8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3>App-native tools</h3>
+            <p>GUI actions and tool calls on one app state, compared on the same tasks.</p>
+          </a>
+          <a class="card feature" href="#results">
+            <div class="ico">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <path d="M4 19V9M10 19V5M16 19v-6M22 19H2" stroke-linecap="round" />
+              </svg>
+            </div>
+            <h3>Results</h3>
+            <p>Open-data agents against commercial and open-weight models, on emulators, simulated apps and
+              real devices.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- Environment — MobileGym++                                           -->
+    <!-- ================================================================== -->
+    <section class="band" id="environment">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Environment</span>
+          <h2 class="section-title">A playground of <span class="accent">commercial apps</span></h2>
+          <p class="section-sub">MobileGym++ rebuilds commercial apps as simulated clients with persistent
+            business state, clean reset and programmatic verification, next to a configured set of emulator
+            apps on the same playground.</p>
+        </div>
+
+        <div class="grid grid-2 rise" style="align-items:start">
+          <div class="card chart-card">
+            <div class="chart-head"><h3>Apps by domain and runtime</h3></div>
+            <div id="chart-domains"></div>
+          </div>
+          <div class="card chart-card">
+            <div class="chart-head"><h3>Information moves between apps</h3></div>
+            <div id="crossapp"></div>
+          </div>
+        </div>
+
+        <div class="card chart-card rise" style="margin-top:24px">
+          <div class="chart-head"><h3>How a commercial app is rebuilt</h3></div>
+          <div id="construction-steps"></div>
+        </div>
+
+        <div class="card chart-card rise" style="margin-top:24px">
+          <div class="chart-head"><h3>Against existing environments</h3></div>
+          <div id="env-compare"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- Live demo — the simulator itself, in the page                       -->
+    <!-- sim/ is a static build of the simulator served from this origin     -->
+    <!-- (prototype: the public MobileGym base, built with                   -->
+    <!-- VITE_BASE=/OpenMobile2-Home/sim/). om2-live.js mounts it on power-on -->
+    <!-- and drives it through window.__OS__ / __SIM__.                      -->
+    <!-- ================================================================== -->
+    <section class="band" id="live">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Live demo</span>
+          <h2 class="section-title">The playground, <span class="accent">running in this page</span></h2>
+          <p class="section-sub">The simulator behind the playground needs no server: the whole phone runs in
+            the browser, with its state as one snapshot that resets in a click.</p>
+        </div>
+        <div class="card chart-card rise">
+          <div id="live-sim"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- Data — OpenMobile-Data                                              -->
+    <!-- ================================================================== -->
+    <section class="band" id="data">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Data</span>
+          <h2 class="section-title">Trajectories and tasks, <span class="accent">collected on the
+              playground</span></h2>
+          <p class="section-sub">Both runtimes feed one pipeline, and two resources come out of it.</p>
+        </div>
+
+        <div class="card chart-card rise">
+          <div class="chart-head"><h3>From app graph to released data</h3></div>
+          <div id="pipeline-flow"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- Tools — hybrid GUI and app-native tool use                           -->
+    <!-- ================================================================== -->
+    <section class="band" id="tools">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">App-native tools</span>
+          <h2 class="section-title">The same task, <span class="accent">with or without tools</span></h2>
+          <p class="section-sub">Apps expose selected functions as tools that write the same state as the GUI,
+            so one task suite compares GUI-only and hybrid agents under one checker.</p>
+        </div>
+
+        <div class="card chart-card rise">
+          <div class="chart-head"><h3>One benchmark task, two ways</h3></div>
+          <div id="task-lanes"></div>
+        </div>
+
+        <div class="grid grid-2 rise" style="margin-top:24px;align-items:start">
+          <div class="card chart-card">
+            <div class="chart-head"><h3>What a tool looks like</h3></div>
+            <div id="tool-schemas"></div>
+          </div>
+          <div class="card chart-card">
+            <div class="chart-head"><h3>MobileGym++ Bench</h3></div>
+            <p class="chart-note">Long-horizon tasks across the commercial apps, half of them crossing app
+              boundaries, each checked over the before-and-after diff of business state.</p>
+            <div id="chart-bench"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- Results                                                             -->
+    <!-- ================================================================== -->
+    <section class="band" id="results">
+      <div class="wrap wrap-wide">
+        <div class="section-head">
+          <span class="eyebrow">Results</span>
+          <h2 class="section-title">Two open-data agents, <span class="accent">five benchmarks</span></h2>
+          <p class="section-sub">GUI-only SFT, hybrid SFT and RL on the playground, from Qwen3.5-9B and
+            Qwen3.6-27B, against commercial and open-weight agents on emulators, simulated apps and real
+            devices.</p>
+        </div>
+
+        <div class="card chart-card rise">
+          <div class="chart-head"><h3>Main results</h3></div>
+          <div id="results-table"></div>
+        </div>
+
+        <div class="card chart-card rise" style="margin-top:24px">
+          <div class="chart-head"><h3>What each training stage adds</h3></div>
+          <div id="chart-stages"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- Analysis                                                            -->
+    <!-- ================================================================== -->
+    <section class="band" id="analysis">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Analysis</span>
+          <h2 class="section-title">What <span class="accent">drives the gains</span></h2>
+        </div>
+
+        <div class="grid grid-2 rise" style="align-items:start">
+          <div class="card chart-card">
+            <div class="chart-head"><h3>Coverage over repetition</h3></div>
+            <p class="chart-note">At a fixed budget of emulator trajectories, spreading them over more apps
+              raises success on unseen apps while the familiar apps hold.</p>
+            <div id="chart-coverage"></div>
+          </div>
+          <div class="card chart-card">
+            <div class="chart-head"><h3>Tools pay off after hybrid training</h3></div>
+            <p class="chart-note">Tool access barely moves success before hybrid SFT. After it, the hybrid
+              lane gains the most and finishes in fewer steps.</p>
+            <div id="chart-tools"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- Resources                                                           -->
+    <!-- ================================================================== -->
+    <section class="band" id="resources">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Resources</span>
+          <h2 class="section-title">Environments, data, models and <span class="accent">recipes</span></h2>
+        </div>
+        <!-- Parked like the hero buttons: add the href and drop "pending-card". -->
+        <div class="grid grid-4 rise">
+          <a class="card feature pending-card" data-link="environment">
+            <div class="ico">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <rect x="6" y="2.5" width="12" height="19" rx="2.5" />
+                <path d="M10.5 18.5h3M9 7h6M9 10.5h6M9 14h3" stroke-linecap="round" />
+              </svg>
+            </div>
+            <h3>MobileGym++</h3>
+            <p>The simulated clients, the app-native tools and MobileGym++ Bench.</p>
+          </a>
+          <a class="card feature pending-card" data-link="data">
+            <div class="ico">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <ellipse cx="12" cy="6" rx="8" ry="3" />
+                <path d="M4 6v6c0 1.66 3.58 3 8 3s8-1.34 8-3V6M4 12v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6" />
+              </svg>
+            </div>
+            <h3>OpenMobile-Data</h3>
+            <p>Demonstration trajectories and executable RL tasks with their verifiers.</p>
+          </a>
+          <a class="card feature pending-card" data-link="models">
+            <div class="ico">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <path d="M12 3l7.5 4.2v9.6L12 21l-7.5-4.2V7.2L12 3Z" stroke-linejoin="round" />
+                <path d="M12 12v9M12 12 4.5 7.8M12 12l7.5-4.2" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3>Models</h3>
+            <p>OpenMobile-2 9B and 27B checkpoints after each training stage.</p>
+          </a>
+          <a class="card feature pending-card" data-link="code">
+            <div class="ico">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <path d="m8 6-6 6 6 6M16 6l6 6-6 6M14 3l-4 18" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3>Code</h3>
+            <p>Data collection, SFT and RL recipes, and the evaluation harness.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- BibTeX                                                              -->
+    <!-- ================================================================== -->
+    <section class="band-tight" id="cite">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Citation</span>
+          <h2 class="section-title">BibTeX</h2>
+        </div>
+        <!-- TODO: citation key, author list and the arXiv id once the paper is public. -->
+        <div class="bibtex rise">
+          <div class="bibtex-bar">
+            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="fn">openmobile2.bib</span>
+            <button class="copy-btn" id="copyBib" type="button">
+              <svg aria-hidden="true" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="5.5" y="5.5" width="9" height="9" rx="1.6" />
+                <path d="M10.5 5.5v-3a1 1 0 0 0-1-1h-7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h3" />
+              </svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre id="bibtex">@article{openmobile2,
+  title={OpenMobile-2: Building Versatile Mobile Agents with Scalable Environments and App-Native Tools},
+  author={},
+  journal={},
+  year={}
+}</pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================================================================== -->
+  <!-- Footer                                                                -->
+  <!-- ==================================================================== -->
+  <footer class="site">
+    <div class="wrap">
+      <div class="cols">
+        <div>
+          <div class="brand-line">
+            <img src="public/favicon-512.png" alt="">
+            <span>OpenMobile-2</span>
+          </div>
+          <p style="font-size:14.5px;color:var(--text-dim);max-width:380px">
+            An open stack for mobile agents: a simulated playground of commercial apps, the trajectories and
+            verifiable tasks collected on it, and the agents trained from them.
+          </p>
+        </div>
+        <div>
+          <h2>Project</h2>
+          <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#environment">Environment</a></li>
+            <li><a href="#live">Live demo</a></li>
+            <li><a href="#data">Data</a></li>
+            <li><a href="#tools">Tools</a></li>
+            <li><a href="#results">Results</a></li>
+            <li><a href="#analysis">Analysis</a></li>
+            <li><a href="#cite">Cite</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Artifacts</h2>
+          <ul>
+            <li><a href="#resources">MobileGym++</a></li>
+            <li><a href="#resources">OpenMobile-Data</a></li>
+            <li><a href="#resources">Models</a></li>
+            <li><a href="#resources">Code</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="fine">
+        <span>© 2026 The OpenMobile-2 authors.</span>
+        <span>Page content licensed
+          <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>.</span>
+        <span>Live demo built on
+          <a href="https://github.com/Purewhiter/mobilegym" target="_blank" rel="noopener">MobileGym</a>
+          (Apache-2.0 code, CC BY-NC 4.0 data).</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="static/js/om2-data.js"></script>
+  <script src="static/js/om2-appwall.js"></script>
+  <script src="static/js/om2-stepper.js"></script>
+  <script src="static/js/om2-lanes.js"></script>
+  <script src="static/js/om2-charts.js"></script>
+  <script src="static/js/om2-table.js"></script>
+  <script src="static/js/om2-crossapp.js"></script>
+  <script src="static/js/om2-live.js"></script>
+  <script src="static/js/om2-pipeline.js"></script>
+  <script src="static/js/main.js"></script>
+  <script src="static/js/om2-page.js"></script>
+</body>
+
+</html>

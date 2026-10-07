@@ -1,0 +1,159 @@
+/* ==========================================================================
+   OpenMobile-2 — app-native tools widgets
+   ln-  task lanes: the same task, GUI-only and hybrid, stepped in lockstep
+   ts-  tool schemas: the app's tool catalogue as tabs
+   Colours are main.css tokens only; the .wt-* controls come from main.css
+   (17b). Load after main.css.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Task lanes
+   -------------------------------------------------------------------------- */
+.ln { display: block; }
+
+/* the goal, quoted, with the app as a chip */
+.ln-goal {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px;
+  margin: 0 0 14px; padding: 3px 0 3px 14px;
+  border-left: 2px solid var(--hairline-strong);
+  font-size: 15px; line-height: 1.55; color: var(--text-dim);
+}
+.ln-goal-text::before { content: "\201C"; }
+.ln-goal-text::after { content: "\201D"; }
+.ln-app {
+  flex: none;
+  padding: 5px 8px; border-radius: 999px;
+  border: 1px solid var(--hairline); background: var(--chart-track);
+  font: 600 11px/1 var(--font-body); letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--accent-200);
+}
+
+/* legend */
+.ln-legend { margin: 0 0 16px; gap: 6px 18px; }
+.ln-legend span { display: inline-flex; align-items: center; gap: 7px; }
+.ln-legend i { width: 9px; height: 9px; margin: 0; border-radius: 50%; }
+.ln-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; flex: none; }
+.ln-dot.is-gui { background: var(--accent-400); }
+.ln-dot.is-tool { background: var(--pop-400); }
+
+/* two lanes */
+.ln-lanes { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+.ln-lane {
+  min-width: 0; padding: 14px 16px;
+  border-radius: var(--r); background: var(--surface-1b); border: 1px solid var(--hairline-cool);
+}
+.ln-lane-head {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 8px; padding-bottom: 8px; border-bottom: 1px solid var(--hairline-cool);
+}
+.ln-lane-title {
+  display: flex; align-items: center; gap: 8px; margin: 0;
+  font: 600 14px/1.3 var(--font-body); letter-spacing: 0; color: var(--text-hi);
+}
+.ln-lane-title::before { content: ""; width: 10px; height: 3px; border-radius: 2px; background: var(--accent-400); }
+.ln-lane-hybrid .ln-lane-title::before { background: var(--pop-400); }
+
+/* step rows: index, kind marker, label and text; a faint bar until revealed */
+.ln-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.ln-step {
+  display: grid; grid-template-columns: 18px 46px minmax(0, 1fr); gap: 0 8px; align-items: start;
+  min-height: 34px; margin: 0; padding: 7px 8px; border-radius: var(--r-sm);
+}
+.ln-step.is-current { background: var(--chart-track); }
+.ln-idx { font: 500 11px/20px var(--font-mono); color: var(--text-faint); text-align: right; }
+.ln-step:not(.is-on) .ln-idx { opacity: 0.6; }
+.ln-kind {
+  display: inline-flex; align-items: center; gap: 5px; height: 20px;
+  font: 600 10px/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.ln-step-gui .ln-kind { color: var(--accent-400); }
+.ln-step-tool .ln-kind { color: var(--pop-400); }
+.ln-ph { grid-column: 2 / -1; align-self: center; height: 8px; border-radius: 4px; background: var(--chart-track); }
+.ln-step:not(.is-on) .ln-kind, .ln-step:not(.is-on) .ln-body, .ln-step.is-on .ln-ph { display: none; }
+.ln-body { min-width: 0; font-size: 13.5px; line-height: 20px; color: var(--text-dim); animation: ln-in 0.28s ease both; }
+.ln-label { font-weight: 600; color: var(--text-hi); margin-right: 6px; }
+.ln-label.ln-mono { font: 600 12.5px/20px var(--font-mono); color: var(--pop-300); overflow-wrap: anywhere; }
+@keyframes ln-in { from { opacity: 0; transform: translateX(-4px); } to { opacity: 1; transform: none; } }
+
+/* state strip and the step-count tag */
+.ln-foot {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--hairline-cool);
+}
+.ln-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 10px; border-radius: 999px;
+  border: 1px solid var(--hairline-cool); background: var(--surface-2);
+  font: 500 12px/1 var(--font-body); color: var(--text-dim);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.ln-chip-v { font: 500 11.5px/1 var(--font-mono); }
+.ln-chip.is-set { color: var(--text-hi); border-color: var(--hairline-strong); }
+.ln-chip.is-pulse { animation: ln-pulse 0.6s ease; }
+.ln-chip[data-by="tool"].is-pulse { animation-name: ln-pulse-tool; }
+@keyframes ln-pulse { 40% { transform: scale(1.07); border-color: var(--accent-400); box-shadow: 0 0 0 4px var(--hairline); } }
+@keyframes ln-pulse-tool { 40% { transform: scale(1.07); border-color: var(--pop-400); box-shadow: 0 0 0 4px var(--hairline-cool); } }
+.ln-lane-tag {
+  margin-left: auto; padding: 4px 8px; border-radius: 999px;
+  border: 1px solid var(--hairline-cool);
+  font: 500 11px/1 var(--font-mono); color: var(--text-dim);
+  opacity: 0; transition: opacity 0.25s ease;
+}
+.ln.is-end .ln-lane-tag { opacity: 1; }
+
+/* closing line */
+.ln-check {
+  display: none; margin: 16px 0 0; padding: 11px 14px;
+  border-radius: var(--r-sm); border: 1px dashed var(--hairline-strong);
+  font-size: 14px; line-height: 1.55; color: var(--text);
+  animation: ln-in 0.3s ease both;
+}
+.ln.is-end .ln-check { display: block; }
+.ln-check-label { font-weight: 600; color: var(--text-dim); }
+
+/* controls */
+.ln-controls .wt-btn[aria-disabled="true"] { opacity: 0.4; pointer-events: none; }
+.ln-kbd { margin-left: 2px; }
+@media (hover: none) { .ln-kbd { display: none; } }
+
+@media (max-width: 760px) {
+  .ln-lanes { grid-template-columns: 1fr; gap: 14px; }
+  .ln-lane { padding: 12px; }
+  .ln-step { grid-template-columns: 16px 42px minmax(0, 1fr); padding: 6px; }
+}
+
+/* --------------------------------------------------------------------------
+   2. Tool schemas
+   -------------------------------------------------------------------------- */
+.ts { display: block; }
+.ts-tabs { margin-bottom: 12px; }
+.ts-tab { font-family: var(--font-mono); font-size: 12.5px; }
+.ts-panel { animation: ts-in 0.22s ease both; }
+.ts-panel[hidden] { display: none; }
+.ts-sig {
+  margin: 0; padding: 12px 14px; overflow-x: auto;
+  border-radius: var(--r-sm); background: var(--surface-3); border: 1px solid var(--hairline-cool);
+}
+/* main.css styles inline <code> as a pill; the block form drops that */
+.ts-sig code {
+  display: block; padding: 0; border: 0; border-radius: 0; background: none;
+  font: 500 12.5px/1.6 var(--font-mono); color: var(--text); white-space: pre;
+}
+.ts-fn { color: var(--text-hi); font-weight: 600; }
+.ts-note {
+  display: flex; align-items: flex-start; gap: 8px; margin: 10px 0 0;
+  font-size: 13.5px; line-height: 1.5; color: var(--text-dim);
+}
+.ts-kind {
+  flex: none; margin-top: 2px; padding: 4px 8px; border-radius: 999px;
+  border: 1px solid currentColor; background: var(--chart-track);
+  font: 600 10.5px/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.ts-kind.is-read { color: var(--cyan-300); }
+.ts-kind.is-write { color: var(--pop-400); }
+.ts-kind.is-navigate { color: var(--accent-300); }
+@keyframes ts-in { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ln-body, .ln-check, .ln-chip, .ln-lane-tag, .ts-panel { animation: none; transition: none; }
+}

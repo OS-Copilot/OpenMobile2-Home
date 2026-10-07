@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="RTL">0</string>
+  <string name="high_i18n">উচ্চ </string>
+  <string name="low_i18n">নিম্ন </string>
+  <string name="aqi_good_i18n">ভাল</string>
+  <string name="aqi_moderate_i18n">ঠিক-ঠাক</string>
+  <string name="aqi_pollution_i18n">মধ্যমীয়া</string>
+  <string name="aqi_unhealthy_i18n">অস্বাস্থ্যকৰ</string>
+  <string name="aqi_dangerous_i18n">গুৰুতৰ</string>
+  <string name="aqi_hazardous_i18n">বিপদসংকুল</string>
+  <string name="humidness_i18n">আদ্ৰতা</string>
+  <string name="now_i18n">এতিয়া</string>
+  <string name="location_i18n">অৱস্থান</string>
+  <string name="weather_i18n">বতৰ</string>
+  <string name="low_temp_i18n">নিম্ন</string>
+  <string name="aqi_i18n">AQI</string>
+  <string name="weather_auth_tip_i18n">বতৰ তথ্য লাভৰ বাবে টেপ কৰক</string>
+  <string name="tomorrow_i18n">অহাকালি</string>
+  <string name="sunrise_i18n">সূৰ্যোদয়</string>
+  <string name="sunset_i18n">সূৰ্যাস্ত</string>
+  <string name="sunrising_i18n">সূৰ্য উদয় হৈ আছে</string>
+  <string name="sunseting_i18n">সূৰ্য অস্ত গৈ আছে</string>
+  <string name="sunrise_sunset_i18n">সূৰ্যোদয় আৰু সূৰ্যাস্ত</string>
+  <string name="hour_after_i18n">\' \'+#sun_hour+\'h-ত\'</string>
+  <string name="minute_after_i18n">\' \'+#sun_minute+\'m-ত\'</string>
+  <string name="morning_i18n">#sun_morning+\' AM\'</string>
+  <string name="afternoon_i18n">#sun_afternoon+\' PM\'</string>
+  <string name="authorization_and_open_i18n">বতৰ দৰ্শনৰ বাবে অনুমতিসমূহ মঞ্জুৰ কৰক</string>
+  <string name="wind_level_i18n"></string>
+  <string name="talkback_temperature_range">সৰ্বাধিক উষ্ণতা: 变量1। নিম্নতম উষ্ণতা: 变量2</string>
+  <string name="talkback_humidity">আদ্ৰতা: 变量3</string>
+  <string name="talkback_wind">বতাহ: বল 变量4</string>
+</resources>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="RTL">0</string>
+  <string name="high_i18n">زیادہ </string>
+  <string name="low_i18n">کم </string>
+  <string name="aqi_good_i18n">اچھا</string>
+  <string name="aqi_moderate_i18n">عمدہ</string>
+  <string name="aqi_pollution_i18n">معتدل</string>
+  <string name="aqi_unhealthy_i18n">غیر صحتمند</string>
+  <string name="aqi_dangerous_i18n">شدید</string>
+  <string name="aqi_hazardous_i18n">مضرت رساں</string>
+  <string name="humidness_i18n">رطوبت</string>
+  <string name="now_i18n">ابھی</string>
+  <string name="location_i18n">مقام</string>
+  <string name="weather_i18n">موسم</string>
+  <string name="low_temp_i18n">کم</string>
+  <string name="aqi_i18n">AQI</string>
+  <string name="weather_auth_tip_i18n">موسم کی معلومات حاصل کرنے کے لیے ٹیپ کریں</string>
+  <string name="tomorrow_i18n">کل</string>
+  <string name="sunrise_i18n">طلوع آفتاب</string>
+  <string name="sunset_i18n">غروب آفتاب</string>
+  <string name="sunrising_i18n">سورج طلوع ہو رہا ہے</string>
+  <string name="sunseting_i18n">سورج غروب ہو رہا ہے</string>
+  <string name="sunrise_sunset_i18n">طلوع آفتاب اور غروب آفتاب</string>
+  <string name="hour_after_i18n">\'\'+#sun_hour+\'h میں\'</string>
+  <string name="minute_after_i18n">\'+#sun_minute+\'m میں\'</string>
+  <string name="morning_i18n">#sun_morning+\' AM\'</string>
+  <string name="afternoon_i18n">#sun_afternoon+\' PM\'</string>
+  <string name="authorization_and_open_i18n">موسم دیکھنے کی اجازتیں عطا کریں</string>
+  <string name="wind_level_i18n"></string>
+  <string name="talkback_temperature_range">زیادہ سے زیادہ درجہ حرارت: 变量1۔ کم از کم درجہ حرارت: 变量2</string>
+  <string name="talkback_humidity">رطوبت: 变量3</string>
+  <string name="talkback_wind">ہوا: قوت 变量4</string>
+</resources>

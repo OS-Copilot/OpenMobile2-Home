@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="str_cache">可釋放記憶體</string>
+  <string name="str_boosting">正在加速</string>
+  <string name="str_memory_freed">已釋放SLOT記憶體</string>
+  <string name="str_freed_success">加速完成</string>
+  <string name="str_warning_1">狀態不錯</string>
+  <string name="str_warning_2">狀態極佳</string>
+  <string name="str_warning_3">很好了</string>
+  <string name="str_warning_4">那你點吧</string>
+  <string name="str_boost_speed">加速</string>
+</resources>

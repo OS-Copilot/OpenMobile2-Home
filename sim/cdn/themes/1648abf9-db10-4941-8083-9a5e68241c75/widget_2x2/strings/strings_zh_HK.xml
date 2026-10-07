@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<resources>
+  <string name="language">zh_TW</string>
+  <string name="RTL">0</string>
+  <string name="talkBack">自選影集</string>
+</resources>

@@ -1,0 +1,158 @@
+/* ==========================================================================
+   OpenMobile-2 — walkthrough stepper (static/js/om2-stepper.js)
+   A track of numbered nodes, a detail panel and the shared wt-* controls.
+   Colours come from the tokens in main.css; every class is st-prefixed.
+   Markup: .st > .st-track > ol.st-nodes > li.st-step > button.st-node
+                                              > .st-num + .st-label
+               .st-panel > .st-panel-in > .st-head (.st-title, .st-tag)
+                                        > .st-text, .st-code > code
+               .st-controls (.wt-controls)
+   ========================================================================== */
+.st { --st-node: 36px; --st-gap: 5px; position: relative; }
+/* the root takes focus only by script (after a click), never by Tab */
+.st:focus, .st:focus-visible { outline: none; }
+
+/* --------------------------------------------------------------------------
+   1. Track: one cell per step; the connector is drawn per cell, from this
+   node to the next. ::before is the grey rail, ::after the accent fill that
+   scales in once the step is done, so the filled part grows to the current
+   node and shrinks when the visitor steps back.
+   -------------------------------------------------------------------------- */
+.st-track { position: relative; padding: 4px 0 2px; }
+.st-nodes { display: flex; align-items: flex-start; list-style: none; margin: 0; padding: 0; }
+.st-step { position: relative; flex: 1 1 0; min-width: 0; }
+.st-step::before, .st-step::after {
+  content: ""; position: absolute; z-index: 0;
+  top: calc(var(--st-node) / 2 - 1px); height: 2px;
+  left: calc(50% + var(--st-node) / 2 + var(--st-gap));
+  right: calc(-50% + var(--st-node) / 2 + var(--st-gap));
+  border-radius: 2px;
+}
+.st-step::before { background: var(--hairline-cool); }
+.st-step::after {
+  background: var(--accent-400);
+  transform: scaleX(0); transform-origin: left center;
+  transition: transform 0.28s ease;
+}
+.st-step.st-done::after { transform: scaleX(1); }
+.st-step:last-child::before, .st-step:last-child::after { display: none; }
+
+.st-node {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; align-items: center; gap: 9px;
+  width: 100%; margin: 0; padding: 0 4px;
+  appearance: none; -webkit-appearance: none;
+  background: none; border: 0; border-radius: 8px;
+  font: inherit; color: inherit; text-align: center;
+  cursor: pointer;
+}
+.st-node:focus-visible { outline: 2px solid var(--accent-400); outline-offset: 2px; }
+.st-num {
+  display: grid; place-items: center; flex: none;
+  width: var(--st-node); height: var(--st-node);
+  border-radius: 50%;
+  border: 2px solid var(--hairline-strong);
+  background: var(--surface-2);
+  font: 600 13px/1 var(--font-mono);
+  color: var(--text-dim);
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease,
+              transform 0.2s ease, box-shadow 0.2s ease;
+}
+.st-label {
+  font: 500 12.5px/1.35 var(--font-body);
+  color: var(--text-dim);
+  text-wrap: balance;
+  transition: color 0.2s ease;
+}
+.st-node:hover .st-num { border-color: var(--accent-400); color: var(--text-hi); }
+.st-node:hover .st-label { color: var(--text-hi); }
+
+/* done: filled; current: filled, a ring and a little larger; future: hollow.
+   The number sits in dark ink on mint (dark theme) and in white on deep teal
+   (light theme), the same pairing as the pressed .wt-btn. */
+.st-step.st-done .st-num,
+.st-step.st-current .st-num { background: var(--accent-400); border-color: var(--accent-400); color: #06201b; }
+:root[data-theme="light"] .st-step.st-done .st-num,
+:root[data-theme="light"] .st-step.st-current .st-num { color: #fff; }
+.st-step.st-done .st-label { color: var(--text); }
+.st-step.st-current .st-num {
+  box-shadow: 0 0 0 2px var(--ring), 0 0 0 4px var(--accent-300);
+  transform: scale(1.1);
+}
+.st-step.st-current .st-label { color: var(--text-hi); font-weight: 600; }
+
+/* --------------------------------------------------------------------------
+   2. Panel. The JS sets an explicit height for the 260 ms of a swap so the
+   card does not jump between a one-line step and one carrying a code block.
+   -------------------------------------------------------------------------- */
+.st-panel {
+  position: relative;
+  margin-top: 18px;
+  padding: 18px 22px 20px;
+  border-radius: var(--r);
+  background: var(--surface-1b);
+  border: 1px solid var(--hairline-cool);
+  overflow: hidden;
+  transition: height 0.26s ease;
+}
+.st-panel-in { transition: opacity 0.18s ease, transform 0.18s ease; }
+.st-panel-in.st-out { opacity: 0; transform: translateY(-6px); transition-duration: 0.09s; }
+.st-panel-in.st-in { opacity: 0; transform: translateY(6px); transition: none; }
+
+.st-head { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; margin-bottom: 8px; }
+.st-title { font-size: 17px; margin: 0; }
+.st-tag {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--hairline-cool);
+  background: var(--chart-track);
+  font: 500 11px/1.2 var(--font-mono);
+  letter-spacing: 0.02em;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+.st-text { margin: 0; font-size: 15px; line-height: 1.64; color: var(--text); max-width: 76ch; }
+.st-code {
+  margin: 14px 0 0;
+  padding: 14px 16px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--hairline);
+  background: var(--surface-3);
+  overflow-x: auto;
+  font: 500 12.5px/1.62 var(--font-mono);
+  color: var(--text);
+  tab-size: 2;
+}
+/* undo the inline-code styling main.css gives every <code> */
+.st-code code { font: inherit; color: inherit; background: none; border: 0; border-radius: 0; padding: 0; }
+
+/* --------------------------------------------------------------------------
+   3. Controls: the shared wt-* classes do the work; only the key hint is ours
+   -------------------------------------------------------------------------- */
+.st-kbd { margin-left: 4px; }
+@media (hover: none) { .st-kbd { display: none; } }
+
+/* --------------------------------------------------------------------------
+   4. Narrow: the track becomes a vertical list (number left, label right),
+   the connector runs down the left edge and the panel sits beneath.
+   -------------------------------------------------------------------------- */
+@media (max-width: 720px) {
+  .st { --st-node: 32px; }
+  .st-nodes { flex-direction: column; align-items: stretch; gap: 14px; }
+  .st-step { flex: none; }
+  .st-step::before, .st-step::after {
+    /* from under this circle to --st-gap above the next (cells are 14px apart) */
+    top: calc(var(--st-node) + var(--st-gap));
+    bottom: calc(var(--st-gap) - 14px);
+    left: calc(var(--st-node) / 2 - 1px); right: auto;
+    width: 2px; height: auto;
+  }
+  .st-step::after { transform: scaleY(0); transform-origin: center top; }
+  .st-step.st-done::after { transform: scaleY(1); }
+  .st-node { flex-direction: row; align-items: flex-start; gap: 12px; padding: 0; text-align: left; }
+  /* first line of the label centred on the 32 px circle: (32 - 18) / 2 */
+  .st-label { padding-top: 7px; font-size: 13.5px; line-height: 1.35; }
+  .st-panel { margin-top: 16px; padding: 16px 16px 18px; }
+  .st-kbd { display: none; }
+}

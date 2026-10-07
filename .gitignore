@@ -1,0 +1,27 @@
+# Local working material: drafts, raw art, scratch assets.
+figure/
+
+# Session-continuity notes: a local working log, not part of the published site.
+HANDOFF.md
+
+# macOS
+.DS_Store
+._*
+
+# Editors
+.vscode/
+.idea/
+
+# Node (only if a build step is ever added)
+node_modules/
+
+# Live-demo simulator build (MobileGym, built with VITE_BASE=/OpenMobile2-Home/sim/
+# from ../mobilegym). The build itself is committed so GitHub Pages can serve it;
+# the media folders below (about 2.3 GB) stay local until they are hosted elsewhere.
+sim/cdn/bilibili/
+sim/cdn/redbook/
+sim/cdn/map/
+sim/cdn/spotify/
+sim/@app-assets/Reddit/
+sim/run_explorer.html
+sim/nav_graph_viewer.html

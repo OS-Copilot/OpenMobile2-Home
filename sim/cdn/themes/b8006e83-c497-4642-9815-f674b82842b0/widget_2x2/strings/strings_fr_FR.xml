@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="RTL">0</string>
+  <string name="high_i18n">Élevée </string>
+  <string name="low_i18n">Faible </string>
+  <string name="aqi_good_i18n">Bien</string>
+  <string name="aqi_moderate_i18n">Bon</string>
+  <string name="aqi_pollution_i18n">Modéré</string>
+  <string name="aqi_unhealthy_i18n">Nocif</string>
+  <string name="aqi_dangerous_i18n">Sévère</string>
+  <string name="aqi_hazardous_i18n">Dangereux</string>
+  <string name="humidness_i18n">Humidité</string>
+  <string name="now_i18n">Maintenant</string>
+  <string name="location_i18n">Localisation</string>
+  <string name="weather_i18n">Météo</string>
+  <string name="low_temp_i18n">Faible</string>
+  <string name="aqi_i18n">IQA</string>
+  <string name="weather_auth_tip_i18n">Appuyer pour obtenir les informations météo</string>
+  <string name="tomorrow_i18n">Demain</string>
+  <string name="sunrise_i18n">Lever</string>
+  <string name="sunset_i18n">Coucher</string>
+  <string name="sunrising_i18n">Le soleil se lève</string>
+  <string name="sunseting_i18n">Le soleil se couche</string>
+  <string name="sunrise_sunset_i18n">Lever et coucher de soleil</string>
+  <string name="hour_after_i18n">\'Dans \'+#sun_hour+ \'h\'</string>
+  <string name="minute_after_i18n">\'Dans \'+#sun_minute+ \'min\'</string>
+  <string name="morning_i18n">#sun_morning+\' du matin\'</string>
+  <string name="afternoon_i18n">#sun_afternoon+\' du soir\'</string>
+  <string name="authorization_and_open_i18n">Accorder des autorisations pour afficher la météo</string>
+  <string name="wind_level_i18n"></string>
+  <string name="talkback_temperature_range">Température maximale : 变量1. Température minimale : 变量2</string>
+  <string name="talkback_humidity">Humidité : 变量3</string>
+  <string name="talkback_wind">Vent : Force 变量4</string>
+</resources>

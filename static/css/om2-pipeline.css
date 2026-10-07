@@ -1,0 +1,68 @@
+/* ==========================================================================
+   OpenMobile-2 — data pipeline flow (#pipeline-flow)
+   Companion to static/js/om2-pipeline.js. Every colour is a main.css token;
+   the controls reuse .wt-controls / .wt-btn / .wt-legend. Text sizes are
+   viewBox units, so they scale with the card width.
+   ========================================================================== */
+.pf { position: relative; }
+.pf-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.pf-svg text { font: 500 14px var(--font-body); fill: var(--text); text-anchor: middle; pointer-events: none; }
+.pf-lane text { font-size: 13px; text-anchor: start; }
+.pf-sub { font-size: 11.5px; font-weight: 400; fill: var(--text-dim); }
+.pf-tag text { font: 500 10.5px var(--font-mono); fill: var(--text-dim); }
+.pf-tag rect { fill: var(--chart-track); stroke: var(--hairline-cool); }
+
+/* nodes */
+.pf-node { cursor: pointer; outline: none; transition: opacity 0.25s ease; }
+.pf-box { fill: var(--surface-2); stroke: var(--hairline-strong); stroke-width: 1; transition: stroke 0.2s ease; }
+.pf-lane .pf-box { fill: var(--surface-1b); }
+.pf-lit { fill: none; stroke: rgba(255, 255, 255, 0.07); stroke-width: 1; pointer-events: none; }
+:root[data-theme="light"] .pf-lit { stroke: rgba(255, 255, 255, 0.9); }
+.pf-icon { fill: none; stroke: var(--text-dim); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.pf-node:hover .pf-box, .pf-node:focus-visible .pf-box { stroke: var(--accent-400); }
+.pf-node.pf-on .pf-box { stroke: var(--accent-400); stroke-width: 1.5; filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.45)); }
+:root[data-theme="light"] .pf-node.pf-on .pf-box { filter: drop-shadow(0 8px 14px rgba(15, 23, 42, 0.18)); }
+.pf-node.pf-on text { fill: var(--text-hi); }
+.pf-node.pf-on .pf-icon { stroke: var(--accent-400); }
+.pf-has-sel .pf-node:not(.pf-on) { opacity: 0.55; }
+.pf-has-sel .pf-node:not(.pf-on):hover { opacity: 0.85; }
+
+/* edges and drop exits */
+.pf-edge { fill: none; stroke: var(--text-faint); stroke-width: 1.5; transition: stroke 0.2s ease, opacity 0.25s ease; }
+.pf-edge.pf-on { stroke: var(--accent-400); }
+.pf-has-sel .pf-edge:not(.pf-on) { opacity: 0.4; }
+.pf-drop { stroke-dasharray: 4 4; }
+.pf-bin { fill: none; stroke: var(--text-faint); stroke-width: 1.2; opacity: 0.55; }
+.pf-head { fill: var(--text-faint); }
+.pf-head-on { fill: var(--accent-400); }
+.pf-route { fill: none; stroke: none; pointer-events: none; }
+
+/* travelling dots: accent = GUI run, coral = run with tool calls, grey = rejected */
+.pf-dot { fill: var(--accent-400); pointer-events: none; }
+.pf-dot-tool { fill: var(--pop-400); }
+.pf-dot-drop { fill: var(--text-faint); }
+
+/* caption and controls */
+.pf-caption {
+  margin: 12px 0 0; min-height: 1.5em;
+  font-size: 14px; line-height: 1.5; color: var(--text-dim);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: opacity 0.16s ease;
+}
+.pf-caption.pf-fade { opacity: 0; }
+.pf-controls { margin-top: 14px; }
+.pf-play svg { fill: currentColor; }
+.pf-play[aria-pressed="true"] .pf-play-ic, .pf-play:not([aria-pressed="true"]) .pf-pause-ic { display: none; }
+.pf-play:disabled { opacity: 0.5; cursor: default; }
+.pf-legend { margin-left: 4px; }
+.pf-legend i { border-radius: 50%; }
+.pf-sw-gui { background: var(--accent-400); }
+.pf-sw-tool { background: var(--pop-400); }
+.pf-sw-drop { background: var(--text-faint); }
+
+@media (max-width: 900px) {
+  .pf-caption { white-space: normal; min-height: 3em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pf-caption, .pf-node, .pf-box, .pf-edge { transition: none; }
+}

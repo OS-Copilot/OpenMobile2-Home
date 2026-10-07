@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="RTL">0</string>
+  <string name="high_i18n">Yüksek </string>
+  <string name="low_i18n">Düşük </string>
+  <string name="aqi_good_i18n">İyi</string>
+  <string name="aqi_moderate_i18n">Hassas</string>
+  <string name="aqi_pollution_i18n">Orta</string>
+  <string name="aqi_unhealthy_i18n">Sağlıksız</string>
+  <string name="aqi_dangerous_i18n">Kötü</string>
+  <string name="aqi_hazardous_i18n">Tehlikeli</string>
+  <string name="humidness_i18n">Nem</string>
+  <string name="now_i18n">Şimdi</string>
+  <string name="location_i18n">Konum</string>
+  <string name="weather_i18n">Hava durumu</string>
+  <string name="low_temp_i18n">Düşük</string>
+  <string name="aqi_i18n">HKE</string>
+  <string name="weather_auth_tip_i18n">Hava durumu bilgilerini almak için dokunun</string>
+  <string name="tomorrow_i18n">Yarın</string>
+  <string name="sunrise_i18n">Gün doğumu</string>
+  <string name="sunset_i18n">Gün batımı</string>
+  <string name="sunrising_i18n">Güneş doğuyor</string>
+  <string name="sunseting_i18n">Güneş batıyor</string>
+  <string name="sunrise_sunset_i18n">Gün doğumu ve gün batımı</string>
+  <string name="hour_after_i18n">\'+#sun_hour+\'sa.\' içinde</string>
+  <string name="minute_after_i18n">\'+#sun_minute+\'dk.\' içinde</string>
+  <string name="morning_i18n">#sun_morning+\' ÖÖ\'</string>
+  <string name="afternoon_i18n">#sun_afternoon+\' ÖS\'</string>
+  <string name="authorization_and_open_i18n">Hava durumunu görüntülemek için izinleri verin</string>
+  <string name="wind_level_i18n"></string>
+  <string name="talkback_temperature_range">Maksimum sıcaklık: 变量1. Minimum sıcaklık: 变量2</string>
+  <string name="talkback_humidity">Nem: 变量3</string>
+  <string name="talkback_wind">Rüzgar: Güç 变量4</string>
+</resources>

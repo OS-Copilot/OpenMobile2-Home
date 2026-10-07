@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="RTL">0</string>
+  <string name="high_i18n">Najviša </string>
+  <string name="low_i18n">Najniža </string>
+  <string name="aqi_good_i18n">Dobra</string>
+  <string name="aqi_moderate_i18n">Prilično dobra</string>
+  <string name="aqi_pollution_i18n">Umjerena</string>
+  <string name="aqi_unhealthy_i18n">Nezdravo</string>
+  <string name="aqi_dangerous_i18n">Ozbiljno</string>
+  <string name="aqi_hazardous_i18n">Opasno</string>
+  <string name="humidness_i18n">Vlaga</string>
+  <string name="now_i18n">Sada</string>
+  <string name="location_i18n">Lokacija</string>
+  <string name="weather_i18n">Vremenska prognoza</string>
+  <string name="low_temp_i18n">Najniža</string>
+  <string name="aqi_i18n">IKZ</string>
+  <string name="weather_auth_tip_i18n">Takni za informacije o vremenu</string>
+  <string name="tomorrow_i18n">Sutra</string>
+  <string name="sunrise_i18n">Svanuće</string>
+  <string name="sunset_i18n">Zalazak</string>
+  <string name="sunrising_i18n">Sunce izlazi</string>
+  <string name="sunseting_i18n">Sunce zalazi</string>
+  <string name="sunrise_sunset_i18n">Izlazak i zalazak sunca</string>
+  <string name="hour_after_i18n">\'Za \'+#sun_hour+\'h\'</string>
+  <string name="minute_after_i18n">\'Za \'+#sun_minute+\'m\'</string>
+  <string name="morning_i18n">#sun_morning+\' AM\'</string>
+  <string name="afternoon_i18n">#sun_afternoon+\' PM\'</string>
+  <string name="authorization_and_open_i18n">Omogućite dopuštenje da biste vidjeli prognozu</string>
+  <string name="wind_level_i18n"></string>
+  <string name="talkback_temperature_range">Maksimalna temperatura: 变量1. Minimalna temperatura: 变量2</string>
+  <string name="talkback_humidity">Vlažnost: 变量3</string>
+  <string name="talkback_wind">Vjetar: Snaga 变量4</string>
+</resources>

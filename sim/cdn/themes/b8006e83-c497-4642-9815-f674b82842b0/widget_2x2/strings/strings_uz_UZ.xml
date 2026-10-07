@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="RTL">0</string>
+  <string name="high_i18n">Baland </string>
+  <string name="low_i18n">Past </string>
+  <string name="aqi_good_i18n">Yaxshi</string>
+  <string name="aqi_moderate_i18n">Yarmarka</string>
+  <string name="aqi_pollution_i18n">O‘rtacha</string>
+  <string name="aqi_unhealthy_i18n">Zarar</string>
+  <string name="aqi_dangerous_i18n">Qattiq ifloslangan</string>
+  <string name="aqi_hazardous_i18n">Xatarli</string>
+  <string name="humidness_i18n">Namlik</string>
+  <string name="now_i18n">Hozir</string>
+  <string name="location_i18n">Joylashuv</string>
+  <string name="weather_i18n">Ob-havo</string>
+  <string name="low_temp_i18n">Past</string>
+  <string name="aqi_i18n">HSI</string>
+  <string name="weather_auth_tip_i18n">Ob-havo ma’lumotini yangilash</string>
+  <string name="tomorrow_i18n">Ertaga</string>
+  <string name="sunrise_i18n">Quyosh chiqishi</string>
+  <string name="sunset_i18n">Quyosh botishi</string>
+  <string name="sunrising_i18n">Quyosh chiqmoqda</string>
+  <string name="sunseting_i18n">Quyosh botmoqda</string>
+  <string name="sunrise_sunset_i18n">Quyosh chiqishi va botishi</string>
+  <string name="hour_after_i18n">\'In \'+#sun_hour+\'soat\'\'ichida \'</string>
+  <string name="minute_after_i18n">+#sun_minute+\'minut\'\'Ichida \'</string>
+  <string name="morning_i18n">#sun_morning+\' AM\'</string>
+  <string name="afternoon_i18n">#sun_afternoon+\' PM\'</string>
+  <string name="authorization_and_open_i18n">Ob-havoni ko\'rish uchun ruxsat bering</string>
+  <string name="wind_level_i18n"></string>
+  <string name="talkback_temperature_range">Maksimal harorat: 变量1. Minimal harorat: 变量2</string>
+  <string name="talkback_humidity">Namlik: 变量3</string>
+  <string name="talkback_wind">Shamol: Kuchi 变量4</string>
+</resources>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page not found — OpenMobile-2</title>
+  <meta name="robots" content="noindex">
+  <!-- Paths here are root-absolute, unlike index.html. GitHub Pages serves this
+       file for any miss under the project path, including deep ones such as
+       /OpenMobile2-Home/a/b, where relative paths would resolve against the
+       wrong directory and leave the page unstyled with a dead back-link. The
+       prefix is the repository name and must change with the deployment host. -->
+  <link rel="icon" href="/OpenMobile2-Home/public/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/OpenMobile2-Home/public/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="/OpenMobile2-Home/static/css/main.css">
+  <script>
+    (function () {
+      var d = document.documentElement, t;
+      try { t = localStorage.getItem("openmobile2-theme"); } catch (e) { /* private mode */ }
+      if (t !== "light" && t !== "dark") {
+        t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      }
+      d.setAttribute("data-theme", t);
+    })();
+  </script>
+  <style>
+    .nf { min-height: 88vh; display: grid; place-items: center; text-align: center; }
+    .nf h1 { font-size: clamp(56px, 12vw, 108px); margin: 0 0 6px; letter-spacing: -0.03em; }
+    .nf p { color: var(--text-dim); max-width: 460px; margin: 0 auto 28px; }
+  </style>
+</head>
+
+<body>
+  <div class="cosmos" aria-hidden="true"></div>
+  <main class="nf">
+    <div class="wrap">
+      <img src="/OpenMobile2-Home/public/favicon-512.png" alt="" width="104" height="104" style="margin-bottom:14px">
+      <h1 class="accent">404</h1>
+      <p>This page does not exist, or it has moved.</p>
+      <a class="btn btn-primary" href="/OpenMobile2-Home/">Back to OpenMobile-2</a>
+    </div>
+  </main>
+</body>
+
+</html>

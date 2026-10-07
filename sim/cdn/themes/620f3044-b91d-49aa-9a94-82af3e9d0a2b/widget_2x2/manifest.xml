@@ -1,0 +1,745 @@
+<!-- create time  2025-08-20 ~ 17:15:50 -->
+<Widget frameRate="0" scaleByDensity="false" width="413" height="413" screenWidth="1080" type="awesome" useVariableUpdater="DateTime.Hour,DateTime.Minute" version="1">
+    <ExternalCommands>
+        <Trigger action="init,resume">
+            <!-- resume重置当天0点时间戳 -->
+            <VariableCommand name="state.time0" expression="int((#time_sys-#hour24*3600000-#minute*60000-#second*1000)/1000)*1000"/>
+            <!-- resume重置当天24点时间戳 -->
+            <VariableCommand name="state.time24" expression="int((#time_sys-#hour24*3600000-#minute*60000-#second*1000)/1000)*1000+86400000"/>
+            <FunctionCommand target="refreshData_nyi009"/>
+        </Trigger>
+        <Trigger action="init">
+            <FunctionCommand target="startAni_1"/>
+            <!-- 改变原先的背景颜色透明度和现在的背景透明度 -->
+            <VariableCommand name="weather_id_4bg_adj_qdtiyf" expression="#weather_id_4bg_qdtiyf" type="number" delay="1000"/>
+            <VariableCommand name="current_duration_4bg_qdtiyf" expression="#current_duration" type="number" delay="1000"/>
+            <AnimationCommand target="bg0_alpha_qdtiyf" command="play"/>
+            <AnimationCommand target="bg_alpha_qdtiyf" command="play"/>
+        </Trigger>
+        <Trigger action="init">
+            <!-- 初始时计算好星星相关属性-->
+            <LoopCommand count="30" indexName="j">
+                <VariableCommand name="star_x_e5dn4f" expression="rand()*#view_width" index="#j" type="number[]"/>
+                <VariableCommand name="star_y_e5dn4f" expression="rand()*#view_height*0.95" index="#j" type="number[]"/>
+                <VariableCommand name="star_bi_e5dn4f" expression="rand()*360" index="#j" type="number[]"/>
+                <VariableCommand name="star_scale_e5dn4f" expression="0.2+(rand()*50)/100" index="#j" type="number[]"/>
+                <VariableCommand name="star_a_e5dn4f" expression="(0.5+(rand()*50)/100)*255" index="#j" type="number[]"/>
+                <VariableCommand name="star_src_e5dn4f" expression="'assets/star/star'+int((rand()*3)+1)+'.png'" index="#j" type="string[]"/>
+            </LoopCommand>
+        </Trigger>
+        <Trigger action="init">
+            <VariableCommand name="beginPorintIndex_vdhcvb" expression="0"/>
+            <VariableCommand name="beginPorintIndexNew_vdhcvb" expression="0"/>
+            <VariableCommand name="endPointIndex_vdhcvb" expression="0"/>
+        </Trigger>
+        <Trigger action="resume">
+            <FunctionCommand delay="100" target="deal_position_vdhcvb"/>
+            <!-- 重启手机或切屏时检测是否需要重新触发动效至正确位置（只有在x=0位置会触发） -->
+            <FunctionCommand delay="150" target="resume_check_need_animation_vdhcvb"/>
+        </Trigger>
+        <!-- 屏幕切走时直接停止动画 -->
+        <Trigger action="pause">
+            <FunctionCommand target="AnimationStart"/>
+            <FolmeCommand target="pag_8erf2k" states="'state_hide_8erf2k'" config="'hide_config_8erf2k'" command="setTo"/>
+            <PagCommand target="pag_8erf2k" command="setProgress" params="0"/>
+        </Trigger>
+    </ExternalCommands>
+    <VariableBinders>
+        <ContentProviderBinder name="weather_version_provider_nyi009" uri="content://weather/weatherVersionData" columns="weather_version">
+            <Variable name="weather_version_nyi009" type="string" column="weather_version"/>
+            <Trigger>
+                <VariableCommand name="state.loading" expression="#state.loading-1"/>
+                <VariableCommand name="isNewVersion_nyi009" expression="ifelse(len(@weather_version_nyi009)==8,ifelse(int(@weather_version_nyi009)}=16000400,1,0),len(@weather_version_nyi009)==9,ifelse(int(@weather_version_nyi009)}=160004000,1,0),0)"/>
+            </Trigger>
+        </ContentProviderBinder>
+        <ContentProviderBinder name="weather_provider_nyi009" uriFormat="content://weather/weatherData/4/%s" uriParas="@localId_nyi009" columns="city_id,temperature,weather_type,description,city_name,tmphighs,tmplows" countName="hasweather">
+            <Variable name="cityId_nyi009" type="string" column="city_id"/>
+            <Variable name="weather_location_nyi009" type="string" column="city_name"/>
+            <!-- 天气类型（实时）数字 -->
+            <Variable name="weather_id_nyi009" type="int" column="weather_type"/>
+            <Variable name="weather_temperature_nyi009" type="int" column="temperature"/>
+            <!-- 天气现象（实时）：晴 -->
+            <Variable name="weather_description_nyi009" type="string" column="description"/>
+            <Variable name="weather_temphigh_nyi009" type="string" column="tmphighs"/>
+            <Variable name="weather_templow_nyi009" type="string" column="tmplows"/>
+            <Variable name="weather_aqi_nyi009" type="int" column="aqilevel"/>
+            <Trigger>
+                <VariableCommand name="state.loading" expression="#state.loading-1"/>
+                <!-- 用于天色展示 -->
+                <!-- 4阴天  5雾  6雨（4-12）  7雪（13-17）  8沙尘（20、21、23）9沙尘暴、强沙尘暴（18、19） 10霾  11冰雹、冻雨 -->
+                <VariableCommand name="weather_id_4bg_nyi009" expression="ifelse(#weather_id_nyi009}25||#weather_id_nyi009{0,0,#weather_id_nyi009==2,4,#weather_id_nyi009==3,5,#weather_id_nyi009}=4**#weather_id_nyi009{=12,6,#weather_id_nyi009}=13**#weather_id_nyi009{=17,7,#weather_id_nyi009==20||#weather_id_nyi009==21,8,#weather_id_nyi009==18||#weather_id_nyi009==19,9,#weather_id_nyi009==23||#weather_id_nyi009==24,10,#weather_id_nyi009==22||#weather_id_nyi009==25,11,#weather_id_nyi009)"/>
+            </Trigger>
+        </ContentProviderBinder>
+        <ContentProviderBinder name="hourly_weather_provider_nyi009" uriFormat="content://weather/hourlyData/4/%s" uriParas="@localId_nyi009" columns="sunrise,sunset" countName="hashourlydata">
+            <!-- 日出日落时间 -->
+            <Variable name="weather_sunrise_nyi009" type="int" column="sunrise"/>
+            <Variable name="weather_sunset_nyi009" type="int" column="sunset"/>
+            <Trigger>
+                <VariableCommand name="state.loading" expression="#state.loading-1"/>
+                <!-- 得到日出日落的时间戳，昨天日落与明天日出为估算，用于显示剩余日出日落时间 -->
+                <VariableCommand name="sunrise_time_nyi009" expression="#weather_sunrise_nyi009+#state.time0" type="number"/>
+                <VariableCommand name="sunrise_time_tomorrow_nyi009" expression="#sunrise_time_nyi009+86400000" type="number"/>
+                <VariableCommand name="sunset_time_nyi009" expression="#weather_sunset_nyi009+#state.time0" type="number"/>
+                <VariableCommand name="sunset_time_yesterday_nyi009" expression="#sunset_time_nyi009-86400000" type="number"/>
+                <!-- S天色判断规则 -->
+                <VariableCommand name="H12_nyi009" expression="(#sunset_time_nyi009-#sunrise_time_nyi009)/12" type="number"/>
+                <VariableCommand name="H6_nyi009" expression="(#sunset_time_nyi009-#sunrise_time_nyi009)/6" type="number"/>
+                <VariableCommand name="h3_nyi009" expression="(#sunrise_time_nyi009-#sunset_time_yesterday_nyi009)/3" type="number"/>
+                <VariableCommand name="h4_nyi009" expression="(#sunrise_time_nyi009-#sunset_time_yesterday_nyi009)/4" type="number"/>
+                <VariableCommand name="h12_nyi009" expression="(#sunrise_time_nyi009-#sunset_time_yesterday_nyi009)/12" type="number"/>
+                <VariableCommand name="h36_nyi009" expression="(#sunrise_time_nyi009-#sunset_time_yesterday_nyi009)/36" type="number"/>
+                <!-- 是否已日出 1已日出 0未日出 -->
+                <VariableCommand name="hasSunrise_nyi009" expression="ifelse(#time_sys}=#sunrise_time_nyi009**#time_sys{#sunset_time_nyi009,1,0)" type="number"/>
+            </Trigger>
+        </ContentProviderBinder>
+    </VariableBinders>
+    <Var name="HIDE_PAD_EDITABLE" expression="1" type="number" const="true"/>
+    <!-- 状态管理 -->
+    <Var name="state.PI" expression="3.141592653589793" type="number"/>
+    <Var name="state.sr" expression="#view_width/150"/>
+    <Var name="state.time0" expression="int((#time_sys-#hour24*3600000-#minute*60000-#second*1000)/1000)*1000" type="number"/>
+    <Var name="state.time24" expression="int((#time_sys-#hour24*3600000-#minute*60000-#second*1000)/1000)*1000+86400000" type="number"/>
+    <Var name="state.curvePointX" size="360" type="number[]"/>
+    <Var name="state.curvePointY" size="360" type="number[]"/>
+    <Var name="state.pagIsShow" expression="0" const="true"/>
+    <Var name="state.loading" expression="0" const="true"/>
+    <!-- 接口 -->
+    <Group name="api">
+        <!-- 初始化和切屏时刷新天气数据 -->
+        <!-- 随整体组件更新刷新天气数据 -->
+        <Var expression="#minute" threshold="1">
+            <Trigger>
+                <FunctionCommand target="refreshData_nyi009"/>
+            </Trigger>
+        </Var>
+        <!-- 刷新天气数据函数 -->
+        <Function name="refreshData_nyi009">
+            <VariableCommand name="state.loading" expression="3"/>
+            <BinderCommand name="weather_provider_nyi009" command="refresh"/>
+            <BinderCommand name="hourly_weather_provider_nyi009" command="refresh"/>
+            <BinderCommand name="weather_version_provider_nyi009" command="refresh"/>
+        </Function>
+        <!-- local id -->
+        <Var name="localId_nyi009" expression="@customEditLocalId" type="string">
+            <Trigger>
+                <FunctionCommand target="refreshData_nyi009"/>
+            </Trigger>
+        </Var>
+        <Var name="current_duration_new_nyi009" expression="ifelse((#time_sys}=#sunrise_time_nyi009-3*#h12_nyi009)**(#time_sys{#sunrise_time_nyi009-2*#h12_nyi009),1,(#time_sys}=#sunrise_time_nyi009-2*#h12_nyi009)**(#time_sys{#sunrise_time_nyi009-#h12_nyi009),2,(#time_sys}=#sunrise_time_nyi009-#h12_nyi009)**(#time_sys{#sunrise_time_nyi009),3,(#time_sys}=#sunrise_time_nyi009)**(#time_sys{#sunrise_time_nyi009+#H12_nyi009),4,(#time_sys}=#sunrise_time_nyi009+#H12_nyi009)**(#time_sys{#sunrise_time_nyi009+2*#H12_nyi009),5,(#time_sys}=#sunrise_time_nyi009+2*#H12_nyi009)**(#time_sys{#sunrise_time_nyi009+2*#H12_nyi009+#H6_nyi009),6,(#time_sys}=#sunrise_time_nyi009+2*#H12_nyi009+#H6_nyi009)**(#time_sys{#sunrise_time_nyi009+2*#H12_nyi009+2*#H6_nyi009),7,(#time_sys}=#sunrise_time_nyi009+2*#H12_nyi009+2*#H6_nyi009)**(#time_sys{#sunrise_time_nyi009+2*#H12_nyi009+3*#H6_nyi009),8,(#time_sys}=#sunrise_time_nyi009+2*#H12_nyi009+3*#H6_nyi009)**(#time_sys{#sunrise_time_nyi009+2*#H12_nyi009+4*#H6_nyi009),9,(#time_sys}=#sunrise_time_nyi009+2*#H12_nyi009+4*#H6_nyi009)**(#time_sys{#sunrise_time_nyi009+2*#H12_nyi009+4*#H6_nyi009+#H12_nyi009),10,(#time_sys}=#sunrise_time_nyi009+2*#H12_nyi009+4*#H6_nyi009+#H12_nyi009)**(#time_sys{#sunrise_time_nyi009+2*#H12_nyi009+4*#H6_nyi009+2*#H12_nyi009),11,(#time_sys}=#sunset_time_nyi009)**(#time_sys{#sunset_time_nyi009+#h36_nyi009),12,(#time_sys}=#sunset_time_nyi009+#h36_nyi009)**(#time_sys{#sunset_time_nyi009+2*#h36_nyi009),13,(#time_sys}=#sunset_time_nyi009+2*#h36_nyi009)**(#time_sys{#sunset_time_nyi009+3*#h36_nyi009),14,(#time_sys}=#sunset_time_nyi009+3*#h36_nyi009)**(#time_sys{#sunset_time_nyi009+3*#h36_nyi009+#h12_nyi009),15,0)" type="number"/>
+        <!-- 当前是白天还是晚上 0白天 1晚上 -->
+        <Var name="sky_isNight_nyi009" expression="ifelse(#current_duration_new_nyi009{5,1,0)" type="number"/>
+    </Group>
+    <!-- 引入各组件 -->
+    <Group alpha="ifelse(#hasweather==0,0,255)">
+        <!-- 数据获取结束时，更新变量 -->
+        <Var expression="#state.loading+'_'+#state.pagIsShow">
+            <Trigger condition="#state.loading==0**#state.pagIsShow==0">
+                <VariableCommand name="weatherId_2e1afg" expression="#weather_id_nyi009" type="number"/>
+                <VariableCommand name="currentDuration_2e1afg" expression="#current_duration_new_nyi009" type="number"/>
+                <VariableCommand name="sky_isNight_2e1afg" expression="#sky_isNight_nyi009" type="number"/>
+                <VariableCommand name="hasSunrise_2e1afg" expression="#hasSunrise_nyi009" type="number"/>
+                <VariableCommand name="sunriseTime_2e1afg" expression="#sunrise_time_nyi009" type="number"/>
+                <VariableCommand name="sunsetTime_2e1afg" expression="#sunset_time_nyi009" type="number"/>
+                <VariableCommand name="sunriseTimeTomorrow_2e1afg" expression="#sunrise_time_tomorrow_nyi009" type="number"/>
+            </Trigger>
+        </Var>
+        <FramerateController name="Fra_2e1afg" initPause="true" loop="false">
+            <ControlPoint frameRate="120" time="0"/>
+            <ControlPoint frameRate="120" time="2000"/>
+            <ControlPoint frameRate="0" time="2100"/>
+        </FramerateController>
+        <!-- 动画帧率调整 -->
+        <Function name="AnimationStart">
+            <AnimationCommand target="Fra_2e1afg" command="play"/>
+        </Function>
+        <Function name="startAni_1">
+            <AnimationCommand target="Fra_2e1afg" command="play"/>
+        </Function>
+        <!-- 天色背景层 -->
+        <Group name="background" weatherId="#weatherId_2e1afg" currentDuration="#currentDuration_2e1afg" sky_isNight="#sky_isNight_2e1afg">
+            <Var name="current_duration_new_qdtiyf" expression="#current_duration_new_nyi009" type="number"/>
+            <Var name="sky_isNight_qdtiyf" expression="#sky_isNight_nyi009" type="number"/>
+            <Var name="weather_id_4bg_qdtiyf" expression="#weather_id_4bg_nyi009" type="number"/>
+            <!-- 背景正在显示哪个，天气切换时会有延迟 -->
+            <Var name="weather_id_4bg_adj_qdtiyf" expression="-1" type="number" const="true"/>
+            <Var name="weather_duration_change_qdtiyf" expression="#weather_id_4bg_nyi009+'_'+#current_duration_new_nyi009">
+                <Trigger>
+                    <FunctionCommand target="startAni_1"/>
+                    <!-- 改变原先的背景颜色透明度和现在的背景透明度 -->
+                    <VariableCommand name="weather_id_4bg_adj_qdtiyf" expression="#weather_id_4bg_qdtiyf" type="number" delay="1000"/>
+                    <VariableCommand name="current_duration_4bg_qdtiyf" expression="#current_duration" type="number" delay="1000"/>
+                    <AnimationCommand target="bg0_alpha_qdtiyf" command="play"/>
+                    <AnimationCommand target="bg_alpha_qdtiyf" command="play"/>
+                </Trigger>
+            </Var>
+            <!-- 只有白天晚上的天气的颜色：前个4没用，随便填 -->
+            <!-- (后面天气前的数字为数组下标，天气后的为对应的weatherId)  4阴天（2）  5雾（3）  6雨（4-12）  7雪（13-17）  8沙尘（20、21） 9沙尘暴、强沙尘暴（18、19）  10霾、浮尘（23、24） 11冰雹、冻雨（22、25 -->
+            <!--  白天天色                   阴天        雾         雨         雪        沙尘       沙尘暴     霾、浮尘   冰雹、冻雨 -->
+            <Var name="gradient_top_colors_day_qdtiyf" type="string[]" const="true" expression="''" values="'1','1','1','1','#3E5482','#496285','#496285','#415296','#7D5C2C','#3F280F','#7D5C2C','#496285'"/>
+            <Var name="gradient_mid1_colors_day_qdtiyf" type="string[]" const="true" expression="''" values="'1','1','1','1','#465D8B','#546D89','#546D89','#5968AA','#8A6E41','#755227','#8A6E41','#546D89'"/>
+            <Var name="gradient_mid2_colors_day_qdtiyf" type="string[]" const="true" expression="''" values="'1','1','1','1','#526893','#60788D','#60788D','#6D7CBF','#967D51','#9C7038','#967D51','#60788D'"/>
+            <Var name="gradient_mid3_colors_day_qdtiyf" type="string[]" const="true" expression="''" values="'1','1','1','1','#708099','#6E8591','#6E8591','#99A0D2','#A28F6A','#AE853D','#A28F6A','#6E8591'"/>
+            <Var name="gradient_bottom_colors_day_qdtiyf" type="string[]" const="true" expression="''" values="'1','1','1','1','#7C8794','#809596','#809596','#C4C2E6','#AE9F7D','#C2A04E','#AE9F7D','#809596'"/>
+            <!-- 晚上天色                   阴天        雾         雨         雪        沙尘       沙尘暴     霾、浮尘   冰雹、冻雨 -->
+            <Var name="gradient_top_colors_night_qdtiyf" type="string[]" const="true" expression="''" values="'1','1','1','1','#0F1222','#0F1222','#0F1222','#262C43','#343230','#443A24','#343230','#0F1222'"/>
+            <Var name="gradient_mid1_colors_night_qdtiyf" type="string[]" const="true" expression="''" values="'1','1','1','1','#101424','#101424','#101424','#2A3048','#302D29','#41331D','#302D29','#101424'"/>
+            <Var name="gradient_mid2_colors_night_qdtiyf" type="string[]" const="true" expression="''" values="'1','1','1','1','#212842','#212842','#212842','#313750','#2C2823','#402F1A','#2C2823','#212842'"/>
+            <Var name="gradient_mid3_colors_night_qdtiyf" type="string[]" const="true" expression="''" values="'1','1','1','1','#2E3552','#2E3552','#2E3552','#45495E','#272119','#3B250D','#272119','#2E3552'"/>
+            <Var name="gradient_bottom_colors_night_qdtiyf" type="string[]" const="true" expression="''" values="'1','1','1','1','#3F4561','#3F4561','#3F4561','#525260','#1F1911','#191007','#1F1911','#3F4561'"/>
+            <!-- 分早中晚的天气的颜色：晴多云 早晨、白天、傍晚、晚上 (S0-S15  S0与S16相同，详见设计稿) maml不能嵌套数组，不然我也不想写这么多-->
+            <!--         S0√       S1√      S2√        S3√       S4√       S5√       S6√       S7√       S8√       S9√       S10√      S11      S12√       S13√      S14√      S15√    (下面是修改后的天色，从设计稿中拾取的颜色值)   -->
+            <Var name="clear_top_colors_new_qdtiyf" type="string[]" const="true" expression="''" values="'#0F1226','#10152C','#181D4A','#262755','#2F2D8A','#1B4496','#36559B','#2A4E99','#2D529B','#34559C','#4466AB','#323C85','#4B427E','#403669','#2E2457','#14153F'"/>
+            <Var name="clear_mid1_colors_new_qdtiyf" type="string[]" const="true" expression="''" values="'#111428','#161D3E','#242A61','#2A2B5D','#464596','#4666BF','#4064B0','#345FAF','#3E6BBB','#375AA4','#4C70B7','#4C559E','#6B5BA3','#6E5C97','#403075','#1C1E47'"/>
+            <Var name="clear_mid2_colors_new_qdtiyf" type="string[]" const="true" expression="''" values="'#171B33','#1C2651','#3A3D7C','#36356E','#7869B2','#647ADE','#6D99E4','#345EAA','#3E6BBB','#446DBA','#5F87CD','#7D82C7','#9175A1','#9C708C','#5D4A87','#292B59'"/>
+            <Var name="clear_mid3_colors_new_qdtiyf" type="string[]" const="true" expression="''" values="'#1D2340','#222D61','#514D7F','#6D5D8F','#A283BF','#909CE0','#A2C8F2','#74AEEA','#4473C4','#76A4E5','#8DB4E5','#B896B0','#D9959A','#DF7F69','#D6745E','#3F3E73'"/>
+            <Var name="clear_bottom_colors_new_qdtiyf" type="string[]" const="true" expression="''" values="'#373E60','#39467E','#665C81','#966C84','#E5A8B8','#FAC3C7','#DAE4E6','#AAD3E4','#92C4EA','#ADCFE7','#CFDEDF','#FFAB87','#FF8D63','#EE7C58','#DE6F43','#554F8B"/>
+            <Var name="cloudy_top_colors_new_qdtiyf" type="string[]" const="true" expression="''" values="'#0F1226','#10152C','#181D4A','#262755','#2F2D8A','#1B4496','#36559B','#2A4E99','#2D529B','#34559C','#4466AB','#323C85','#4B427E','#403669','#2E2457','#14153F'"/>
+            <Var name="cloudy_mid1_colors_new_qdtiyf" type="string[]" const="true" expression="''" values="'#111428','#161D3E','#242A61','#2A2B5D','#464596','#4666BF','#4064B0','#345FAF','#3E6BBB','#375AA4','#4C70B7','#4C559E','#6B5BA3','#6E5C97','#403075','#1C1E47'"/>
+            <Var name="cloudy_mid2_colors_new_qdtiyf" type="string[]" const="true" expression="''" values="'#171B33','#1C2651','#3A3D7C','#36356E','#7869B2','#647ADE','#6D99E4','#345EAA','#3E6BBB','#446DBA','#5F87CD','#7D82C7','#9175A1','#9C708C','#5D4A87','#292B59'"/>
+            <Var name="cloudy_mid3_colors_new_qdtiyf" type="string[]" const="true" expression="''" values="'#1D2340','#222D61','#514D7F','#6D5D8F','#A283BF','#909CE0','#A2C8F2','#74AEEA','#4473C4','#76A4E5','#8DB4E5','#B896B0','#D9959A','#DF7F69','#D6745E','#3F3E73'"/>
+            <Var name="cloudy_bottom_colors_new_qdtiyf" type="string[]" const="true" expression="''" values="'#373E60','#39467E','#665C81','#966C84','#E5A8B8','#FAC3C7','#DAE4E6','#AAD3E4','#92C4EA','#ADCFE7','#CFDEDF','#FFAB87','#FF8D63','#EE7C58','#DE6F43','#554F8B"/>
+            <!-- 组件采用的渐变色，相当于computed，加adj的会延迟800ms再变化，用来过渡 -->
+            <Var name="gradient_top_color_new_qdtiyf" expression="ifelse(#weather_id_4bg_qdtiyf}1,ifelse(#sky_isNight_qdtiyf==0,@gradient_top_colors_day_qdtiyf[#weather_id_4bg_qdtiyf],@gradient_top_colors_night_qdtiyf[#weather_id_4bg_qdtiyf]),#weather_id_4bg_qdtiyf==0,@clear_top_colors_new_qdtiyf[#current_duration_new_qdtiyf],#weather_id_4bg_qdtiyf==1,@cloudy_top_colors_new_qdtiyf[#current_duration_new_qdtiyf],'#36559B')" type="string"/>
+            <Var name="gradient_mid1_color_new_qdtiyf" expression="ifelse(#weather_id_4bg_qdtiyf}1,ifelse(#sky_isNight_qdtiyf==0,@gradient_mid1_colors_day_qdtiyf[#weather_id_4bg_qdtiyf],@gradient_mid1_colors_night_qdtiyf[#weather_id_4bg_qdtiyf]),#weather_id_4bg_qdtiyf==0,@clear_mid1_colors_new_qdtiyf[#current_duration_new_qdtiyf],#weather_id_4bg_qdtiyf==1,@cloudy_mid1_colors_new_qdtiyf[#current_duration_new_qdtiyf],'#4064B0')" type="string"/>
+            <Var name="gradient_mid2_color_new_qdtiyf" expression="ifelse(#weather_id_4bg_qdtiyf}1,ifelse(#sky_isNight_qdtiyf==0,@gradient_mid2_colors_day_qdtiyf[#weather_id_4bg_qdtiyf],@gradient_mid2_colors_night_qdtiyf[#weather_id_4bg_qdtiyf]),#weather_id_4bg_qdtiyf==0,@clear_mid2_colors_new_qdtiyf[#current_duration_new_qdtiyf],#weather_id_4bg_qdtiyf==1,@cloudy_mid2_colors_new_qdtiyf[#current_duration_new_qdtiyf],'#6D99E4')" type="string"/>
+            <Var name="gradient_mid3_color_new_qdtiyf" expression="ifelse(#weather_id_4bg_qdtiyf}1,ifelse(#sky_isNight_qdtiyf==0,@gradient_mid3_colors_day_qdtiyf[#weather_id_4bg_qdtiyf],@gradient_mid3_colors_night_qdtiyf[#weather_id_4bg_qdtiyf]),#weather_id_4bg_qdtiyf==0,@clear_mid3_colors_new_qdtiyf[#current_duration_new_qdtiyf],#weather_id_4bg_qdtiyf==1,@cloudy_mid3_colors_new_qdtiyf[#current_duration_new_qdtiyf],'#A2C8F2')" type="string"/>
+            <Var name="gradient_bottom_color_new_qdtiyf" expression="ifelse(#weather_id_4bg_qdtiyf}1,ifelse(#sky_isNight_qdtiyf==0,@gradient_bottom_colors_day_qdtiyf[#weather_id_4bg_qdtiyf],@gradient_bottom_colors_night_qdtiyf[#weather_id_4bg_qdtiyf]),#weather_id_4bg_qdtiyf==0,@clear_bottom_colors_new_qdtiyf[#current_duration_new_qdtiyf],#weather_id_4bg_qdtiyf==1,@cloudy_bottom_colors_new_qdtiyf[#current_duration_new_qdtiyf],'#DAE4E6')" type="string"/>
+            <Var name="gradient_top_color_adj_new_qdtiyf" expression="ifelse(#weather_id_4bg_adj_qdtiyf}1,ifelse(#sky_isNight_qdtiyf==0,@gradient_top_colors_day_qdtiyf[#weather_id_4bg_adj_qdtiyf],@gradient_top_colors_night_qdtiyf[#weather_id_4bg_adj_qdtiyf]),#weather_id_4bg_adj_qdtiyf==0,@clear_top_colors_new_qdtiyf[#current_duration_4bg_new],#weather_id_4bg_adj_qdtiyf==1,@cloudy_top_colors_new_qdtiyf[#current_duration_4bg_new],'#36559B')" type="string"/>
+            <Var name="gradient_mid1_color_adj_new_qdtiyf" expression="ifelse(#weather_id_4bg_adj_qdtiyf}1,ifelse(#sky_isNight_qdtiyf==0,@gradient_mid1_colors_day_qdtiyf[#weather_id_4bg_adj_qdtiyf],@gradient_mid1_colors_night_qdtiyf[#weather_id_4bg_adj_qdtiyf]),#weather_id_4bg_adj_qdtiyf==0,@clear_mid1_colors_new_qdtiyf[#current_duration_4bg_new],#weather_id_4bg_adj_qdtiyf==1,@cloudy_mid1_colors_new_qdtiyf[#current_duration_4bg_new],'#4064B0')" type="string"/>
+            <Var name="gradient_mid2_color_adj_new_qdtiyf" expression="ifelse(#weather_id_4bg_adj_qdtiyf}1,ifelse(#sky_isNight_qdtiyf==0,@gradient_mid2_colors_day_qdtiyf[#weather_id_4bg_adj_qdtiyf],@gradient_mid2_colors_night_qdtiyf[#weather_id_4bg_adj_qdtiyf]),#weather_id_4bg_adj_qdtiyf==0,@clear_mid2_colors_new_qdtiyf[#current_duration_4bg_new],#weather_id_4bg_adj_qdtiyf==1,@cloudy_mid2_colors_new_qdtiyf[#current_duration_4bg_new],'#6D99E4')" type="string"/>
+            <Var name="gradient_mid3_color_adj_new_qdtiyf" expression="ifelse(#weather_id_4bg_adj_qdtiyf}1,ifelse(#sky_isNight_qdtiyf==0,@gradient_mid3_colors_day_qdtiyf[#weather_id_4bg_adj_qdtiyf],@gradient_mid3_colors_night_qdtiyf[#weather_id_4bg_adj_qdtiyf]),#weather_id_4bg_adj_qdtiyf==0,@clear_mid3_colors_new_qdtiyf[#current_duration_4bg_new],#weather_id_4bg_adj_qdtiyf==1,@cloudy_mid3_colors_new_qdtiyf[#current_duration_4bg_new],'#A2C8F2')" type="string"/>
+            <Var name="gradient_bottom_color_adj_new_qdtiyf" expression="ifelse(#weather_id_4bg_adj_qdtiyf}1,ifelse(#sky_isNight_qdtiyf==0,@gradient_bottom_colors_day_qdtiyf[#weather_id_4bg_adj_qdtiyf],@gradient_bottom_colors_night_qdtiyf[#weather_id_4bg_adj_qdtiyf]),#weather_id_4bg_adj_qdtiyf==0,@clear_bottom_colors_new_qdtiyf[#current_duration_4bg_new],#weather_id_4bg_adj_qdtiyf==1,@cloudy_bottom_colors_new_qdtiyf[#current_duration_4bg_new],'#DAE4E6')" type="string"/>
+            <!-- 不分早中晚的天气的渐变色锚点的相对位置：前4个没用，随便填 -->
+            <Var name="gradient_mid1_poses_day_qdtiyf" type="number[]" const="true" expression="" values="0.33,0.33,0.33,0.33,0.4792,0.23,0.23,0.19,0.26,0.27,0.26,0.23"/>
+            <Var name="gradient_mid2_poses_day_qdtiyf" type="number[]" const="true" expression="" values="0.66,0.66,0.66,0.66,0.7427,0.46,0.46,0.40,0.51,0.45,0.51,0.46"/>
+            <Var name="gradient_mid3_poses_day_qdtiyf" type="number[]" const="true" expression="" values="0.88,0.88,0.88,0.88,0.9010,0.71,0.71,0.69,0.76,0.71,0.76,0.71"/>
+            <Var name="gradient_mid1_poses_night_qdtiyf" type="number[]" const="true" expression="" values="0.33,0.33,0.33,0.33,0.2538,0.2538,0.2538,0.2009,0.26,0.22,0.26,0.6193"/>
+            <Var name="gradient_mid2_poses_night_qdtiyf" type="number[]" const="true" expression="" values="0.66,0.66,0.66,0.66,0.6204,0.6204,0.6204,0.4536,0.49,0.45,0.49,0.7609"/>
+            <Var name="gradient_mid3_poses_night_qdtiyf" type="number[]" const="true" expression="" values="0.88,0.88,0.88,0.88,0.8179,0.8179,0.8179,0.8519,0.76,0.67,0.76,0.8754"/>
+            <!-- 分早中晚的天气的渐变色锚点相对位置：晴多云阴 早晨、白天、傍晚、晚上 -->
+            <Var name="clear_mid1_poses_new_qdtiyf" type="number[]" const="true" expression="" values="0.21,0.25,0.32,0.3281,0.24,0.29,0.3115,0.2962,0.2677,0.2962,0.2614,0.29,0.40,0.49,0.27,0.32"/>
+            <Var name="clear_mid2_poses_new_qdtiyf" type="number[]" const="true" expression="" values="0.42,0.46,0.59,0.5876,0.61,0.57,0.5968,0.5021,0.4663,0.5021,0.4467,0.61,0.62,0.75,0.52,0.55"/>
+            <Var name="clear_mid3_poses_new_qdtiyf" type="number[]" const="true" expression="" values="0.63,0.65,0.80,0.8366,0.77,0.80,0.8615,0.7813,0.6910,0.7813,0.7803,0.78,0.87,0.94,0.90,0.81"/>
+            <Var name="cloudy_mid1_poses_new_qdtiyf" type="number[]" const="true" expression="" values="0.21,0.25,0.32,0.3281,0.24,0.29,0.3115,0.2962,0.2677,0.2962,0.2614,0.29,0.40,0.49,0.27,0.32"/>
+            <Var name="cloudy_mid2_poses_new_qdtiyf" type="number[]" const="true" expression="" values="0.42,0.46,0.59,0.5876,0.61,0.57,0.5968,0.5021,0.4663,0.5021,0.4467,0.61,0.62,0.75,0.52,0.55"/>
+            <Var name="cloudy_mid3_poses_new_qdtiyf" type="number[]" const="true" expression="" values="0.63,0.65,0.80,0.8366,0.77,0.80,0.8615,0.7813,0.6910,0.7813,0.7803,0.78,0.87,0.94,0.90,0.81"/>
+            <!-- 渐变色锚点位置，computed，加adj的会延迟800ms再变化，用来过渡 -->
+            <Var name="gradient_mid1_pos_new_qdtiyf" expression="ifelse(#weather_id_4bg_qdtiyf}1,ifelse(#sky_isNight_qdtiyf==0,#gradient_mid1_poses_day_qdtiyf[#weather_id_4bg_qdtiyf],#gradient_mid1_poses_night_qdtiyf[#weather_id_4bg_qdtiyf]),#weather_id_4bg_qdtiyf==0,#clear_mid1_poses_new_qdtiyf[#current_duration_new_qdtiyf],#weather_id_4bg_qdtiyf==1,#cloudy_mid1_poses_new_qdtiyf[#current_duration_new_qdtiyf],0.33)" type="number"/>
+            <Var name="gradient_mid2_pos_new_qdtiyf" expression="ifelse(#weather_id_4bg_qdtiyf}1,ifelse(#sky_isNight_qdtiyf==0,#gradient_mid2_poses_day_qdtiyf[#weather_id_4bg_qdtiyf],#gradient_mid2_poses_night_qdtiyf[#weather_id_4bg_qdtiyf]),#weather_id_4bg_qdtiyf==0,#clear_mid2_poses_new_qdtiyf[#current_duration_new_qdtiyf],#weather_id_4bg_qdtiyf==1,#cloudy_mid2_poses_new_qdtiyf[#current_duration_new_qdtiyf],0.66)" type="number"/>
+            <Var name="gradient_mid3_pos_new_qdtiyf" expression="ifelse(#weather_id_4bg_qdtiyf}1,ifelse(#sky_isNight_qdtiyf==0,#gradient_mid3_poses_day_qdtiyf[#weather_id_4bg_qdtiyf],#gradient_mid3_poses_night_qdtiyf[#weather_id_4bg_qdtiyf]),#weather_id_4bg_qdtiyf==0,#clear_mid3_poses_new_qdtiyf[#current_duration_new_qdtiyf],#weather_id_4bg_qdtiyf==1,#cloudy_mid3_poses_new_qdtiyf[#current_duration_new_qdtiyf],0.88)" type="number"/>
+            <Var name="gradient_mid1_pos_adj_new_qdtiyf" expression="ifelse(#weather_id_4bg_adj_qdtiyf}1,ifelse(#sky_isNight_qdtiyf==0,#gradient_mid1_poses_day_qdtiyf[#weather_id_4bg_adj_qdtiyf],#gradient_mid1_poses_night_qdtiyf[#weather_id_4bg_adj_qdtiyf]),#weather_id_4bg_adj_qdtiyf==0,#clear_mid1_poses_new_qdtiyf[#current_duration_4bg_new],#weather_id_4bg_adj_qdtiyf==1,#cloudy_mid1_poses_new_qdtiyf[#current_duration_4bg_new],0.33)" type="number"/>
+            <Var name="gradient_mid2_pos_adj_new_qdtiyf" expression="ifelse(#weather_id_4bg_adj_qdtiyf}1,ifelse(#sky_isNight_qdtiyf==0,#gradient_mid2_poses_day_qdtiyf[#weather_id_4bg_adj_qdtiyf],#gradient_mid2_poses_night_qdtiyf[#weather_id_4bg_adj_qdtiyf]),#weather_id_4bg_adj_qdtiyf==0,#clear_mid2_poses_new_qdtiyf[#current_duration_4bg_new],#weather_id_4bg_adj_qdtiyf==1,#cloudy_mid2_poses_new_qdtiyf[#current_duration_4bg_new],0.66)" type="number"/>
+            <Var name="gradient_mid3_pos_adj_new_qdtiyf" expression="ifelse(#weather_id_4bg_adj_qdtiyf}1,ifelse(#sky_isNight_qdtiyf==0,#gradient_mid3_poses_day_qdtiyf[#weather_id_4bg_adj_qdtiyf],#gradient_mid3_poses_night_qdtiyf[#weather_id_4bg_adj_qdtiyf]),#weather_id_4bg_adj_qdtiyf==0,#clear_mid3_poses_new_qdtiyf[#current_duration_4bg_new],#weather_id_4bg_adj_qdtiyf==1,#cloudy_mid3_poses_new_qdtiyf[#current_duration_4bg_new],0.88)" type="number"/>
+            <Var name="gradient_y1_qdtiyf" type="number" expression="ifelse(#weather_id_4bg_qdtiyf}1,#view_height,#current_duration_new_qdtiyf==100,#view_height,#view_height*1.14)"/>
+            <!-- 原先背景颜色透明度动画 -->
+            <Var name="bg0_alpha_qdtiyf">
+                <VariableAnimation initPause="true" loop="false">
+                    <Item value="255" time="0"/>
+                    <Item value="255" time="1000"/>
+                    <Item value="0" time="1001"/>
+                </VariableAnimation>
+            </Var>
+            <!-- 新的背景颜色透明度动画 -->
+            <Var name="bg_alpha_qdtiyf">
+                <VariableAnimation initPause="true" loop="false">
+                    <Item value="0" time="0" easeType="CubicEaseOut"/>
+                    <Item value="255" time="1000"/>
+                </VariableAnimation>
+            </Var>
+            <Group name="sky_color_qdtiyf">
+                <!-- 原先的背景 -->
+                <Rectangle name="bg_old_qdtiyf" x="0" y="0" w="#view_width" h="#view_height" alpha="#bg0_alpha_qdtiyf">
+                    <FillShaders>
+                        <LinearGradient x="#view_width/2" y="0" x1="#view_width/2" y1="#view_height" tile="clamp">
+                            <GradientStop color="@gradient_top_color_adj_new_qdtiyf" position="0"/>
+                            <GradientStop color="@gradient_mid1_color_adj_new_qdtiyf" position="#gradient_mid1_pos_adj_new_qdtiyf"/>
+                            <GradientStop color="@gradient_mid2_color_adj_new_qdtiyf" position="#gradient_mid2_pos_adj_new_qdtiyf"/>
+                            <GradientStop color="@gradient_mid3_color_adj_new_qdtiyf" position="#gradient_mid3_pos_adj_new_qdtiyf"/>
+                            <GradientStop color="@gradient_bottom_color_adj_new_qdtiyf" position="1"/>
+                        </LinearGradient>
+                    </FillShaders>
+                </Rectangle>
+                <!-- 新的背景 -->
+                <Rectangle name="bg_qdtiyf" x="0" y="0" w="#view_width" h="#view_height" alpha="#bg_alpha_qdtiyf">
+                    <FillShaders>
+                        <LinearGradient x="#view_width/2" y="0" x1="#view_width/2" y1="#view_height" tile="clamp">
+                            <GradientStop color="@gradient_top_color_new_qdtiyf" position="0"/>
+                            <GradientStop color="@gradient_mid1_color_new_qdtiyf" position="#gradient_mid1_pos_new_qdtiyf"/>
+                            <GradientStop color="@gradient_mid2_color_new_qdtiyf" position="#gradient_mid2_pos_new_qdtiyf"/>
+                            <GradientStop color="@gradient_mid3_color_new_qdtiyf" position="#gradient_mid3_pos_new_qdtiyf"/>
+                            <GradientStop color="@gradient_bottom_color_new_qdtiyf" position="1"/>
+                        </LinearGradient>
+                    </FillShaders>
+                </Rectangle>
+            </Group>
+            <!-- 辉光（仅晴天/多云的S6-S10展示） -->
+            <Image x="0" y="0" w="#view_width" visibility="ifelse((#weather_id_nyi009==0||#weather_id_nyi009==1)**#current_duration_new_qdtiyf}=6**#current_duration_new_qdtiyf{=10,1,0)" h="#view_height" srcExp="'assets/light/'+ifelse(#weather_id_nyi009==1,'cloudy/','')+#current_duration_new_qdtiyf+'.png'"/>
+        </Group>
+        <!-- 星星层 -->
+        <Group name="star">
+            <!-- 星星具体信息数据集合 -->
+            <!-- 星星图片的尺寸 -->
+            <Var name="star_image_w_e5dn4f" type="number" expression="30"/>
+            <Var name="star_image_h_e5dn4f" type="number" expression="30"/>
+            <!-- 初始坐标 -->
+            <Var name="star_x_e5dn4f" size="30" type="number[]"/>
+            <Var name="star_y_e5dn4f" size="30" type="number[]"/>
+            <!-- 角度 -->
+            <Var name="star_bi_e5dn4f" size="30" type="number[]"/>
+            <!-- 大小 -->
+            <Var name="star_scale_e5dn4f" size="30" type="number[]"/>
+            <!-- 透明度 -->
+            <Var name="star_a_e5dn4f" size="30" type="number[]"/>
+            <!-- 星星路径数组 -->
+            <Var name="star_src_e5dn4f" size="30" type="string[]"/>
+            <!-- 星星播放动画 -->
+            <Var name="ani_progress_e5dn4f" type="number">
+                <VariableAnimation initPause="false" loop="false">
+                    <Item value="1" time="0" easeExp="SineEaseIn"/>
+                    <Item value="1" time="300" easeExp="SineEaseIn"/>
+                    <Item value="0" dtime="1000" easeExp="SineEaseIn"/>
+                    <Item value="1" dtime="1700" easeExp="SineEaseIn"/>
+                    <Item value="1" dtime="2000" easeExp="SineEaseIn"/>
+                </VariableAnimation>
+            </Var>
+            <!-- 界面显示元素 -->
+            <Array visibility="ifelse(#time_sys{#sunriseTime_2e1afg**#weatherId_2e1afg==0,1,#time_sys}=#sunsetTime_2e1afg**#weatherId_2e1afg==0,1,0)" count="30" indexName="i">
+                <Image srcExp="@star_src_e5dn4f[#i]" x="#star_x_e5dn4f[#i]" y="#star_y_e5dn4f[#i]" w="#star_scale_e5dn4f[#i]*#star_image_w_e5dn4f" h="#star_scale_e5dn4f[#i]*#star_image_h_e5dn4f" alpha="ifelse(#i%4==0,#star_a_e5dn4f[#i]*#ani_progress_e5dn4f,#star_a_e5dn4f[#i])"/>
+            </Array>
+        </Group>
+        <!-- 太阳轨迹曲线层 -->
+        <Group name="curve">
+            <Var name="curveType_3vl03k" expression="ifelse(#sky_isNight_2e1afg==0,'day','night')" type="string"/>
+            <Group name="curveImage_3vl03k" x="0" y="#state.sr*105">
+                <Group w="#view_width" h="#state.sr*29" y="-#state.sr*29" clip="true">
+                    <Image x="#view_width/2" w="#state.sr*140" h="#state.sr*52.85" align="center" srcExp="'assets/curve/'+@curveType_3vl03k+'/top.png'"/>
+                </Group>
+                <Group w="#view_width" h="#state.sr*31.94" clip="true">
+                    <Image x="#view_width/2" y="-#state.sr*24" w="#state.sr*156" h="#state.sr*52.85" align="center" alpha="ifelse(#current_duration_new_nyi009}=0**#current_duration_new_nyi009{=2,255*0.7,#current_duration_new_nyi009}=3**#current_duration_new_nyi009{=4,255*0.4,#current_duration_new_nyi009==5,255*0.25,#current_duration_new_nyi009}=6**#current_duration_new_nyi009{=10,255*0.18,#current_duration_new_nyi009}=11**#current_duration_new_nyi009{=12,255*0.4,#current_duration_new_nyi009}=13**#current_duration_new_nyi009{=16,255*0.7,0.7)" srcExp="'assets/curve/night/bottom.png'"/>
+                </Group>
+                <!-- 太阳圆点插槽 -->
+                <!-- 太阳圆点 -->
+                <Group name="sunPoint_vdhcvb">
+                    <!-- 数据加载完成后，计算不同时间段，太阳圆点每分钟移动距离以及当前的位置，并播放移动动画 -->
+                    <Var expression="#sky_isNight_2e1afg+'_'+#sunriseTime_2e1afg+'_'+#sunsetTime_2e1afg">
+                        <Trigger condition="#state.loading==0">
+                            <VariableCommand name="beforeSunrise_vdhcvb" expression="ceil((#sunriseTime_2e1afg-#state.time0)/1000/60/90)" type="number"/>
+                            <VariableCommand name="daytime_vdhcvb" expression="(#sunsetTime_2e1afg-#sunriseTime_2e1afg)/1000/60/180" type="number"/>
+                            <VariableCommand name="afterSunset_vdhcvb" expression="ceil((#state.time24-#sunsetTime_2e1afg)/1000/60/90)" type="number"/>
+                            <FunctionCommand target="playSunAnimation_vdhcvb"/>
+                        </Trigger>
+                    </Var>
+                    <!-- 隐藏、显示动画配置 -->
+                    <FolmeState name="state_hide_vdhcvb" alpha="0"/>
+                    <FolmeState name="state_show_vdhcvb" alpha="255"/>
+                    <FolmeConfig name="hide_config_vdhcvb" ease="-2,0.95,0.18" onComplete="'sunPointHideComplete'"/>
+                    <FolmeConfig name="show_config_vdhcvb" ease="-2,0.95,0.35"/>
+                    <Function name="sunPointHideComplete">
+                        <!-- 将0点设为起点 -->
+                        <VariableCommand name="beginPorintIndex_vdhcvb" expression="0" type="number"/>
+                        <!-- 索引差值位终点 -->
+                        <VariableCommand name="indexDifference_vdhcvb" expression="#endPointIndex_vdhcvb" type="number"/>
+                        <FolmeCommand target="sunPoint_vdhcvb" states="'state_hide_vdhcvb','state_show_vdhcvb'" command="fromTo"/>
+                        <FolmeCommand target="progress_VE_vdhcvb" states="'progressStart_vdhcvb','progressEnd_vdhcvb'" config="'progressConfig_vdhcvb'" command="fromTo"/>
+                    </Function>
+                    <!-- 使用虚拟变量模拟变化率 -->
+                    <FolmeState name="progressStart_vdhcvb" x="0"/>
+                    <FolmeState name="progressEnd_vdhcvb" x="1"/>
+                    <FolmeConfig name="progressConfig_vdhcvb" ease="6,1200" onComplete="'sunPointAnimationComplete'"/>
+                    <VirtualElement name="progress_VE_vdhcvb" x="0"/>
+                    <Function name="sunPointAnimationComplete">
+                        <VariableCommand name="aniNum_vdhcvb" expression="#aniNum_vdhcvb-1" type="number" condition="#aniNum_vdhcvb}0"/>
+                    </Function>
+                    <!-- 当前组件播放动画数，避免重复播放 -->
+                    <Var expression="#aniNum_vdhcvb" threshold="1">
+                        <Trigger>
+                            <IfCommand ifCondition="#aniNum_vdhcvb==0">
+                                <Alternate>
+                                    <FunctionCommand target="AnimationStart"/>
+                                    <!-- 太阳始终从左往右移动，如果结束位置在开始位置左边，则消失后从0点移动最终位置 -->
+                                    <IfCommand ifCondition="#endPointIndex_vdhcvb}#beginPorintIndex_vdhcvb">
+                                        <Consequent>
+                                            <VariableCommand name="beginPorintIndex_vdhcvb" expression="#beginPorintIndexNew_vdhcvb" type="number"/>
+                                            <!-- 开始位置与结束位置的索引差值 -->
+                                            <VariableCommand name="indexDifference_vdhcvb" expression="#endPointIndex_vdhcvb-#beginPorintIndex_vdhcvb" type="number"/>
+                                            <FolmeCommand target="progress_VE_vdhcvb" states="'progressStart_vdhcvb','progressEnd_vdhcvb'" config="'progressConfig_vdhcvb'" command="fromTo"/>
+                                        </Consequent>
+                                        <Alternate>
+                                            <FolmeCommand target="sunPoint_vdhcvb" states="'state_show_vdhcvb','state_hide_vdhcvb'" config="'hide_config_vdhcvb'" command="fromTo"/>
+                                        </Alternate>
+                                    </IfCommand>
+                                </Alternate>
+                            </IfCommand>
+                        </Trigger>
+                    </Var>
+                    <!-- 每分钟获取一次最新位置 -->
+                    <Var expression="#hour24+'_'+#minute">
+                        <Trigger condition="#aniNum_vdhcvb==0">
+                            <FunctionCommand target="playSunAnimation_vdhcvb"/>
+                        </Trigger>
+                    </Var>
+                    <!-- 太阳圆点初始位置(resume是为了适配折叠屏展开收起) -->
+                    <!-- 初始时计算好太阳轨迹点坐标保存state -->
+                    <Function name="deal_position_vdhcvb">
+                        <LoopCommand count="360" indexName="i">
+                            <VariableCommand name="x_vdhcvb" expression="#i*(#view_width/360)" type="number"/>
+                            <VariableCommand name="y_vdhcvb" expression="(#state.sr*28)*cos(#i*#state.PI/180)+(#state.sr*-1)*cos((#i*#state.PI/180)*3)" type="number"/>
+                            <VariableCommand name="state.curvePointX" expression="#x_vdhcvb" type="number[]" index="#i"/>
+                            <VariableCommand name="state.curvePointY" expression="#y_vdhcvb" type="number[]" index="#i"/>
+                        </LoopCommand>
+                    </Function>
+                    <!-- 该方法用于resume时校验是否需要重新触发动效 -->
+                    <Function name="resume_check_need_animation_vdhcvb">
+                        <IfCommand ifCondition="#state.curvePointY[#beginPorintIndex_vdhcvb+#indexDifference_vdhcvb]==0**#endPointIndex_vdhcvb!=0">
+                            <Consequent>
+                                <FunctionCommand delay="150" target="repeat_animaton_vdhcvb"/>
+                            </Consequent>
+                        </IfCommand>
+                        <IfCommand ifCondition="#state.curvePointX[#beginPorintIndex_vdhcvb+#indexDifference_vdhcvb]==0**#endPointIndex_vdhcvb!=0">
+                            <Consequent>
+                                <FunctionCommand delay="150" target="repeat_animaton_vdhcvb"/>
+                            </Consequent>
+                        </IfCommand>
+                    </Function>
+                    <!-- 重新触发太阳圆点动效 -->
+                    <Function name="repeat_animaton_vdhcvb">
+                        <VariableCommand name="beginPorintIndex_vdhcvb" expression="0" type="number"/>
+                        <VariableCommand name="endPointIndex_vdhcvb" expression="ifelse(#time_sys{#sunriseTime_2e1afg,round((#time_sys-#state.time0)/1000/60/#beforeSunrise_vdhcvb),#time_sys}=#sunriseTime_2e1afg**#time_sys{=#sunsetTime_2e1afg,90+round((#time_sys-#sunriseTime_2e1afg)/1000/60/#daytime_vdhcvb),270+round((#time_sys-#sunsetTime_2e1afg)/1000/60/#afterSunset_vdhcvb))" type="number"/>
+                        <VariableCommand name="indexDifference_vdhcvb" expression="#endPointIndex_vdhcvb-#beginPorintIndex_vdhcvb" type="number"/>
+                        <FolmeCommand target="progress_VE_vdhcvb" states="'progressStart_vdhcvb','progressEnd_vdhcvb'" config="'progressConfig_vdhcvb'" command="fromTo"/>
+                    </Function>
+                    <!-- 跨天后小球在坐标原点问题修改 -->
+                    <Var expression="int(#state.curvePointY[#beginPorintIndex_vdhcvb+#indexDifference_vdhcvb])+'_'+#endPointIndex_vdhcvb">
+                        <Trigger condition="#state.curvePointY[#beginPorintIndex_vdhcvb+#indexDifference_vdhcvb]==0**#endPointIndex_vdhcvb!=0">
+                            <FunctionCommand delay="150" target="repeat_animaton_vdhcvb"/>
+                        </Trigger>
+                    </Var>
+                    <!-- 重启手机偶现小球在左下角（x=0的曲线上）问题修改 -->
+                    <Var expression="int(#state.curvePointX[#beginPorintIndex_vdhcvb+#indexDifference_vdhcvb])+'_'+#endPointIndex_vdhcvb">
+                        <Trigger condition="#state.curvePointX[#beginPorintIndex_vdhcvb+#indexDifference_vdhcvb]==0**#endPointIndex_vdhcvb!=0">
+                            <FunctionCommand delay="150" target="repeat_animaton_vdhcvb"/>
+                        </Trigger>
+                    </Var>
+                    <!-- 动画播放函数 -->
+                    <Function name="playSunAnimation_vdhcvb">
+                        <FunctionCommand target="deal_position_vdhcvb"/>
+                        <!-- 将上次运动的终点设为起点 -->
+                        <VariableCommand name="beginPorintIndexNew_vdhcvb" expression="#endPointIndex_vdhcvb" type="number"/>
+                        <!-- 根据当前时间计算出终点 -->
+                        <VariableCommand name="endPointIndex_vdhcvb" expression="ifelse(#time_sys{#sunriseTime_2e1afg,round((#time_sys-#state.time0)/1000/60/#beforeSunrise_vdhcvb),#time_sys}=#sunriseTime_2e1afg**#time_sys{=#sunsetTime_2e1afg,90+round((#time_sys-#sunriseTime_2e1afg)/1000/60/#daytime_vdhcvb),270+round((#time_sys-#sunsetTime_2e1afg)/1000/60/#afterSunset_vdhcvb))" type="number"/>
+                        <IfCommand ifCondition="#beginPorintIndexNew_vdhcvb!=#endPointIndex_vdhcvb">
+                            <Consequent>
+                                <VariableCommand name="aniNum_vdhcvb" expression="#aniNum_vdhcvb+1" type="number" condition="#aniNum_vdhcvb==0"/>
+                            </Consequent>
+                        </IfCommand>
+                    </Function>
+                    <!-- 下方文字与太阳圆点Y轴方向距离 -->
+                    <Var name="text_Y_vdhcvb" expression="ceil(#state.sr*120)" type="number"/>
+                    <Var name="point_Y_vdhcvb" expression="ceil(#state.sr*105+#state.curvePointY[#beginPorintIndex_vdhcvb+round(#indexDifference_vdhcvb)])" type="number"/>
+                    <Var name="dif_Y_vdhcvb" expression="#point_Y_vdhcvb-#text_Y_vdhcvb" type="number"/>
+                    <!-- 界面显示元素 -->
+                    <Group name="sunPoint_vdhcvb" x="#state.curvePointX[#beginPorintIndex_vdhcvb+round(#indexDifference_vdhcvb*#progress_VE_vdhcvb.x)]" y="#state.curvePointY[#beginPorintIndex_vdhcvb+round(#indexDifference_vdhcvb*#progress_VE_vdhcvb.x)]">
+                        <!-- 白天的样式 -->
+                        <Group visibility="ifelse(#time_sys}=#sunriseTime_2e1afg**#time_sys{#sunsetTime_2e1afg,1,0)">
+                            <Circle r="#state.sr*4.22" fillColor="#FFFDFDFD"/>
+                            <Image w="#state.sr*16" h="#state.sr*16" src="assets/sun.png" align="center" alignV="center"/>
+                        </Group>
+                        <!-- 晚上的样式 -->
+                        <Circle r="#state.sr*4.22" fillColor="#00000000" strokeColor="#ffd9d9d9" alpha="ifelse(#dif_Y_vdhcvb}0**#dif_Y_vdhcvb{#state.sr*10,26,255*0.7)" weight="#state.sr" strokeAlign="inner" visibility="ifelse(#time_sys{#sunriseTime_2e1afg||#time_sys}=#sunsetTime_2e1afg,1,0)"/>
+                    </Group>
+                    <!-- <Text x="0" y="0" color="#ff00ff" size="20" textExp="'#dif_Y: '+#dif_Y" />
+
+  <Var name="aaa" expression="ifelse(#dif_Y}0**#dif_Y{#state.sr*10,1,0)" type="number" />
+  <Text x="0" y="-60" color="#ff00ff" size="20" textExp="'gai: '+#aaa" /> -->
+                </Group>
+            </Group>
+            <Rectangle x="0" y="#state.sr*104" w="#view_width" h="#state.sr*1">
+                <FillShaders>
+                    <LinearGradient x="0" y="1" x1="#view_width" y1="1" tile="clamp">
+                        <GradientStop color="#0BF00000" position="0"/>
+                        <GradientStop color="#80FFFFFF" position="0.3"/>
+                        <GradientStop color="#80FFFFFF" position="0.4"/>
+                        <GradientStop color="#80FFFFFF" position="0.6"/>
+                        <GradientStop color="#80FFFFFF" position="0.7"/>
+                        <GradientStop color="#0BF00000" position="1"/>
+                    </LinearGradient>
+                </FillShaders>
+            </Rectangle>
+            <Rectangle x="0" y="#state.sr*105" w="#view_width" h="#state.sr*45" alpha="255*0.14">
+                <FillShaders>
+                    <LinearGradient x="0" y="0" x1="0" y1="1" tile="clamp">
+                        <GradientStop color="#0A0B26" position="0.0"/>
+                        <GradientStop color="#1D2037" position="0.5341"/>
+                        <GradientStop color="#273251" position="0.8506"/>
+                        <GradientStop color="#2D3A5E" position="0.9873"/>
+                        <GradientStop color="#3D476f" position="1.1341"/>
+                    </LinearGradient>
+                </FillShaders>
+            </Rectangle>
+            <!-- <Var name="alphas"
+    expression="ifelse(get(api,#current_duration_new)}=0**get(api,#current_duration_new){=2,0.7,
+      get(api,#current_duration_new)}=3**get(api,#current_duration_new){=4,0.4,
+        get(api,#current_duration_new)==5,0.25,
+        get(api,#current_duration_new)}=6**get(api,#current_duration_new){=10,0.18,
+          get(api,#current_duration_new)}=11**get(api,#current_duration_new){=12,0.4,
+            get(api,#current_duration_new)}=13**get(api,#current_duration_new){=16,0.7,0.7)"
+    type="number" />
+  <Text x="40" y="0" color="#ff00ff" size="30" textExp="'duration: S'+get(api,#current_duration_new)" />
+  <Text x="#state.sr*80" y="0" color="#ff00ff" size="30"
+    textExp="'alpha:'+#alphas" /> -->
+        </Group>
+        <!-- 文字信息层 -->
+        <Group name="textMessage">
+            <!-- 数据加载完成后，计算当前至日出/日落剩余时间 -->
+            <Var expression="#state.loading+'_'+#state.pagIsShow">
+                <Trigger condition="#state.loading==0**#state.pagIsShow==0">
+                    <VariableCommand name="dayOrNight_01nwz8" expression="ifelse(#hasSunrise_2e1afg==0,@sunrise_i18n,@sunset_i18n)" type="string"/>
+                    <FunctionCommand target="calculateTimeRemaining_01nwz8"/>
+                </Trigger>
+            </Var>
+            <!-- 三个部分数据各自变化时，独立播放动画 -->
+            <Var expression="#hasSunrise_2e1afg" threshold="1">
+                <Trigger>
+                    <FunctionCommand target="AnimationStart"/>
+                    <FolmeCommand target="dayOrNightText_01nwz8" states="'state_hide_01nwz8'" config="'dayOrNightText_hide_config_01nwz8'" command="to"/>
+                </Trigger>
+            </Var>
+            <Var expression="#sunriseTime_2e1afg+'_'+#sunsetTime_2e1afg+'_'+#time_format">
+                <Trigger>
+                    <FunctionCommand target="AnimationStart"/>
+                    <FolmeCommand target="sunriseAndSunsetTextGroup_01nwz8" states="'state_hide_01nwz8'" config="'sunriseAndSunsetTextGroup_hide_config_01nwz8'" command="to"/>
+                </Trigger>
+            </Var>
+            <!-- 文字切换Folme动画配置 -->
+            <FolmeState name="state_show_01nwz8" alpha="255"/>
+            <FolmeState name="state_hide_01nwz8" alpha="0"/>
+            <FolmeConfig name="show_config_01nwz8" ease="6,200"/>
+            <FolmeConfig name="dayOrNightText_hide_config_01nwz8" ease="6,350" onComplete="'changeDayOrNightText'"/>
+            <Function name="changeDayOrNightText">
+                <VariableCommand name="dayOrNight_01nwz8" expression="ifelse(#hasSunrise_2e1afg==0,@sunrise_i18n,@sunset_i18n)" type="string"/>
+                <FolmeCommand target="dayOrNightText_01nwz8" states="'state_show_01nwz8'" config="'show_config_01nwz8'" command="to"/>
+            </Function>
+            <FolmeConfig name="timeRemainingText_hide_config_01nwz8" ease="6,350"/>
+            <FolmeConfig name="sunriseAndSunsetTextGroup_hide_config_01nwz8" ease="6,350" onComplete="'changeSunriseAndSunsetTextGroup'"/>
+            <Function name="changeSunriseAndSunsetTextGroup">
+                <VariableCommand name="sun_morning" expression="formatDate('hh:mm',#sunriseTime_2e1afg)" type="string"/>
+                <VariableCommand name="sun_afternoon" expression="formatDate('hh:mm',#sunsetTime_2e1afg)" type="string"/>
+                <VariableCommand name="sunriseTimeText_01nwz8" expression="formatDate('HH:mm',#sunriseTime_2e1afg)" type="string"/>
+                <VariableCommand name="sunsetTimeText_01nwz8" expression="formatDate('HH:mm',#sunsetTime_2e1afg)" type="string"/>
+                <FolmeCommand target="sunriseAndSunsetTextGroup_01nwz8" states="'state_show_01nwz8'" config="'show_config_01nwz8'" command="to"/>
+            </Function>
+            <!-- 计算当前至日出/日落剩余时间函数 -->
+            <Function name="calculateTimeRemaining_01nwz8">
+                <VariableCommand name="timeRemainingNum_01nwz8" expression="ifelse(#hasSunrise_2e1afg==0,ifelse(#time_sys}#sunriseTime_2e1afg,(#sunriseTimeTomorrow_2e1afg-#time_sys)/60000,(#sunriseTime_2e1afg-#time_sys)/60000),(#sunsetTime_2e1afg-#time_sys)/60000)"/>
+                <IfCommand ifCondition="#timeRemainingNum_01nwz8}=60">
+                    <Consequent>
+                        <VariableCommand name="remainHourNum_01nwz8" expression="ceil(#timeRemainingNum_01nwz8/60)" type="number"/>
+                        <!-- 显示的小时数%24，是为了解决小部件偶现日出日落小时数大于24小时问题（大概率是隔n天time0取值问题导致） -->
+                        <VariableCommand name="sun_hour" expression="ifelse(#remainHourNum_01nwz8}24,#remainHourNum_01nwz8%24,#remainHourNum_01nwz8)" type="number"/>
+                        <VariableCommand name="timeRemainingNew_01nwz8" expression="eval(@hour_after_i18n)" type="string"/>
+                    </Consequent>
+                    <Alternate>
+                        <VariableCommand name="sun_minute" expression="ceil(#timeRemainingNum_01nwz8/1)" type="number"/>
+                        <VariableCommand name="timeRemainingNew_01nwz8" expression="strReplaceAll(@minute_after_i18n,'#sun_minute',#sun_minute)" type="string"/>
+                    </Alternate>
+                </IfCommand>
+            </Function>
+            <!-- 界面显示元素 -->
+            <Text name="dayOrNightText_01nwz8" x="#state.sr*14" y="#state.sr*14" color="#ffffff" fontFamily="mipro-demibold" size="#state.sr*13" textExp="@dayOrNight_01nwz8" spacingAddExp="#state.sr*17.24"/>
+            <Text name="timeRemainingText_01nwz8" x="#state.sr*14" y="ifelse(eqs(@is_bo_cn,'1'),#state.sr*38,#state.sr*31)" color="#ffffff" visibility="ifelse(strContains(@timeRemainingNew_01nwz8,'-')==1,0,1)" width="120*#state.sr" marqueeSpeed="30" size="#state.sr*19" fontFamily="mipro-demibold" textExp="@timeRemainingNew_01nwz8" spacingAddExp="#state.sr*25.19"/>
+            <Group name="sunriseAndSunsetTextGroup_01nwz8">
+                <Text x="#state.sr*14" y="#state.sr*120" color="#ffffff" size="#state.sr*11" textExp="@sunriseTimeText_01nwz8" width="#state.sr*55" marqueeSpeed="30" spacingAddExp="#state.sr*14.59"/>
+                <Text x="#view_width-#state.sr*14" y="#state.sr*120" color="#ffffff" size="#state.sr*11" align="right" width="#state.sr*55" marqueeSpeed="30" textExp="@sunsetTimeText_01nwz8" spacingAddExp="#state.sr*14.59"/>
+            </Group>
+            <!-- <Text x="20" y="0" color="#ff00ff" size="30" textExp="ceil(#timeRemainingNum)" /> -->
+            <!-- <Text x="20" y="30" color="#ff00ff" size="30" textExp="#ppppppp" /> -->
+            <!-- <Text x="20" y="30" color="#ff00ff" size="30" textExp="strContains(@timeRemaining,'-')" />
+  <Text x="20" y="60" color="#ff00ff" size="30" textExp="@timeRemainingNew" /> -->
+            <!-- <Text x="20" y="90" color="#ff00ff" size="30" textExp="#props.sunsetTime-#time_sys" /> -->
+            <!-- <Var name="eee" expression="#props.sunsetTime/60000-#time_sys/60000" type="number" /> -->
+            <!-- <Var name="rrr" expression="#time_sys/60000" type="number" /> -->
+            <!-- <Text x="20" y="120" color="#ff00ff" size="30" textExp="#eee" /> -->
+            <!-- <Text x="20" y="150" color="#ff00ff" size="30" textExp="#rrr" />
+  <Text x="20" y="150" color="#ff00ff" size="30" textExp="#eee-#rrr" /> -->
+            <!-- <Text x="20" y="30" color="#ff00ff" size="30" textExp="@timeRemainingNew111" /> -->
+            <!-- <Text x="20" y="60" color="#ff00ff" size="30" textExp="@minute_after_i18n" /> -->
+            <!-- <Text x="20" y="60" color="#ff00ff" size="30" textExp="#sun_minute" /> -->
+        </Group>
+        <!-- 日出日落动画 -->
+        <Group name="animation">
+            <FolmeState name="state_show_8erf2k" alpha="255"/>
+            <FolmeState name="state_hide_8erf2k" alpha="0"/>
+            <FolmeConfig name="show_config_8erf2k" ease="-2,1,1"/>
+            <FolmeConfig name="hide_config_8erf2k" ease="-2,1,1"/>
+            <Var expression="#minute" threshold="1">
+                <Trigger>
+                    <FunctionCommand target="playSunAni_8erf2k"/>
+                </Trigger>
+            </Var>
+            <!-- 添加判断变量，只有晴天和多云会播放pag动画 -->
+            <Var name="isShowAniById_8erf2k" expression="ifelse(#weatherId_2e1afg==0||#weatherId_2e1afg==1,1,0)" type="number"/>
+            <!-- 日期发生变化重置变量（一天只播放一次日出和日落pag） -->
+            <Var expression="#date" threshold="1">
+                <Trigger>
+                    <VariableCommand name="has_play_sunrise_8erf2k" expression="0" type="number"/>
+                    <VariableCommand name="has_play_sunset_8erf2k" expression="0" type="number"/>
+                    <FunctionCommand target="playSunAni_8erf2k"/>
+                </Trigger>
+            </Var>
+            <Function name="playSunAni_8erf2k">
+                <IfCommand ifCondition="#time_sys}=#sunriseTime_2e1afg**#time_sys{=(#sunriseTime_2e1afg+3*60*1000)**#has_play_sunrise_8erf2k==0">
+                    <!-- 播放日出pag逻辑 -->
+                    <Consequent>
+                        <FunctionCommand target="AnimationStart"/>
+                        <VariableCommand name="pagSrc_8erf2k" expression="'assets/pags/sunrise.pag'" type="string"/>
+                        <FolmeCommand target="pag_8erf2k" states="'state_hide_8erf2k','state_show_8erf2k'" config="'show_config_8erf2k'" command="fromTo"/>
+                        <PagCommand target="pag_8erf2k" command="setProgress" params="0"/>
+                        <PagCommand target="pag_8erf2k" command="play"/>
+                        <VariableCommand name="has_play_sunrise_8erf2k" expression="1" type="number"/>
+                    </Consequent>
+                    <Alternate>
+                        <IfCommand ifCondition="#time_sys}=#sunsetTime_2e1afg**#time_sys{=(#sunsetTime_2e1afg+3*60*1000)**#has_play_sunset_8erf2k==0">
+                            <!-- 播放日落pag逻辑 -->
+                            <Consequent>
+                                <!-- Folme动效需要手动开启帧率，pag播放会自动开启帧率 -->
+                                <FunctionCommand target="AnimationStart"/>
+                                <VariableCommand name="pagSrc_8erf2k" expression="'assets/pags/sunset.pag'" type="string"/>
+                                <FolmeCommand target="pag_8erf2k" states="'state_hide_8erf2k','state_show_8erf2k'" config="'show_config_8erf2k'" command="fromTo"/>
+                                <PagCommand target="pag_8erf2k" command="setProgress" params="0"/>
+                                <PagCommand target="pag_8erf2k" delay="200" command="play"/>
+                                <VariableCommand name="has_play_sunset_8erf2k" expression="1" type="number"/>
+                            </Consequent>
+                        </IfCommand>
+                    </Alternate>
+                </IfCommand>
+            </Function>
+            <PagImageView name="pag_8erf2k" w="#view_width" h="#view_height" loop="1" alpha="0" scaleMode="3" srcExp="@pagSrc_8erf2k" visibility="ifelse(#__maml_version}=3000406**#isShowAniById_8erf2k==1,1,0)" autoPlay="false">
+                <Triggers>
+                    <Trigger action="complete">
+                        <PagCommand target="pag_8erf2k" command="setProgress" params="0"/>
+                        <FunctionCommand target="AnimationStart"/>
+                        <FolmeCommand target="pag_8erf2k" states="'state_hide_8erf2k'" config="'hide_config_8erf2k'" command="to"/>
+                    </Trigger>
+                    <Trigger action="update"/>
+                </Triggers>
+            </PagImageView>
+            <!-- <Text x="20" y="0" color="#ff00ff" size="50" textExp="#has_play_sunrise" />
+  <Text x="20" y="60" color="#ff00ff" size="50" textExp="#has_play_sunset" /> -->
+            <!-- <Text x="20" y="0" color="#ff00ff" size="50" textExp="#__maml_version" /> -->
+            <!-- <Text x="20" y="0" color="#ff00ff" size="50" textExp="#isShowAniById" /> -->
+        </Group>
+    </Group>
+    <Group alpha="ifelse(#hasweather==0,255,0)">
+        <!-- 预览时候，无数据 -->
+        <Image name="noData_preview_pic_s2bg8j" w="#view_width" h="#view_height" src="assets/preview/widget_2x2.png" visibility="eqs(@isPreviewMode,'true')"/>
+        <!-- 桌面时候，无数据 -->
+        <Group visibility="!eqs(@isPreviewMode,'true')">
+            <!-- 无数据状态天色 -->
+            <Rectangle x="0" y="0" w="#view_width" h="#view_height">
+                <FillShaders>
+                    <LinearGradient x="#view_width/2" y="0" x1="#view_width/2" y1="#view_height" tile="clamp">
+                        <GradientStop color="#37589F" position="0"/>
+                        <GradientStop color="#4165B1" position="0.296"/>
+                        <GradientStop color="#4F77C6" position="0.502"/>
+                        <GradientStop color="#6D94D1" position="0.781"/>
+                        <GradientStop color="#C7CED0" position="1"/>
+                    </LinearGradient>
+                </FillShaders>
+            </Rectangle>
+            <Group x="0" y="#state.sr*105">
+                <Group w="#view_width" h="#state.sr*29" y="-#state.sr*29" clip="true">
+                    <Image x="#view_width/2" w="#state.sr*140" h="#state.sr*52.85" align="center" srcExp="'assets/curve/day/top.png'"/>
+                </Group>
+                <Group w="#view_width" h="#state.sr*31.94" clip="true">
+                    <Image x="#view_width/2" y="-#state.sr*24" w="#state.sr*156" h="#state.sr*52.85" align="center" srcExp="'assets/curve/day/bottom.png'"/>
+                </Group>
+            </Group>
+            <!-- 水平线 -->
+            <Rectangle x="0" y="#state.sr*104" w="#view_width" h="#state.sr*1">
+                <FillShaders>
+                    <LinearGradient x="0" y="1" x1="#view_width" y1="1" tile="clamp">
+                        <GradientStop color="#0BF00000" position="0"/>
+                        <GradientStop color="#80FFFFFF" position="0.3"/>
+                        <GradientStop color="#80FFFFFF" position="0.4"/>
+                        <GradientStop color="#80FFFFFF" position="0.6"/>
+                        <GradientStop color="#80FFFFFF" position="0.7"/>
+                        <GradientStop color="#0BF00000" position="1"/>
+                    </LinearGradient>
+                </FillShaders>
+            </Rectangle>
+            <!-- 下方阴影 -->
+            <Rectangle x="0" y="#state.sr*105" w="#view_width" h="#state.sr*45" alpha="255*0.14">
+                <FillShaders>
+                    <LinearGradient x="0" y="0" x1="0" y1="1" tile="clamp">
+                        <GradientStop color="#0A0B26" position="0.0"/>
+                        <GradientStop color="#1D2037" position="0.5341"/>
+                        <GradientStop color="#273251" position="0.8506"/>
+                        <GradientStop color="#2D3A5E" position="0.9873"/>
+                        <GradientStop color="#3D476f" position="1.1341"/>
+                    </LinearGradient>
+                </FillShaders>
+            </Rectangle>
+        </Group>
+        <!-- 点击获取天气信息 -->
+        <Text name="noData_text_s2bg8j" textExp="@weather_auth_tip_1_i18n" x="14*#state.sr" y="14*#state.sr" color="#ffffff" multiLine="true" width="120*#state.sr" size="13*#state.sr" visibility="!eqs(@isPreviewMode,'true')"/>
+        <!-- - 点击获取天气信息翻译文案下的双横线，会根据文案长度判断是否换行，然后动态调整双横线的Y轴距离 - -->
+        <Text name="noData_line_s2bg8j" textExp="'--'" x="14*#state.sr" y="#noData_text_s2bg8j.text_height+14*#state.sr" color="#ffffff" size="15*#state.sr" visibility="!eqs(@isPreviewMode,'true')"/>
+        <Text textExp="@sunrise_i18n" x="14*#state.sr" y="#view_height-29*#state.sr" color="#ffffff" size="11*#state.sr" visibility="!eqs(@isPreviewMode,'true')"/>
+        <Text name="sunset_trans_text_s2bg8j" textExp="@sunset_i18n" x="#view_width-#sunset_trans_text_s2bg8j.text_width-14*#state.sr" y="#view_height-29*#state.sr" color="#ffffff" size="11*#state.sr" visibility="!eqs(@isPreviewMode,'true')"/>
+    </Group>
+    <!-- 区分数据状态和wifi状态 -->
+    <Var name="data_wifi" expression="ifelse(#wifi_state,1,#data_state,1,0)" type="number"/>
+    <Var name="weather_data_wifi" expression="#hasweather*#data_wifi" type="number"/>
+    <!-- 无障碍 -->
+    <Var name="talkback_content_cn" expression="@dayOrNight_01nwz8+'，'+@timeRemainingNew_01nwz8+@dayOrNight_01nwz8+'，'+@sunriseTimeText_01nwz8+'，日出，'+@sunsetTimeText_01nwz8+'，日落'" type="string"/>
+    <!-- textMessage组件中的剩余时间（单位：mimite） -->
+    <Var name="time" expression="#timeRemainingNum_01nwz8" type="number"/>
+    <!-- 降英文翻译中的h变为hour，m变成minite进行读取，其他语言翻译中不包含h及m，不受影响 -->
+    <Var name="time_remaining_other" expression="ifelse(#time}=60,strReplaceAll(@timeRemainingNew_01nwz8,'h',' hour'),strReplaceAll(@timeRemainingNew_01nwz8,'m',' minute'))" type="string"/>
+    <Var name="talkback_content_other" expression="@dayOrNight_01nwz8+'，'+@time_remaining_other+'，'+@sunrise_i18n+'，'+@sunriseTimeText_01nwz8+'，'+@sunset_i18n+'，'+@sunsetTimeText_01nwz8+'，'" type="string"/>
+    <Var name="talkback_all" expression="ifelse(#weather_data_wifi,ifelse(eqs(@flag_display_talkback,'1'),@talkback_content_cn,@talkback_content_other),@weather_auth_tip_1_i18n)" type="string"/>
+    <!-- ***************** 点击跳转至应用内的按钮 **************************** -->
+    <Button visibility="#isNewVersion_nyi009==1" contentDescriptionExp="@talkback_all" x="0" y="0" w="#view_width" h="#view_height" interceptTouch="true">
+        <Triggers>
+            <Trigger action="up">
+                <IntentCommand action="android.intent.action.MAIN" category="android.intent.category.LAUNCHER" package="com.miui.weather2" class="com.miui.weather2.ActivityWeatherMain" flags="270532608">
+                    <Extra name="localId" type="string" expression="@localId_nyi009"/>
+                    <Extra name="cityId" type="string" expression="@cityId_nyi009"/>
+                    <Extra name="launcherType" type="string" expression="'weatherWidget'"/>
+                </IntentCommand>
+            </Trigger>
+        </Triggers>
+    </Button>
+    <Button visibility="#isNewVersion_nyi009!=1" contentDescriptionExp="@talkback_all" x="0" y="0" w="#view_width" h="#view_height" interceptTouch="true">
+        <Triggers>
+            <Trigger action="up">
+                <IntentCommand action="com.miui.weather.widget_weather_detail" package="com.miui.weather2" class="com.miui.weather2.ActivityWeatherMain" flags="270532608">
+                    <Extra name="localId" type="string" expression="@localId_nyi009"/>
+                    <Extra name="cityId" type="string" expression="@cityId_nyi009"/>
+                </IntentCommand>
+            </Trigger>
+        </Triggers>
+    </Button>
+    <!-- 隐藏式开关，不显示该功能（不加的话无法使用wifi_state、data_state变量判断wifi及data状态） -->
+    <Button x="0" y="0" w="0" h="0">
+        <Triggers>
+            <Trigger action="up">
+                <Command target="Wifi" value="toggle"/>
+            </Trigger>
+        </Triggers>
+    </Button>
+    <Button x="0" y="0" w="0" h="0">
+        <Triggers>
+            <Trigger action="up">
+                <Command target="Data" value="toggle"/>
+            </Trigger>
+        </Triggers>
+    </Button>
+    <!-- <Text width="#view_width-60" multiLine="true" x="30" y="0" color="#ff00ff" size="25"
+    textExp="'weather_version:'+get(api,@weather_version)" />
+  <Text width="#view_width-60" multiLine="true" x="30" y="70" color="#ff00ff" size="25"
+    textExp="'action:'+ifelse(get(api,#isNewVersion)==1,'android.intent.action.MAIN','com.miui.weather.widget_weather_detail')" />
+  <Text width="#view_width-60" multiLine="true" x="30" y="150" color="#ff00ff" size="25"
+    textExp="'launcherType:'+ifelse(get(api,#isNewVersion)==1,'weatherWidget','')" /> -->
+    <!-- <Text width="#view_width-20" multiLine="true" x="10" y="120"  color="#ff00ff" size="30" textExp="@talkback_all" /> -->
+</Widget>

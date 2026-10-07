@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="RTL">0</string>
+  <string name="high_i18n">அதிகம் </string>
+  <string name="low_i18n">குறைவு </string>
+  <string name="aqi_good_i18n">நன்று</string>
+  <string name="aqi_moderate_i18n">சுமார்</string>
+  <string name="aqi_pollution_i18n">மிதமானது</string>
+  <string name="aqi_unhealthy_i18n">ஆரோக்கியமற்றது</string>
+  <string name="aqi_dangerous_i18n">கடுமை</string>
+  <string name="aqi_hazardous_i18n">அபாயகரமானது</string>
+  <string name="humidness_i18n">ஈரப்பதம்</string>
+  <string name="now_i18n">இப்போது</string>
+  <string name="location_i18n">இருப்பிடம்</string>
+  <string name="weather_i18n">வானிலை</string>
+  <string name="low_temp_i18n">குறைவு</string>
+  <string name="aqi_i18n">AQI</string>
+  <string name="weather_auth_tip_i18n">வானிலை விவரத்தைப் பெற தட்டவும்</string>
+  <string name="tomorrow_i18n">நாளை</string>
+  <string name="sunrise_i18n">சூரிய உதயம்</string>
+  <string name="sunset_i18n">சூரிய அஸ்தமனம்</string>
+  <string name="sunrising_i18n">சூரியன் உதிக்கிறது</string>
+  <string name="sunseting_i18n">சூரியன் அஸ்தமிக்கிறது</string>
+  <string name="sunrise_sunset_i18n">சூரிய உதயம் மற்றும் அஸ்தமனம்</string>
+  <string name="hour_after_i18n">\'\'+#sun_hour+\'ம\'</string>
+  <string name="minute_after_i18n">\'\'+#sun_minute+\'நி\'</string>
+  <string name="morning_i18n">#sun_morning+\' AM\'</string>
+  <string name="afternoon_i18n">#sun_afternoon+\' PM\'</string>
+  <string name="authorization_and_open_i18n">வானிலையைக் காண, அனுமதிகளை வழங்கவும்</string>
+  <string name="wind_level_i18n"></string>
+  <string name="talkback_temperature_range">அதிகபட்ச வெப்பநிலை: 变量1. குறைந்தபட்ச வெப்பநிலை: 变量2</string>
+  <string name="talkback_humidity">ஈரப்பதம்: 变量3</string>
+  <string name="talkback_wind">காற்று: வேகம் 变量4</string>
+</resources>

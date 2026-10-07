@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="RTL">0</string>
+  <string name="high_i18n">Mafi yawa </string>
+  <string name="low_i18n">Mafi kasa </string>
+  <string name="aqi_good_i18n">Mai kyau</string>
+  <string name="aqi_moderate_i18n">Daidai</string>
+  <string name="aqi_pollution_i18n">Da dama</string>
+  <string name="aqi_unhealthy_i18n">Mai cutarwa</string>
+  <string name="aqi_dangerous_i18n">Ba kyau kwarai da gaske</string>
+  <string name="aqi_hazardous_i18n">Da hadari</string>
+  <string name="humidness_i18n">Danshi</string>
+  <string name="now_i18n">Yanzu</string>
+  <string name="location_i18n">Wurin da kake</string>
+  <string name="weather_i18n">Yanayi</string>
+  <string name="low_temp_i18n">Mafi kasa</string>
+  <string name="aqi_i18n">AQI</string>
+  <string name="weather_auth_tip_i18n">Taba ka duba bayanan yanayi</string>
+  <string name="tomorrow_i18n">Gobe</string>
+  <string name="sunrise_i18n">Fitowar rana</string>
+  <string name="sunset_i18n">Faɗuwar rana</string>
+  <string name="sunrising_i18n">Rana na fitowa</string>
+  <string name="sunseting_i18n">Rana na faɗuwar</string>
+  <string name="sunrise_sunset_i18n">Fitowar rana da faɗuwar rana</string>
+  <string name="hour_after_i18n">\'Cikin \'+#sun_hour+\'awa\'</string>
+  <string name="minute_after_i18n">\'Cikin \'+#sun_minute+\'minti\'</string>
+  <string name="morning_i18n">#sun_morning+\' AM\'</string>
+  <string name="afternoon_i18n">#sun_afternoon+\' PM\'</string>
+  <string name="authorization_and_open_i18n">Bada izini don duba yanayi</string>
+  <string name="wind_level_i18n"></string>
+  <string name="talkback_temperature_range">Yanayin zafi mafi yawa: 变量1 Yanayin zafi mafi kasa: 变量2</string>
+  <string name="talkback_humidity">Ɗanshi: 变量3</string>
+  <string name="talkback_wind">Iska: Karfi 变量4</string>
+</resources>

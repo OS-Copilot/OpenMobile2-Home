@@ -1,0 +1,533 @@
+<Widget useVariableUpdater="DateTime.Minute" allowScreenRotation="true" frameRate="0" scaleByDensity="false" screenWidth="1080" version="2">
+  <Var name="debugMode" type="number" expression="0" const="true"/>
+  <Var name="localDebug" type="number" expression="0" const="true"/>
+  <Var name="cta" type="number" expression="0" const="true"/>
+  <Var name="beforeCta" type="number" expression="0" const="true"/>
+  <Var name="req" type="number" expression="0" const="true"/>
+  <Var name="varConfigShowTitle" type="number" expression="0"/>
+  <Var name="widgetIdSeparatorIndex" type="number" expression="strIndexOf(@customEditLocalId,',')"/>
+  <Var name="widgetId1" type="string" expression="ifelse((#widgetIdSeparatorIndex == (- 1)),@customEditLocalId,substr(@customEditLocalId,0,#widgetIdSeparatorIndex))"/>
+  <Var name="widgetId2" type="string" expression="ifelse((#widgetIdSeparatorIndex == (- 1)),'',substr(@customEditLocalId,(#widgetIdSeparatorIndex + 1)))"/>
+  <Var name="widgetType" type="string" expression="'collection'"/>
+  <Var name="widgetSize" type="string" expression="'SIZE_2_2'"/>
+  <Var name="defaultCollectionTitle" type="string" expression="'影集'"/>
+  <Var name="recommendShowTitle" type="number" expression="(eqs(@widgetType,'recommend') ** #varConfigShowTitle)"/>
+  <Var name="collectionShowTitle" type="number" expression="(eqs(@widgetType,'collection') ** #varConfigShowTitle)"/>
+  <Var name="title" type="string" expression="''" const="true"/>
+  <Var name="subTitle" type="string" expression="''" const="true"/>
+  <Var name="titleForDisplay" type="string" expression="''" const="true"/>
+  <Var name="subTitleForDisplay" type="string" expression="''" const="true"/>
+  <Var name="isSmall" type="number" expression="eqs(@widgetSize,'SIZE_2_2')"/>
+  <Var name="designSize" type="number" expression="ifelse(#isSmall,150,ifelse(eqs(@isPreviewMode,'true'),282,334))"/>
+  <Var name="scaleX" type="number" expression="(#view_width / #designSize)"/>
+  <Var name="scaleY" type="number" expression="(#view_height / #designSize)"/>
+  <Var name="coverH" type="number" expression="(ifelse(#isSmall,67,126) * #scaleY)"/>
+  <Var name="withSubTitle" type="number" expression="not(eqs(@subTitleForDisplay,''))"/>
+  <Var name="titleDesignBottom" type="number" expression="ifelse(#isSmall,ifelse(#withSubTitle,28,14),ifelse(#withSubTitle,34,20))"/>
+  <Var name="textDesignPadding" type="number" expression="ifelse(#isSmall,14,20)"/>
+  <Var name="subTitleDesignBottom" type="number" expression="#textDesignPadding"/>
+  <Var name="textW" type="number" expression="(#view_width - ((#subTitleDesignBottom * 2) * #scaleX))"/>
+  <Var name="showCollectionTitles" type="number" expression="(#collectionShowTitle ** (not(eqs(@titleForDisplay,'')) || not(eqs(@subTitleForDisplay,''))))"/>
+  <Var name="isSmallForLoading" type="number" expression="(eqs(@widgetSize,'SIZE_2_2') || eqs(@widgetSize,'SIZE_2_3'))"/>
+  <Var name="designSizeForLoading" type="number" expression="ifelse(#isSmallForLoading,440,948)"/>
+  <Var name="scaleXForLoading" type="number" expression="(#view_width / #designSizeForLoading)"/>
+  <Var name="loadingWidth" type="number" expression="(106 * #scaleXForLoading)"/>
+  <Var name="loadingHeight" type="number" expression="(88 * #scaleXForLoading)"/>
+  <Var name="loadingX" type="number" expression="((#view_width - #loadingWidth) / 2)"/>
+  <Var name="loadingY" type="number" expression="((#view_height - #loadingHeight) / 2)"/>
+  <Var name="initDate" type="number" expression="0" const="true"/>
+  <Var name="showPlaceholder" type="string" expression="'loading'" const="true"/>
+  <Var name="image1Visibility" type="number" expression="0" const="true"/>
+  <Var name="image2Visibility" type="number" expression="0" const="true"/>
+  <Var name="showImage1" type="number" expression="0" const="true"/>
+  <Var name="showImage2" type="number" expression="0" const="true"/>
+  <Var name="fallbackUrl" type="string" expression="(('assets/fallback' + ifelse((#recommendShowTitle == 1),'_titled','')) + '.png')"/>
+  <Var name="curDisplayingImage" type="number" expression="0" const="true"/>
+  <Var name="requestingImage" type="number" expression="0" const="true"/>
+  <Var name="lastImageRequestBeginTime" type="number" expression="0" const="true"/>
+  <Var name="targetImage1DisplayStatusAfterDelay" type="number" expression="0" const="true"/>
+  <Var name="targetImage2DisplayStatusAfterDelay" type="number" expression="0" const="true"/>
+  <Var name="targetFallbackImageDisplayStatusAfterDelay" type="string" expression="'loading'" const="true"/>
+  <Var name="targetSrc" type="string" expression="''" const="true"/>
+  <Var name="ctaHasData" type="number" expression="0" const="true"/>
+  <Var name="ctaAllowed" type="number" expression="0" const="true"/>
+  <Var name="strategy" type="string" expression="'with'" const="true"/>
+  <Var name="lastImageChangeTime" type="number" expression="0" const="true"/>
+  <Var name="src" type="string" expression="''" const="true"/>
+  <Var name="newSrc" type="string" expression="''" const="true"/>
+  <Var name="hasData" type="number" expression="0" const="true"/>
+  <Var name="widgetImageInfo" type="string" expression="''" const="true"/>
+  <Var name="forceRefreshNotified" type="number" expression="0" const="true"/>
+  <Var name="recommendShowTitleChanged" type="number" expression="0" const="true"/>
+  <Var name="uriPart" type="string" expression="''" const="true"/>
+  <Var name="uri" type="string" expression="''" const="true"/>
+  <Var name="lastQueryId" type="number" expression="0" const="true"/>
+  <Var name="queryId" type="string" expression="''" const="true"/>
+  <Var name="is22" type="number" expression="eqs(@widgetSize,'SIZE_2_2')"/>
+  <Var name="is23" type="number" expression="eqs(@widgetSize,'SIZE_2_3')"/>
+  <Var name="is42" type="number" expression="eqs(@widgetSize,'SIZE_4_2')"/>
+  <Var name="is44" type="number" expression="eqs(@widgetSize,'SIZE_4_4')"/>
+  <Var name="imageSizeFactor" type="number" expression="ifelse(#is22,1,ifelse(#is23,0.95,ifelse(#is42,0.95,ifelse(#is44,0.9,1))))"/>
+  <Var name="atForeground" type="number" expression="1" const="true"/>
+  <Var name="initialed" type="number" expression="0" const="true"/>
+  <Var name="_" expression="#minute" threshold="1">
+    <Trigger>
+      <MultiCommand condition="#atForeground">
+        <IfCommand ifCondition="eqs(@isPreviewMode,'true')">
+          <Consequent>
+            <FunctionCommand target="requestWithoutTimeLimit"/>
+          </Consequent>
+          <Alternate>
+            <FunctionCommand target="requestWithTimeLimit"/>
+          </Alternate>
+        </IfCommand>
+      </MultiCommand>
+    </Trigger>
+  </Var>
+  <Var name="_showTitledChanged" expression="#recommendShowTitle" threshold="1">
+    <Trigger>
+      <MultiCommand condition="not(eqs(@isPreviewMode,'true'))">
+        <VariableCommand name="recommendShowTitleChanged" expression="1" type="number"/>
+        <FunctionCommand target="requestWithoutTimeLimit"/>
+      </MultiCommand>
+    </Trigger>
+  </Var>
+  <Var name="broadcastWidgetIds" type="string" expression="''" const="true"/>
+  <Var name="srcForDisplay1" type="string" expression="''" const="true"/>
+  <Var name="watch1" expression="#image1.bmp_width" threshold="1">
+    <Trigger>
+      <MultiCommand condition="(#image1.bmp_width != 0)">
+        <FunctionCommand target="image1OnLoad"/>
+      </MultiCommand>
+    </Trigger>
+  </Var>
+  <Var name="srcForDisplay2" type="string" expression="''" const="true"/>
+  <Var name="watch2" expression="#image2.bmp_width" threshold="1">
+    <Trigger>
+      <MultiCommand condition="(#image2.bmp_width != 0)">
+        <FunctionCommand target="image2OnLoad"/>
+      </MultiCommand>
+    </Trigger>
+  </Var>
+  <Var name="viewRatio" type="number" expression="(#view_width / #view_height)"/>
+  <Var name="bmpRatio1" type="number" expression="#image1.bmp_width / #image1.bmp_height"/>
+  <Var name="bmpRatioLessOrEqualToViewRatio1" type="number" expression="(#bmpRatio1 {= #viewRatio)"/>
+  <Var name="srcX1" type="number" expression="ifelse(#bmpRatioLessOrEqualToViewRatio1,0,(0.5 * (#image1.bmp_width - (#image1.bmp_height * #viewRatio))))"/>
+  <Var name="srcY1" type="number" expression="ifelse(#bmpRatioLessOrEqualToViewRatio1,(0.5 * (#image1.bmp_height - (#image1.bmp_width / #viewRatio))),0)"/>
+  <Var name="srcW1" type="number" expression="ifelse(#bmpRatioLessOrEqualToViewRatio1,#image1.bmp_width,(#image1.bmp_height * #viewRatio))"/>
+  <Var name="srcH1" type="number" expression="ifelse(#bmpRatioLessOrEqualToViewRatio1,(#image1.bmp_width / #viewRatio),#image1.bmp_height)"/>
+  <Var name="bmpRatio2" type="number" expression="#image2.bmp_width / #image2.bmp_height"/>
+  <Var name="bmpRatioLessOrEqualToViewRatio2" type="number" expression="(#bmpRatio2 {= #viewRatio)"/>
+  <Var name="srcX2" type="number" expression="ifelse(#bmpRatioLessOrEqualToViewRatio2,0,(0.5 * (#image2.bmp_width - (#image2.bmp_height * #viewRatio))))"/>
+  <Var name="srcY2" type="number" expression="ifelse(#bmpRatioLessOrEqualToViewRatio2,(0.5 * (#image2.bmp_height - (#image2.bmp_width / #viewRatio))),0)"/>
+  <Var name="srcW2" type="number" expression="ifelse(#bmpRatioLessOrEqualToViewRatio2,#image2.bmp_width,(#image2.bmp_height * #viewRatio))"/>
+  <Var name="srcH2" type="number" expression="ifelse(#bmpRatioLessOrEqualToViewRatio2,(#image2.bmp_width / #viewRatio),#image2.bmp_height)"/>
+  <Function name="incFrameRateRequirement">
+    <FrameRateCommand rate="60"/>
+    <FunctionCommand target="freezeFrameRateIfNeeded" delay="2000" delayCondition="1"/>
+  </Function>
+  <Function name="decFrameRateRequirement">
+    <IfCommand ifCondition="eqs(@isPreviewMode,'true')">
+      <Consequent>
+        <MultiCommand condition="((#time_sys - #initDate) } 2000)">
+          <FrameRateCommand rate="0"/>
+        </MultiCommand>
+      </Consequent>
+      <Alternate>
+        <FrameRateCommand rate="0"/>
+      </Alternate>
+    </IfCommand>
+  </Function>
+  <Function name="freezeFrameRateIfNeeded">
+    <MultiCommand condition="(#requestingImage == 0)">
+      <FrameRateCommand rate="0"/>
+    </MultiCommand>
+  </Function>
+  <Function name="loadImage">
+    <MultiCommand condition="(#requestingImage == 0)">
+      <FunctionCommand target="incFrameRateRequirement"/>
+      <VariableCommand name="lastImageRequestBeginTime" expression="#time_sys" type="number"/>
+      <IfCommand ifCondition="(#curDisplayingImage == 1)">
+        <Consequent>
+          <VariableCommand name="image2Visibility" expression="1" type="number"/>
+          <VariableCommand name="requestingImage" expression="2" type="number"/>
+          <FunctionCommand target="load2"/>
+        </Consequent>
+        <Alternate>
+          <VariableCommand name="image1Visibility" expression="1" type="number"/>
+          <VariableCommand name="requestingImage" expression="1" type="number"/>
+          <FunctionCommand target="load1"/>
+        </Alternate>
+      </IfCommand>
+    </MultiCommand>
+  </Function>
+  <Function name="cancelImageRequestIfNeeded">
+    <MultiCommand condition="(((#requestingImage } 0) ** (#lastImageRequestBeginTime != 0)) ** ((#time_sys - #lastImageRequestBeginTime) } 9000))">
+      <MultiCommand condition="(#requestingImage == 1)">
+        <FunctionCommand target="reset1"/>
+        <VariableCommand name="image1Visibility" expression="0" type="number"/>
+      </MultiCommand>
+      <MultiCommand condition="(#requestingImage == 2)">
+        <FunctionCommand target="reset2"/>
+        <VariableCommand name="image2Visibility" expression="0" type="number"/>
+      </MultiCommand>
+      <VariableCommand name="lastImageRequestBeginTime" expression="0" type="number"/>
+      <VariableCommand name="requestingImage" expression="0" type="number"/>
+    </MultiCommand>
+  </Function>
+  <Function name="image1OnLoad">
+    <MultiCommand condition="(#requestingImage == 1)">
+      <VariableCommand name="lastImageChangeTime" expression="#time_sys" type="number"/>
+      <VariableCommand name="curDisplayingImage" expression="1" type="number"/>
+      <VariableCommand name="showImage1" expression="1" type="number"/>
+      <VariableCommand name="targetSrc" expression="@src" type="string"/>
+      <VariableCommand name="targetImage1DisplayStatusAfterDelay" expression="1" type="number"/>
+      <VariableCommand name="targetImage2DisplayStatusAfterDelay" expression="0" type="number"/>
+      <VariableCommand name="targetFallbackImageDisplayStatusAfterDelay" expression="'none'" type="string"/>
+      <FunctionCommand target="updateOtherImageDisplayStatusAfter50ms"/>
+    </MultiCommand>
+  </Function>
+  <Function name="image2OnLoad">
+    <MultiCommand condition="(#requestingImage == 2)">
+      <VariableCommand name="lastImageChangeTime" expression="#time_sys" type="number"/>
+      <VariableCommand name="curDisplayingImage" expression="2" type="number"/>
+      <VariableCommand name="showImage2" expression="1" type="number"/>
+      <VariableCommand name="targetSrc" expression="@src" type="string"/>
+      <VariableCommand name="targetImage1DisplayStatusAfterDelay" expression="0" type="number"/>
+      <VariableCommand name="targetImage2DisplayStatusAfterDelay" expression="1" type="number"/>
+      <VariableCommand name="targetFallbackImageDisplayStatusAfterDelay" expression="'none'" type="string"/>
+      <FunctionCommand target="updateTitleForDisplay"/>
+      <FunctionCommand target="updateOtherImageDisplayStatusAfter50ms"/>
+    </MultiCommand>
+  </Function>
+  <Function name="showFallbackImage">
+    <MultiCommand condition="(#requestingImage == 0)">
+      <FunctionCommand target="incFrameRateRequirement"/>
+      <VariableCommand name="requestingImage" expression="(- 1)" type="number"/>
+      <VariableCommand name="lastImageChangeTime" expression="0" type="number"/>
+      <VariableCommand name="curDisplayingImage" expression="0" type="number"/>
+      <VariableCommand name="showPlaceholder" expression="'fallback'" type="string"/>
+      <VariableCommand name="targetSrc" expression="''" type="string"/>
+      <VariableCommand name="targetImage1DisplayStatusAfterDelay" expression="0" type="number"/>
+      <VariableCommand name="targetImage2DisplayStatusAfterDelay" expression="0" type="number"/>
+      <VariableCommand name="targetFallbackImageDisplayStatusAfterDelay" expression="'fallback'" type="string"/>
+      <VariableCommand name="title" expression="@defaultCollectionTitle" type="string"/>
+      <VariableCommand name="subTitle" expression="''" type="string"/>
+      <FunctionCommand target="updateTitleForDisplay"/>
+      <FunctionCommand target="updateOtherImageDisplayStatusAfter50ms"/>
+    </MultiCommand>
+  </Function>
+  <Function name="updateOtherImageDisplayStatusAfter50ms">
+    <FunctionCommand target="updateOtherImageDisplayStatus" delay="50" delayCondition="1"/>
+  </Function>
+  <Function name="updateOtherImageDisplayStatus">
+    <VariableCommand name="showImage1" expression="#targetImage1DisplayStatusAfterDelay" type="number"/>
+    <VariableCommand name="showImage2" expression="#targetImage2DisplayStatusAfterDelay" type="number"/>
+    <VariableCommand name="showPlaceholder" expression="@targetFallbackImageDisplayStatusAfterDelay" type="string"/>
+    <MultiCommand condition="(#showImage1 == 0)">
+      <FunctionCommand target="reset1"/>
+    </MultiCommand>
+    <MultiCommand condition="(#showImage2 == 0)">
+      <FunctionCommand target="reset2"/>
+    </MultiCommand>
+    <VariableCommand name="requestingImage" expression="0" type="number"/>
+    <VariableCommand name="image1Visibility" expression="#showImage1" type="number"/>
+    <VariableCommand name="image2Visibility" expression="#showImage2" type="number"/>
+    <VariableCommand name="src" expression="@targetSrc" type="string"/>
+    <ExternCommand command="__clearResource"/>
+    <FunctionCommand target="freezeFrameRate" delay="100" delayCondition="1"/>
+    <FunctionCommand target="updateTitleForDisplay"/>
+  </Function>
+  <Function name="freezeFrameRate">
+    <ExternCommand command="__clearResource"/>
+    <IfCommand ifCondition="(#requestingImage == 0)">
+      <Consequent>
+        <FunctionCommand target="decFrameRateRequirement"/>
+      </Consequent>
+      <Alternate>
+        <FunctionCommand target="freezeFrameRate" delay="2000" delayCondition="1"/>
+      </Alternate>
+    </IfCommand>
+  </Function>
+  <Function name="updateTitleForDisplay">
+    <IfCommand ifCondition="not(isnull(@title))">
+      <Consequent>
+        <VariableCommand name="titleForDisplay" expression="@title" type="string"/>
+      </Consequent>
+      <Alternate>
+        <VariableCommand name="titleForDisplay" expression="''" type="string"/>
+      </Alternate>
+    </IfCommand>
+    <IfCommand ifCondition="not(isnull(@subTitle))">
+      <Consequent>
+        <VariableCommand name="subTitleForDisplay" expression="@subTitle" type="string"/>
+      </Consequent>
+      <Alternate>
+        <VariableCommand name="subTitleForDisplay" expression="''" type="string"/>
+      </Alternate>
+    </IfCommand>
+  </Function>
+  <Function name="requestWithoutTimeLimit">
+    <VariableCommand name="beforeCta" expression="(#beforeCta) + (1)" type="number"/>
+    <BinderCommand name="requestCta" command="refresh"/>
+    <VariableCommand name="strategy" expression="'without'" type="string"/>
+  </Function>
+  <Function name="requestWithTimeLimit">
+    <VariableCommand name="beforeCta" expression="(#beforeCta) + (1)" type="number"/>
+    <BinderCommand name="requestCta" command="refresh"/>
+  </Function>
+  <Function name="requestImageUriWithoutTimeLimit">
+    <VariableCommand name="lastQueryId" expression="(#lastQueryId) + (1)" type="number"/>
+    <VariableCommand name="uriPart" expression="((((((((((((('?widgetId=' + @customEditLocalId) + '&amp;widgetType=') + @widgetType) + '&amp;widgetSize=') + @widgetSize) + '&amp;inPicker=') + ifelse(eqs(@isPreviewMode,'true'),'1','0')) + '&amp;forceRefreshNotified=') + #forceRefreshNotified) + '&amp;isFirstRequest=') + ifelse((#req == 0),'1','0')) + '&amp;queryId=') + #lastQueryId)" type="string"/>
+    <VariableCommand name="uri" expression="('content://com.miui.gallery.widget/maml/queryImage' + @uriPart)" type="string"/>
+    <BinderCommand name="requestImageUri" command="refresh"/>
+    <VariableCommand name="uri" expression="''" type="string"/>
+  </Function>
+  <Function name="requestImageUriWithTimeLimit">
+    <MultiCommand condition="((#time_sys - #lastImageChangeTime) } 180000)">
+      <FunctionCommand target="requestImageUriWithoutTimeLimit"/>
+    </MultiCommand>
+  </Function>
+  <Function name="delayedOnInit">
+    <VariableCommand name="initDate" expression="#time_sys" type="number"/>
+    <VariableCommand name="atForeground" expression="1" type="number"/>
+    <VariableCommand name="initialed" expression="1" type="number"/>
+    <FunctionCommand target="requestWithoutTimeLimit"/>
+  </Function>
+  <Function name="forceRefreshIfFirstRequestDisappeared">
+    <MultiCommand condition="(((#cta == 0) || (#ctaHasData == 0)) || (#hasData == 0))">
+      <FunctionCommand target="requestWithoutTimeLimit"/>
+    </MultiCommand>
+  </Function>
+  <Function name="jumpToApp">
+    <MultiCommand condition="not(eqs(@isPreviewMode,'true'))">
+      <MultiCommand condition="eqs(@widgetType,'recommend')">
+        <FunctionCommand target="jumpToRecommend"/>
+      </MultiCommand>
+      <MultiCommand condition="eqs(@widgetType,'custom')">
+        <FunctionCommand target="jumpToCustom"/>
+      </MultiCommand>
+      <MultiCommand condition="eqs(@widgetType,'collection')">
+        <FunctionCommand target="jumpToCollection"/>
+      </MultiCommand>
+    </MultiCommand>
+  </Function>
+  <Function name="jumpToRecommend">
+    <IntentCommand action="com.miui.gallery.ACTION_VIEW_RECOMMEND" package="com.miui.gallery" class="com.miui.gallery.gallerywidget.ui.RecommendDispatchActivity">
+      <Extra name="widgetSize" type="string" expression="@widgetSize"/>
+      <Extra name="localId" type="string" expression="@customEditLocalId"/>
+      <Extra name="selected_pic_uri" type="string" expression="@widgetImageInfo"/>
+    </IntentCommand>
+  </Function>
+  <Function name="jumpToCustom">
+    <IntentCommand action="com.miui.gallery.ACTION_VIEW_CUSTOM" package="com.miui.gallery" class="com.miui.gallery.gallerywidget.ui.CustomDispatchActivity">
+      <Extra name="widgetSize" type="string" expression="@widgetSize"/>
+      <Extra name="localId" type="string" expression="@customEditLocalId"/>
+      <Extra name="selected_pic_uri" type="string" expression="@widgetImageInfo"/>
+    </IntentCommand>
+  </Function>
+  <Function name="jumpToCollection">
+    <IntentCommand action="com.miui.gallery.ACTION_VIEW_COLLECTION" package="com.miui.gallery" class="com.miui.gallery.gallerywidget.ui.CustomDispatchActivity">
+      <Extra name="widgetSize" type="string" expression="@widgetSize"/>
+      <Extra name="localId" type="string" expression="@customEditLocalId"/>
+      <Extra name="selected_pic_uri" type="string" expression="@widgetImageInfo"/>
+    </IntentCommand>
+  </Function>
+  <Function name="load1">
+    <VariableCommand name="srcForDisplay1" expression="@src" type="string"/>
+  </Function>
+  <Function name="reset1">
+    <VariableCommand name="srcForDisplay1" expression="'an error image uri'" type="string"/>
+  </Function>
+  <Function name="load2">
+    <VariableCommand name="srcForDisplay2" expression="@src" type="string"/>
+  </Function>
+  <Function name="reset2">
+    <VariableCommand name="srcForDisplay2" expression="'an error image uri'" type="string"/>
+  </Function>
+  <Function name="onImageError">
+    <FunctionCommand target="requestWithoutTimeLimit"/>
+  </Function>
+  <Group visibility="#image1Visibility" alpha="ifelse(#localDebug,255,ifelse(#showImage1,255,0))">
+    <Image srcExp="@srcForDisplay1" w="#view_width" h="#view_height" srcX="#srcX1" srcY="#srcY1" srcW="#srcW1" srcH="#srcH1" touchable="true" loadAsync="false" name="image1" srcType="Uri">
+      <Triggers>
+        <Trigger action="error">
+          <FunctionCommand target="onImageError"/>
+        </Trigger>
+      </Triggers>
+    </Image>
+    <Group visibility="#debugMode">
+      <Text x="#view_width" textExp="#image1.bmp_width" size="30" y="30" align="right"/>
+      <Text textExp="@srcForDisplay1" size="30" y="60"/>
+    </Group>
+  </Group>
+  <Group visibility="#image2Visibility" alpha="ifelse(#localDebug,255,ifelse((#showImage2 == 1),255,0))" x="ifelse(#localDebug,80,0)" y="ifelse(#localDebug,110,0)">
+    <Image srcExp="@srcForDisplay2" w="#view_width" h="#view_height" srcX="#srcX2" srcY="#srcY2" srcW="#srcW2" srcH="#srcH2" touchable="true" loadAsync="false" name="image2" srcType="Uri">
+      <Triggers>
+        <Trigger action="error">
+          <FunctionCommand target="onImageError"/>
+        </Trigger>
+      </Triggers>
+    </Image>
+    <Group visibility="#debugMode">
+      <Text x="#view_width" textExp="#image2.bmp_width" size="30" y="30" align="right"/>
+      <Text textExp="@srcForDisplay2" size="30" y="60"/>
+    </Group>
+  </Group>
+  <Group visibility="not(eqs(@showPlaceholder,'none'))">
+    <Rectangle w="#view_width" h="#view_height" fillColor="argb(255, 240, 240, 240)"/>
+    <Image visibility="eqs(@showPlaceholder,'loading')" x="#loadingX" y="#loadingY" w="#loadingWidth" h="#loadingHeight" src="assets/loading_item.png"/>
+    <Group visibility="eqs(@showPlaceholder,'fallback')">
+      <!-- ImageForNonUri2.vue -->
+      <Image srcExp="@fallbackUrl" w="#view_width" h="#view_height" name="imageForNoneUri2"/>
+    </Group>
+  </Group>
+  <Group visibility="#showCollectionTitles">
+    <Rectangle w="#view_width" h="#coverH" y="(#view_height - #coverH)">
+      <FillShaders>
+        <LinearGradient x="(#view_width / 2)" y="0" x1="(#view_width / 2)" y1="#coverH">
+          <GradientStop color="argb(0,0,0,0)" position="0"/>
+          <GradientStop color="argb(0,0,0,0)" position="0.07"/>
+          <GradientStop color="argb(2.55,0,0,0)" position="0.13"/>
+          <GradientStop color="argb(5.1,0,0,0)" position="0.2"/>
+          <GradientStop color="argb(10.2,0,0,0)" position="0.27"/>
+          <GradientStop color="argb(17.85,0,0,0)" position="0.33"/>
+          <GradientStop color="argb(25.5,0,0,0)" position="0.4"/>
+          <GradientStop color="argb(33.15,0,0,0)" position="0.47"/>
+          <GradientStop color="argb(43.35,0,0,0)" position="0.53"/>
+          <GradientStop color="argb(51,0,0,0)" position="0.6"/>
+          <GradientStop color="argb(58.65,0,0,0)" position="0.67"/>
+          <GradientStop color="argb(66.3,0,0,0)" position="0.73"/>
+          <GradientStop color="argb(71.4,0,0,0)" position="0.8"/>
+          <GradientStop color="argb(73.95,0,0,0)" position="0.87"/>
+          <GradientStop color="argb(76.5,0,0,0)" position="0.93"/>
+          <GradientStop color="argb(76.5,0,0,0)" position="1"/>
+        </LinearGradient>
+      </FillShaders>
+    </Rectangle>
+    <Text size="(18 * #scaleX)" x="(#textDesignPadding * #scaleX)" y="(#view_height - (#titleDesignBottom * #scaleY))" w="#textW" textExp="@titleForDisplay" color="argb(255, 242, 250, 255)" ellipsis="true" alignV="bottom" fontFamily="mipro-medium"/>
+    <Text size="(10 * #scaleX)" x="(#textDesignPadding * #scaleX)" y="(#view_height - (#subTitleDesignBottom * #scaleY))" w="#textW" textExp="@subTitleForDisplay" color="argb(255, 242, 250, 255)" ellipsis="true" alignV="bottom" fontFamily="mipro-normal"/>
+  </Group>
+  <Group visibility="eqs(@isPreviewMode,'true')" w="#view_width" h="#view_height" contentDescriptionExp="@talkBack"/>
+  <Button visibility="(! eqs(@isPreviewMode,'true'))" w="#view_width" h="#view_height" contentDescriptionExp="@talkBack">
+    <Triggers>
+      <Trigger action="up">
+        <FunctionCommand target="jumpToApp"/>
+      </Trigger>
+    </Triggers>
+  </Button>
+  <Group visibility="#debugMode">
+    <Text textExp="#cta" x="10" y="10" size="30"/>
+    <Text textExp="#req" x="10" y="50" size="30"/>
+    <Text textExp="#time_sys" x="10" y="90" size="30"/>
+    <Text textExp="#requestingImage" x="10" y="130" size="30"/>
+    <Text textExp="@customEditLocalId" x="10" y="180" size="30"/>
+    <Text textExp="#varConfigShowTitle" x="10" y="220" size="30"/>
+    <Text textExp="#view_width" x="10" y="260" size="30"/>
+    <Text textExp="@queryId" x="10" y="300" size="30"/>
+    <Text x="(- 600)" textExp="@src" y="340" size="30"/>
+  </Group>
+  <VariableBinders>
+    <ContentProviderBinder name="requestCta" uriExp="'content://com.miui.gallery.widget/maml/cta'" firstRequery="false" columns="gallery_cta_allowed" countName="ctaHasData">
+      <Variable name="ctaAllowed" column="gallery_cta_allowed" type="number"/>
+      <Trigger>
+        <MultiCommand condition="#initialed">
+          <VariableCommand name="cta" expression="(#cta) + (1)" type="number"/>
+          <IfCommand ifCondition="((eqs(@strategy,'without') || eqs(@src,'')) || not((#ctaHasData ** #ctaAllowed)))">
+            <Consequent>
+              <VariableCommand name="strategy" expression="'with'" type="string"/>
+              <FunctionCommand target="requestImageUriWithoutTimeLimit"/>
+            </Consequent>
+            <Alternate>
+              <FunctionCommand target="requestImageUriWithTimeLimit"/>
+            </Alternate>
+          </IfCommand>
+        </MultiCommand>
+      </Trigger>
+    </ContentProviderBinder>
+    <ContentProviderBinder name="requestImageUri" uriExp="@uri" firstRequery="false" columns="widgetImageInfo,title,subTitle,queryId" countName="hasData">
+      <Variable name="widgetImageInfo" column="widgetImageInfo" type="string"/>
+      <Variable name="title" column="title" type="string"/>
+      <Variable name="subTitle" column="subTitle" type="string"/>
+      <Variable name="queryId" column="queryId" type="string"/>
+      <Trigger>
+        <MultiCommand condition="#initialed">
+          <IfCommand ifCondition="(#ctaHasData ** #ctaAllowed)">
+            <Consequent>
+              <IfCommand ifCondition="(not(strIsEmpty(@widgetImageInfo)) ** #hasData)">
+                <Consequent>
+                  <MultiCommand condition="(int(@queryId) == #lastQueryId)">
+                    <VariableCommand name="req" expression="(#req) + (1)" type="number"/>
+                    <VariableCommand name="newSrc" expression="((((((((((((@widgetImageInfo + '&amp;widgetId=') + @customEditLocalId) + '&amp;w=') + 0) + '&amp;h=') + 0) + '&amp;widgetSize=') + @widgetSize) + '&amp;inPicker=') + ifelse(eqs(@isPreviewMode,'true'),'1','0')) + '&amp;widgetType=') + @widgetType)" type="string"/>
+                    <MultiCommand condition="eqs(@widgetType,'recommend')">
+                      <VariableCommand name="newSrc" expression="((@newSrc + '&amp;showTitle=') + #recommendShowTitle)" type="string"/>
+                    </MultiCommand>
+                    <MultiCommand condition="(not(eqs(@newSrc,'')) ** ((((not(eqs(@newSrc,@src)) || #forceRefreshNotified) || #recommendShowTitleChanged) || eqs(@isPreviewMode,'true')) || eqs(@showPlaceholder,'none')))">
+                      <VariableCommand name="src" expression="@newSrc" type="string"/>
+                      <FunctionCommand target="loadImage"/>
+                    </MultiCommand>
+                  </MultiCommand>
+                </Consequent>
+                <Alternate>
+                  <FunctionCommand target="showFallbackImage"/>
+                </Alternate>
+              </IfCommand>
+              <VariableCommand name="forceRefreshNotified" expression="0" type="number"/>
+              <VariableCommand name="recommendShowTitleChanged" expression="0" type="number"/>
+            </Consequent>
+            <Alternate>
+              <MultiCommand condition="(#cta } 0)">
+                <FunctionCommand target="showFallbackImage"/>
+              </MultiCommand>
+            </Alternate>
+          </IfCommand>
+        </MultiCommand>
+      </Trigger>
+    </ContentProviderBinder>
+    <BroadcastBinder action="com.miui.gallery.maml.refresh" extra="widgetIds">
+      <Variable name="broadcastWidgetIds" extra="widgetIds" type="string"/>
+      <Trigger>
+        <MultiCommand condition="(not(eqs(@isPreviewMode,'true')) ** (strContains(@broadcastWidgetIds,@widgetId1) || strContains(@broadcastWidgetIds,@widgetId2)))">
+          <VariableCommand name="forceRefreshNotified" expression="1" type="number"/>
+          <MultiCommand condition="#atForeground">
+            <FunctionCommand target="requestWithoutTimeLimit"/>
+          </MultiCommand>
+        </MultiCommand>
+      </Trigger>
+    </BroadcastBinder>
+  </VariableBinders>
+  <ExternalCommands>
+    <Trigger action="init">
+      <FrameRateCommand rate="60"/>
+      <FunctionCommand target="delayedOnInit" delay="100" delayCondition="1"/>
+    </Trigger>
+    <Trigger action="resume">
+      <MultiCommand condition="#initialed">
+        <VariableCommand name="atForeground" expression="1" type="number"/>
+        <IfCommand ifCondition="(eqs(@isPreviewMode,'true') ** (eqs(@widgetType,'recommend') || eqs(@widgetType,'collection')))">
+          <Consequent>
+            <FunctionCommand target="requestWithoutTimeLimit"/>
+          </Consequent>
+          <Alternate>
+            <IfCommand ifCondition="(eqs(@isPreviewMode,'true') || #forceRefreshNotified)">
+              <Consequent>
+                <FunctionCommand target="requestWithoutTimeLimit"/>
+              </Consequent>
+              <Alternate>
+                <FunctionCommand target="requestWithTimeLimit"/>
+              </Alternate>
+            </IfCommand>
+          </Alternate>
+        </IfCommand>
+        <FunctionCommand target="cancelImageRequestIfNeeded"/>
+      </MultiCommand>
+      <FunctionCommand target="forceRefreshIfFirstRequestDisappeared" delay="3000" delayCondition="1"/>
+    </Trigger>
+    <Trigger action="pause">
+      <VariableCommand name="atForeground" expression="0" type="number"/>
+    </Trigger>
+    <Trigger action="orientationChange">
+      <FunctionCommand target="incFrameRateRequirement"/>
+    </Trigger>
+  </ExternalCommands>
+</Widget>

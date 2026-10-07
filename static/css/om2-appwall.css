@@ -1,0 +1,341 @@
+/* ==========================================================================
+   OpenMobile-2 — app wall (hero key art)
+   A rendered phone whose screen holds every app in the playground as an
+   icon, grouped and coloured by domain. Every hue is a main.css token
+   (--dom-* arrives per tile as --aw-c, set by the script); white and black
+   alphas appear only as shading. Class namespace: aw-.
+   ========================================================================== */
+
+/* --------------------------------------------------------------- 1. tokens */
+.aw {
+  --aw-cols: 8;                     /* these three are set by the script  */
+  --aw-tile: 32px;
+  --aw-gap: 4px;
+  --aw-w: 360;                      /* phone width in px, unitless        */
+  --aw-r: calc(var(--aw-w) * 0.13px);                       /* frame radius */
+  --aw-pad: clamp(6px, calc(var(--aw-w) * 0.026px), 10px);  /* bezel width  */
+  --aw-dim: 0.22;                   /* opacity of the non-highlighted bands */
+  --aw-glow: var(--accent-400);     /* highlighted domain, set by the script */
+  --aw-bezel: var(--surface-2);
+  --aw-shine: var(--logo-plate);    /* near-white in dark: icon highlights  */
+  --aw-rail-hi: color-mix(in srgb, var(--text-hi) 52%, var(--aw-bezel));
+  --aw-rail-mid: color-mix(in srgb, var(--text-hi) 16%, var(--aw-bezel));
+  --aw-rail-lo: color-mix(in srgb, var(--bg) 72%, var(--aw-bezel));
+  --aw-ring: color-mix(in srgb, var(--text-hi) 26%, transparent);
+  --aw-lens: color-mix(in srgb, var(--bg) 55%, black);
+  --aw-sheen: 0.065;
+  --aw-edge: 0.35;
+  --aw-ground: 1;
+  --aw-blob: 0.22;
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0;
+  font-family: var(--font-body);
+}
+:root[data-theme="light"] .aw {
+  --aw-bezel: var(--surface-3);     /* silver on paper, not a black slab */
+  --aw-shine: var(--surface-3);
+  --aw-rail-hi: var(--surface-3);
+  --aw-rail-mid: color-mix(in srgb, var(--text-hi) 10%, var(--aw-bezel));
+  --aw-rail-lo: color-mix(in srgb, var(--text-hi) 32%, var(--aw-bezel));
+  --aw-ring: var(--text-dim);
+  --aw-lens: color-mix(in srgb, var(--text-hi) 70%, black);
+  --aw-sheen: 0.4;
+  --aw-edge: 0.08;
+  --aw-ground: 0.45;
+  --aw-blob: 0.15;
+}
+
+/* ---------------------------------------------------------- 2. stage, depth
+   Two ambient blobs tinted by the highlighted domain, a ground shadow, and
+   a wrapper that carries the float so it never fights the tilt transform. */
+.aw-stage { position: relative; z-index: 0; width: 100%; max-width: 360px; margin: 0 auto; }
+.aw-blob,
+.aw-ground { position: absolute; z-index: -1; border-radius: 50%; pointer-events: none; }
+.aw-blob {
+  background: var(--aw-glow);
+  opacity: var(--aw-blob);
+  filter: blur(44px);
+  transition: background-color 0.7s ease;
+}
+.aw-blob-a { left: -10%; top: 2%; width: 64%; height: 36%; }
+.aw-blob-b { right: -12%; bottom: 4%; width: 66%; height: 38%; }
+.aw-ground {
+  left: 20%; right: 20%; bottom: -14px;
+  height: 30px;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.26) 42%, transparent 72%);
+  opacity: var(--aw-ground);
+}
+.aw-float { position: relative; will-change: transform; animation: aw-float 7s ease-in-out infinite; }
+@keyframes aw-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ---------------------------------------------------------------- 3. frame
+   Outer rail: a 2 px metallic gradient with two antenna lines (background
+   layers, visible only where the matte bezel does not cover them). */
+.aw-phone {
+  position: relative;
+  display: flex;
+  width: 100%;
+  aspect-ratio: 9 / 19;
+  padding: 2px;
+  border-radius: var(--aw-r);
+  background: var(--aw-bezel);
+  background:
+    linear-gradient(var(--aw-rail-hi), var(--aw-rail-hi)) 0 11% / 100% 1px no-repeat,
+    linear-gradient(var(--aw-rail-hi), var(--aw-rail-hi)) 0 89% / 100% 1px no-repeat,
+    linear-gradient(135deg, var(--aw-rail-hi), var(--aw-rail-mid) 32%, var(--aw-rail-lo));
+  box-shadow: 0 34px 60px -30px rgba(0, 0, 0, 0.75), var(--shadow);
+  transform: perspective(1400px) rotateY(-7deg) rotateX(2deg);
+  transition: transform 0.5s ease;
+}
+.aw-stage:hover .aw-phone { transform: perspective(1400px) rotateY(0deg) rotateX(0deg); }
+:root[data-theme="light"] .aw-phone { box-shadow: 0 28px 50px -30px rgba(0, 0, 0, 0.35), var(--shadow); }
+.aw-sbtn {
+  position: absolute;
+  width: 3px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--aw-rail-hi), var(--aw-rail-lo));
+}
+.aw-sbtn-power { right: -3px; top: 22%; height: 9%; }
+.aw-sbtn-vol1 { left: -3px; top: 17%; height: 6%; }
+.aw-sbtn-vol2 { left: -3px; top: 24.5%; height: 6%; }
+.aw-bezel {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  padding: var(--aw-pad);
+  border-radius: calc(var(--aw-r) - 2px);
+  background: var(--aw-bezel);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.22);
+}
+
+/* --------------------------------------------------------------- 4. screen
+   Wallpaper: a neutral bloom top-left over --bg, a masked wash in the
+   highlighted colour (.aw-wash, so it can transition), film grain (::before)
+   and the glass sheen with an inner edge shadow (::after). */
+.aw-screen {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: calc(var(--aw-r) - 2px - var(--aw-pad));
+  background: var(--bg);
+  background: radial-gradient(90% 55% at 12% 4%, color-mix(in srgb, var(--aw-shine) 9%, transparent), transparent 62%), var(--bg);
+  overflow: hidden;
+  isolation: isolate;
+}
+.aw-wash,
+.aw-screen::before,
+.aw-screen::after { position: absolute; inset: 0; pointer-events: none; }
+.aw-wash {
+  z-index: 0;
+  background: var(--aw-glow);
+  opacity: 0.12;
+  -webkit-mask-image: radial-gradient(120% 80% at 50% 26%, #000, transparent 72%);
+  mask-image: radial-gradient(120% 80% at 50% 26%, #000, transparent 72%);
+  transition: background-color 0.7s ease;
+}
+.aw-screen::before {
+  content: "";
+  z-index: 1;
+  opacity: 0.045;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") 0 0 / 160px 160px;
+}
+.aw-screen::after {
+  content: "";
+  z-index: 4;
+  background: linear-gradient(115deg, rgba(255, 255, 255, var(--aw-sheen)), transparent 40%);
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, var(--aw-edge));
+}
+.aw-status,
+.aw-wall,
+.aw-foot { position: relative; z-index: 2; }
+
+/* status strip: time left, signal / Wi-Fi / battery right, lens in the middle */
+.aw-status {
+  flex: none;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 17px 0;
+  font: 600 11px/1 var(--font-body);
+  letter-spacing: 0.01em;
+  color: var(--text-dim);
+}
+.aw-sig { display: inline-flex; align-items: center; gap: 5px; }
+.aw-sig svg { display: block; height: 11px; width: auto; }
+.aw-cam {
+  position: absolute;
+  z-index: 3;
+  top: 10px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 34%, rgba(255, 255, 255, 0.75) 0 0.8px, transparent 1.7px), var(--aw-lens);
+  box-shadow: 0 0 0 1px var(--aw-ring);
+}
+
+/* ----------------------------------------------------------------- 5. wall */
+.aw-wall {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  display: grid;
+  place-items: center;
+  padding: 6px 10px 8px;
+  overflow: hidden;
+}
+.aw-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--aw-cols), var(--aw-tile));
+  grid-auto-rows: var(--aw-tile);
+  gap: var(--aw-gap);
+}
+.aw-band { display: contents; }
+.aw-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* tiles as icons: domain colour, lighter top, darker foot, a glyph in ink */
+.aw-tile {
+  appearance: none;
+  -webkit-appearance: none;
+  display: grid;
+  place-items: center;
+  width: var(--aw-tile);
+  height: var(--aw-tile);
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 22%;
+  color: rgba(255, 255, 255, 0.85);
+  background: var(--aw-c);
+  background-image: linear-gradient(180deg, color-mix(in srgb, var(--aw-shine) 12%, transparent), transparent 48%, rgba(0, 0, 0, 0.08));
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--aw-shine) 26%, transparent), 0 1px 2px rgba(0, 0, 0, 0.35);
+  opacity: 0.82;
+  cursor: pointer;
+  transition: opacity 0.45s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+.aw-glyph {
+  display: block;
+  width: 46%;
+  height: 46%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+/* the 35 clients built in this work: full colour plus a faint inner glow */
+.aw-tile.is-new {
+  opacity: 1;
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--aw-shine) 45%, transparent),
+    inset 0 0 8px color-mix(in srgb, var(--aw-shine) 22%, transparent),
+    0 1px 2px rgba(0, 0, 0, 0.35);
+}
+.aw-tile.is-sys { opacity: 0.5; }
+.aw-tile.is-sys .aw-glyph { opacity: 0.65; }
+.aw-tile.is-emu {
+  color: var(--aw-c);
+  background: transparent;
+  border: 1.5px solid var(--aw-c);
+  box-shadow: none;
+  opacity: 0.62;
+}
+
+/* highlight: the bands outside the current domain fall back */
+.aw.has-focus .aw-band:not(.is-on) .aw-tile { opacity: var(--aw-dim); }
+.aw.has-focus .aw-band:not(.is-on) .aw-tile.is-emu { opacity: calc(var(--aw-dim) + 0.06); }
+
+.aw-tile:hover,
+.aw-tile:focus-visible {
+  position: relative;
+  z-index: 2;
+  opacity: 1;
+  transform: scale(1.18);
+  box-shadow:
+    0 0 0 1px var(--bg),
+    0 0 0 3px var(--aw-c),
+    0 0 14px color-mix(in srgb, var(--aw-c) 60%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--aw-shine) 26%, transparent);
+}
+.aw-tile:focus-visible { outline: 0; border-radius: 22%; }
+
+/* ----------------------------------------------------------------- 6. dock
+   A frosted pill naming the current highlight, home bar beneath it. */
+.aw-foot { flex: none; display: grid; justify-items: center; gap: 7px; padding: 6px 12px 7px; }
+.aw-dock {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 100%;
+  height: 30px;
+  padding: 0 13px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  background: color-mix(in srgb, var(--surface-2) 70%, transparent);
+  -webkit-backdrop-filter: blur(12px) saturate(1.3);
+  backdrop-filter: blur(12px) saturate(1.3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 1px 0 rgba(0, 0, 0, 0.28), 0 8px 18px -10px rgba(0, 0, 0, 0.6);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: clamp(10px, calc(var(--aw-w) * 0.031px), 12px);
+  line-height: 1;
+  color: var(--text-dim);
+}
+:root[data-theme="light"] .aw-dock {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 1px 0 rgba(0, 0, 0, 0.06), 0 8px 16px -10px rgba(0, 0, 0, 0.25);
+}
+.aw-dot { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--aw-c, var(--accent-400)); transition: background-color 0.3s ease; }
+.aw-cap-text { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.aw-cap-text b { color: var(--text-hi); font-weight: 600; }
+.aw-home { width: 30%; height: 3px; border-radius: 2px; background: var(--text-faint); opacity: 0.5; }
+.aw-tip .aw-dot { display: inline-block; vertical-align: 0; margin-right: 6px; }
+
+/* --------------------------------------------------------------- 7. legend
+   Chips pin a domain; the two keys read the tile styles. Both rows reuse
+   .wt-legend from main.css. */
+.aw-legend,
+.aw-keys { justify-content: center; margin: 18px auto 0; }
+.aw-legend { gap: 4px 2px; }
+.aw-keys { margin-top: 4px; gap: 4px 14px; font-size: 12px; color: var(--text-faint); }
+.aw-chip {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 9px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: none;
+  font: 500 12.5px/1 var(--font-body);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.aw-chip i { background: var(--aw-c); }
+.aw-chip:hover,
+.aw-chip.is-on { color: var(--text-hi); }
+.aw-chip:hover { border-color: var(--hairline-cool); }
+.aw-chip[aria-pressed="true"] { color: var(--text-hi); border-color: var(--hairline-strong); background: var(--surface-2); }
+.aw-chip:focus-visible { outline: 2px solid var(--accent-400); outline-offset: 1px; }
+.aw-key { display: inline-flex; align-items: center; }
+.aw-key i { background: currentColor; }
+.aw-key i.is-emu { background: transparent; border: 1.5px solid currentColor; }
+
+/* --------------------------------------------------------------- 8. motion */
+@media (prefers-reduced-motion: reduce) {
+  .aw-float { animation: none; }
+  .aw-phone,
+  .aw-stage:hover .aw-phone { transform: none; transition: none; }
+  .aw-tile, .aw-chip, .aw-dot, .aw-blob, .aw-wash { transition-duration: 0.12s; }
+}

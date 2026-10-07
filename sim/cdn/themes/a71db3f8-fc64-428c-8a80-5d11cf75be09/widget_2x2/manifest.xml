@@ -1,0 +1,1065 @@
+<Widget version="1" screenWidth="1080" resDensity="480" frameRate="0" scaleByDensity="false" customizedDarkModeWallpaper="true" extraResources="sw1440:den560:1" supportBackgroundBlur="true">
+    <!-- 样式 -->
+    <Var name="isDark" expression="#__darkmode" />
+    <!-- 系统语言 -->
+    <Var name="isTibetan" expression="eqs(@lang,'bo_CN')" />
+    <Var name="isEnglish" expression="eqs(@lang,'en_US')" />
+    <Var name="isUighur" expression="eqs(@lang,'ug_CN')" />
+    <Var name="isCN" expression="#isEnglish == 0 ** #isTibetan == 0 ** #isUighur == 0" />
+
+    <Var name="bgColor" expression="ifelse(#isDark, '#1A1A1B', '#F5F5F5')" type="string" />
+
+    <!-- 真实值 -->
+    <Var name="w" expression="#view_width" />
+    <Var name="h" expression="#view_height" />
+
+    <!-- <Var name="w" expression="356" /> -->
+    <!-- <Var name="h" expression="418" /> -->
+
+    <!-- 自适应布局 -->
+    <!-- 按照 宽度 440 356  340 这三个宽度分区间 -->
+    <Var name="ballScale" expression="ifelse(#w }= 440, 1, max(1-0.125/84*(440-#w), 0.851))" />
+    <Var name="wScale" expression="ifelse(#w }= 440, 1, max(#w/440, 0.773))" />
+
+    <Var name="numberColor" expression="ifelse(#isDark ==0,'#CC000000', '#E6FFFFFF')" type="string" />
+    <Var name="unitColor" expression="ifelse(#isDark ==0,'#66000000', '#66FFFFFF')" type="string" />
+    <Var name="descColor" expression="ifelse(#isDark ==0,'#4D000000', '#4DFFFFFF')" type="string" />
+
+    <!-- 圆心坐标 -->
+    <Var name="circleCenterX" expression="#w - 42 - 80*#ballScale" />
+    <Var name="circleCenterY" expression="#h - 42 - 80*#ballScale" />
+
+    <!-- 当前状态 0：未初始化; 1：可清理; 2 已清理完成, 3 显示8个词语 4 :显示连击  -->
+    <Var name="status" expression="0" type="number" const="true" />
+    <Var name="btnEnabled" expression="1" type="number" const="true" />
+
+    <!-- 是否加速状态 -->
+    <Var name="cleaning" expression="0" const="true" />
+    <Var name="cleaningRed" expression="0" const="true" />
+    <Var name="cleaningBlue" expression="0" const="true" />
+
+    <!-- 是否显示ink -->
+    <Var name="showInk" expression="0" const="true" />
+
+    <!-- 是否在picker预览页内 -->
+    <Var name="isPreview" expression="eqs(@isPreviewMode,'true')" />
+
+    <!-- 可清理内存数据 -->
+    <Var name="cleanableMemory" expression="0" type="number" const="true" />
+    <Var name="lastMemoryCleanable" expression="0" type="number" const="true" />
+
+    <Var name="oneGB" expression="1000*1000*1000" const="true" type="number" />
+    <!-- 图片路径 -->
+    <Var name="fanSrc" expression="ifelse(#isDark==1, 'images/dark_fan.webp','images/fan.webp')" type="string" />
+    <Var name="rocketSrc" expression="'images/icon.webp'" type="string" />
+    <Var name="ballSrc" expression="ifelse(#isDark==1, 'images/dark_ball.webp','images/ball.webp')" type="string" />
+    <Var name="ballBgSrc" expression="ifelse(#isDark==1, 'images/dark_ball_bg.webp','images/ball_bg.webp')" type="string" />
+
+    <!-- 风扇大小 -->
+    <Var name="fanWidth" expression="186" const="true" />
+
+    <!-- 风扇变blue -->
+    <Var name="fanBlueAlphaOnClean" expression="0">
+        <VariableAnimation initPause="true" loop="false" tag="clean">
+            <Item value="0" time="0" easeType="SineEaseOut" />
+            <Item value="255" time="500" />
+        </VariableAnimation>
+    </Var>
+
+    <!-- 风扇缩放 -->
+    <Var name="fanScaleInitVal" expression="0.7" />
+    <Var name="fanScaleConfig" type="number[]" const="true" expression="" values="1,1,100" />
+    <Var name="fanScaleVal" expression="#fanScaleInitVal">
+        <VariableAnimation initPause="true" loop="false" tag="clean">
+            <Item value="#fanScaleInitVal" time="0" easeType="QuartEaseOut" />
+            <Item value="1" time="400" />
+            <Item value="1" time="4600" />
+            <Item value="#fanScaleInitVal" time="5000" />
+        </VariableAnimation>
+
+        <VariableAnimation initPause="true" loop="false" tag="hit">
+            <Item value="#fanScaleConfig[0]" time="0" easeType="QuartEaseOut" />
+            <Item value="#fanScaleConfig[1]" time="200" />
+        </VariableAnimation>
+
+        <VariableAnimation initPause="true" loop="false" tag="back">
+            <Item value="#fanScaleConfig[0]" time="0" easeType="SineEaseOut" />
+            <Item value="#fanScaleInitVal" time="2000" />
+        </VariableAnimation>
+    </Var>
+
+    <!-- 按钮小球大小 -->
+    <Var name="btnWidth" expression="160" />
+    <Var name="btnBgWidth" expression="222" />
+    <!-- btnBox缩放 -->
+    <Var name="btnBoxScaleConfig" type="number[]" const="true" expression="" values="1,1" />
+    <Var name="btnBoxScaleVal" expression="1">
+        <VariableAnimation initPause="true" loop="false" tag="clean">
+            <Item value="1" time="0" easeType="QuartEaseOut" />
+            <!-- 中间不变 -->
+            <Item value="0.9" time="400" />
+            <Item value="0.9" time="1600" />
+            <Item value="1" time="5000" />
+        </VariableAnimation>
+
+        <VariableAnimation initPause="true" loop="false" tag="hit">
+            <Item value="#btnBoxScaleConfig[0]" time="0" easeType="QuartEaseOut" />
+            <Item value="#btnBoxScaleConfig[1]" time="200" />
+        </VariableAnimation>
+
+        <VariableAnimation initPause="true" loop="false" tag="back">
+            <Item value="#btnBoxScaleConfig[0]" time="0" easeType="SineEaseOut" />
+            <Item value="#btnBoxScaleConfig[1]" time="200" easeType="SineEaseInOut" />
+            <Item value="1" time="2000" />
+        </VariableAnimation>
+    </Var>
+
+    <!-- 圆球部分 -->
+    <Var name="btnAlphaBlue" expression="0">
+        <VariableAnimation name="btnAlphaBlueAni" initPause="true" loop="false" tag="clean">
+            <Item value="0" time="0" easeType="SineEaseOut" />
+            <Item value="255" time="500" />
+        </VariableAnimation>
+        <VariableAnimation initPause="true" loop="false" tag="back">
+            <Item value="0" time="0" />
+        </VariableAnimation>
+    </Var>
+    <!-- icon动画 -->
+
+    <!-- 小圆内icon -->
+    <Var name="iconW" expression="56*0.95" />
+    <Var name="iconH" expression="58*0.95" />
+
+    <!-- 持续刷新旋转 -->
+    <Var name="fanRotation" expression="0" const="true" type="number" />
+    <Var name="rotSpeedEnabled" expression="0" const="true" type="number" />
+    <Var name="rotSpeedReal" expression="0" const="true" type="number" />
+    <Var name="rotSpeedConfig" type="number[]" const="true" expression="" values="1,1" />
+    <Var name="rotSpeed" expression="0" type="number">
+        <!-- 执行清理时，执行的动画 -->
+        <VariableAnimation name="rotSpeedAni" initPause="true" loop="false" tag="clean">
+            <Item value="0" time="0" easeType="SineEaseInOut" />
+            <Item value="1200" time="2000" />
+            <Item value="1200.1" time="3000" />
+            <Item value="0" time="5000" />
+            <Triggers>
+                <Trigger action="end" condition="#rotSpeedAni.current_frame==-1">
+                    <VariableCommand name="rotSpeedEnabled" expression="0" />
+                    <VariableCommand name="fanRotation" expression="0" delay="300" />
+                </Trigger>
+            </Triggers>
+        </VariableAnimation>
+
+        <!-- hit时的动画 -->
+        <VariableAnimation initPause="true" loop="false" tag="hit">
+            <Item value="#rotSpeedConfig[0]" time="0" easeType="QuartEaseOut" />
+            <Item value="#rotSpeedConfig[1]" time="200" />
+        </VariableAnimation>
+
+        <VariableAnimation name="rotSpeedAni2" initPause="true" loop="false" tag="back">
+            <Item value="#rotSpeedConfig[0]" time="0" easeType="SineEaseOut" />
+            <Item value="0" time="2000" />
+            <Triggers>
+                <Trigger action="end" condition="#rotSpeedAni2.current_frame==-1">
+                    <VariableCommand name="rotSpeedEnabled" expression="0" />
+                    <VariableCommand name="fanRotation" expression="0" delay="400" />
+                </Trigger>
+            </Triggers>
+        </VariableAnimation>
+    </Var>
+
+
+    <!-- 是否显示boom动画 -->
+    <Var name="boomEnabled" expression="0" const="true" />
+    <Var name="boomIndex" expression="-1" const="true" />
+
+    <Var expression="#time_sys" threshold="1" condition="#rotSpeedEnabled == 1">
+        <!-- 经测试，此处类似于每次刷新 -->
+        <!-- 不开启高刷新率时，为30帧左右 -->
+        <!-- 开启高刷新率时，60->为 50+帧 -->
+        <!-- 开启高刷新率时，120->为 90+帧,有时会掉到70帧，但至少60+帧 -->
+        <Trigger>
+            <!-- 每一帧时会执行以下代码 -->
+            <!-- 每帧时，增加角度 -->
+            <VariableCommand condition="#rotSpeedEnabled == 1" name="rotSpeedReal" expression="min(#rotSpeed/100,15) * ifelse(#frame_rate { 50,2,1)" />
+            <VariableCommand condition="#rotSpeedEnabled == 1" name="fanRotation" expression="#rotSpeedReal + #fanRotation" />
+
+            <!-- 播放boom序列帧 -->
+            <VariableCommand condition="#boomEnabled == 1 ** #boomIndex { 17" name="boomIndex" expression="#boomIndex + 1" />
+
+        </Trigger>
+    </Var>
+    <!-- /持续刷新旋转 -->
+
+    <!-- 火箭Y变量 -->
+    <Var name="rocketYConfig" expression="0" const="true" />
+    <Var name="rocketY">
+        <!--向上移动-->
+        <VariableAnimation name="rocketMoveAni" loop="false" initPause="true" tag="move">
+            <Item value="0" time="0" easeType="SineEaseInOut" />
+            <Item value="-10" time="400" />
+            <Triggers>
+                <Trigger action="end" condition="#rocketMoveAni.current_frame==-1">
+                    <AnimationCommand target="rocketY" command="play" tags="loop" />
+                </Trigger>
+            </Triggers>
+        </VariableAnimation>
+        <VariableAnimation name="loopAni" loop="false" initPause="false" tag="loop">
+            <Item value="-10" time="0" easeType="SineEaseInOut" />
+            <Item value="4" time="1000" />
+            <Item value="-10" time="2000" />
+            <Triggers>
+                <Trigger action="end" condition="#loopAni.current_frame==-1">
+                    <AnimationCommand target="rocketY" command="play" tags="loop" />
+                </Trigger>
+            </Triggers>
+        </VariableAnimation>
+
+        <!-- 火箭回归原来位置 -->
+        <VariableAnimation loop="false" initPause="false" tag="back">
+            <Item value="#rocketYConfig" time="0" easeType="QuartEaseOut" />
+            <Item value="0" time="500" />
+        </VariableAnimation>
+
+        <!-- hit -->
+        <VariableAnimation loop="false" initPause="false" tag="hit">
+            <Item value="0" time="0" easeType="SineEaseInOut" />
+            <Item value="-20" time="250" />
+        </VariableAnimation>
+        <!-- hit状态时，回归 -->
+        <VariableAnimation loop="false" initPause="false" tag="hit-back">
+            <Item value="#rocketYConfig" time="0" easeType="SineEaseInOut" />
+            <Item value="0" time="1000" />
+        </VariableAnimation>
+    </Var>
+
+    <!-- 火箭透明度:蓝色火箭 -->
+    <Var name="rocketBlueAlpha" expression="0">
+        <VariableAnimation name="rocketBlueAlphaClean" initPause="true" loop="false" tag="clean">
+            <Item value="0" time="0" easeType="SineEaseOut" />
+            <Item value="255" time="500" />
+        </VariableAnimation>
+        <VariableAnimation initPause="true" loop="false" tag="back">
+            <Item value="255" time="0" easeType="QuartEaseOut" />
+            <Item value="0" time="500" />
+        </VariableAnimation>
+
+        <!-- 连击时 -->
+        <VariableAnimation initPause="true" loop="false" tag="hit">
+            <Item value="0" time="0" />
+        </VariableAnimation>
+        <!-- 连击时:松手 -->
+        <VariableAnimation initPause="true" loop="false" tag="hit-back">
+            <Item value="0" time="0" easeType="QuartEaseOut" />
+            <Item value="255" time="200" />
+        </VariableAnimation>
+    </Var>
+    <!-- /火箭Y变量 -->
+
+    <!-- warnings -->
+    <Var name="warnings" type="string[]" const="true" expression="''" values="@str_warning_1,@str_warning_2,@str_warning_3,@str_warning_4" />
+    <Var name="warningsLen" expression="4" const="true" />
+    <Var name="warningIndex" expression="-1" type="number" const="true" />
+    <!-- 是否已显示全部的warning，注意：是全部 -->
+    <Var name="warningShown" expression="0" type="number" const="true" />
+
+    <!-- hit部分 -->
+    <!-- hit值，中心的y值 -->
+    <Var name="hitCenterY" expression="99" const="true" />
+    <!-- 连击次数 -->
+    <Var name="hitAniConfig" expression="0" const="true" />
+    <Var name="hitAni" expression="0">
+        <VariableAnimation name="hitAniAdd" loop="false" initPause="false" tag="add">
+            <Item value="#hitAniConfig" time="0" />
+            <Item value="#hitAniConfig+1" time="1" />
+            <Triggers>
+                <Trigger action="end" condition="#hitAniAdd.current_frame==-1">
+                    <!-- hit值增加之后，需要放大 -->
+                    <VariableCommand name="hitScaleConfig" expression="#hitScale" />
+                    <AnimationCommand target="hitScale" command="play" />
+                    <!-- 震动及波纹 -->
+                    <FunctionCommand target="vibrate" />
+                    <!-- 波纹 -->
+                    <FunctionCommand target="playInk" />
+
+                </Trigger>
+            </Triggers>
+        </VariableAnimation>
+        <VariableAnimation loop="false" initPause="false" tag="back">
+            <Item value="#hitAniConfig" time="0" />
+            <Item value="0" time="300" />
+        </VariableAnimation>
+    </Var>
+    <!-- hit scale -->
+    <Var name="hitScaleConfig" expression="1" const="true" />
+    <Var name="hitScale" expression="1">
+        <VariableAnimation loop="false" initPause="true">
+            <Item value="#hitScaleConfig" time="0" easeType="QuartEaseOut" />
+            <Item value="1.1" time="100" easeType="SineEaseOut" />
+            <Item value="1" time="600" />
+        </VariableAnimation>
+    </Var>
+    <Var name="hitFinal" expression="999" />
+    <Var name="hit" expression="int(#hitAni)" />
+
+    <Var name="hitColorNormal" expression="ifelse(#hit { 100, '#CC000000', '#00AAFF')" type="string" />
+    <Var name="hitColorDark" expression="ifelse(#hit { 100, '#E6FFFFFF', '#009BE9')" type="string" />
+    <Var name="hitColorFinal" expression="ifelse(#isDark, '#58C8FF', '#5CCAFF')" type="string" />
+
+    <Var name="hitColor" expression="ifelse(#hit { #hitFinal, ifelse(#isDark, @hitColorDark, @hitColorNormal), @hitColorFinal)" type="string" />
+
+    <Var name="hitSize160_1" expression="160" />
+    <Var name="hitSize160_2" expression="120" />
+    <Var name="hitSize160" expression="min(#hitSize160_1-(#hitSize160_1 - #hitSize160_2)/100*(440-#w), #hitSize160_1)" />
+
+    <Var name="hitSizeX_large_1" expression="96" />
+    <Var name="hitSizeX_large_2" expression="72" />
+    <Var name="hitSizeX_large" expression="min(#hitSizeX_large_1-(#hitSizeX_large_1 - #hitSizeX_large_2)/100*(440-#w), #hitSizeX_large_1)" />
+
+
+    <!-- 是否hiting中 -->
+    <Var name="hitting" expression="0" const="true" />
+
+    <!-- 已加速透明度 -->
+    <Var name="freedNumAlpha" expression="255">
+
+        <VariableAnimation loop="false" initPause="true" tag="show">
+            <Item value="0" time="0" easeType="QuadEaseOut" />
+            <Item value="255" time="200" />
+        </VariableAnimation>
+
+        <VariableAnimation loop="false" initPause="true" tag="hide">
+            <Item value="0" time="0" />
+        </VariableAnimation>
+
+        <VariableAnimation loop="false" initPause="true" tag="init">
+            <Item value="255" time="0" />
+        </VariableAnimation>
+    </Var>
+
+    <!-- 是否在当前页面 -->
+    <Var name="isActive" expression="1" const="true" />
+
+    <!-- 切屏时 -->
+    <ExternalCommands>
+        <Trigger action="init">
+            <!-- 发送广播 -->
+            <IntentCommand action="miui.intent.action.MAML_WIDGET_ADDED" broadcast="true" condition="eqs(@isPreviewMode,'true') == 0">
+                <Extra name="widget_name" type="string" expression="'ramjat'" />
+            </IntentCommand>
+        </Trigger>
+
+        <Trigger action="resume">
+            <VariableCommand name="isActive" expression="1" condition="#isPreview == 0" />
+            <!-- 设置帧率 -->
+            <!-- 每次切屏时，设置帧率：1s -->
+            <!-- bugfix:https://jira.n.xiaomi.com/browse/MIUIROM-2045407 帧率根据当前动画情况而定 -->
+            <AnimationCommand target="setFrameRateClean" command="play(6000-1000)" condition="#cleaning==0 ** #hitting==0" />
+            <AnimationCommand target="setFrameRateClean" command="play" condition="#cleaning || #hitting" />
+
+
+            <!-- 切屏时，禁用按钮 -->
+            <!-- 为解决一开始按钮点击失效问题，切屏时不禁用按钮 -->
+            <!-- <VariableCommand name="btnEnabled" expression="0" condition="#cleaning == 0 ** #hitting == 0 ** #isPreview == 0" /> -->
+            <VariableCommand name="btnEnabled" expression="1" />
+
+            <!-- 开屏刷新 -->
+            <BinderCommand name="freeMemoryBiner" command="refresh" />
+        </Trigger>
+
+        <Trigger action="pause">
+            <VariableCommand name="isActive" expression="0" condition="#isPreview == 0" />
+            <FunctionCommand target="cancelHitAni" condition="#isPreview == 0 ** #hitting" />
+            <FunctionCommand target="cancelCleanAni" condition="#isPreview == 0 ** #cleaning" />
+            <!-- 切屏时，帧率为0 -->
+            <AnimationCommand target="setFrameRateClean" command="play(6000-200)" />
+        </Trigger>
+    </ExternalCommands>
+
+    <VariableBinders>
+        <!-- 查询结果 -->
+        <ContentProviderBinder name="freeMemoryBiner" uri="content://com.miui.securitycenter.widgetProvider/getMemoryData" columns="memoryCleanable,lastCleanedMemorySize">
+            <!-- 将查询结果绑定到变量上 -->
+            <Variable name="cleanableMemory" type="long" column="memoryCleanable" />
+            <Variable name="lastMemoryCleanable" type="long" column="lastCleanedMemorySize" />
+            <Trigger>
+                <FunctionCommand target="reset" condition="#cleaning == 0 ** #hitting == 0 ** #isPreview == 0" />
+                <!-- 如果当前正在hitting，则清理内存 -->
+                <!-- 如果正在cleaning,则会自动执行该动作 -->
+                <FunctionCommand target="sendCleanBroadcast" condition="#cleanableMemory } 0 ** #hitting  ** #isPreview == 0" />
+            </Trigger>
+        </ContentProviderBinder>
+
+        <BroadcastBinder action="android.intent.action.CONFIGURATION_CHANGED">
+            <Trigger>
+                <MethodCommand target="__objRoot" targetType="var" method="selfResume" />
+            </Trigger>
+        </BroadcastBinder>
+    </VariableBinders>
+
+    <!-- 重置，非动画 -->
+    <Function name="reset">
+        <!-- 根据查询结果重置当前状态 -->
+        <AnimationCommand target="memoryCleanableAniVal" command="play" tags="init" />
+
+        <VariableCommand name="btnEnabled" expression="1" />
+
+        <!-- 如果status==1，则恢复红色 -->
+        <FunctionCommand target="toRed" condition="#cleanableMemory } 0 ** #status }= 2" />
+        <!-- 如果status == 2,则变为蓝色:为解决重新加载组件时出现的bug -->
+        <FunctionCommand target="toBlue" condition="#cleanableMemory {= 0" />
+
+        <VariableCommand name="status" expression="ifelse(#cleanableMemory } 0, 1, 2)" />
+        <AnimationCommand target="freedNumAlpha" command="play" tags="init" condition="#freedNumAlpha { 255" />
+    </Function>
+
+    <Function name="toRed">
+
+        <VariableCommand name="warningIndex" expression="-1" />
+        <VariableCommand name="warningShown" expression="0" />
+        <VariableCommand name="hitAniConfig" expression="0" />
+        <AnimationCommand target="hitAni" command="play" tags="back" />
+
+        <!-- 恢复火箭红色 -->
+        <AnimationCommand target="rocketBlueAlpha" command="play" tags="hit" />
+
+        <!-- 按钮恢复红色:500ms -->
+        <AnimationCommand target="btnAlphaBlue" command="play" tags="back" />
+    </Function>
+
+    <Function name="toBlue">
+        <!-- toBlue动画是立即执行的，没有过渡，不需要延迟 -->
+        <!-- <VariableCommand name="btnEnabled" expression="0" />
+        <VariableCommand name="btnEnabled" expression="1" delay="500" /> -->
+
+        <!-- 按钮变蓝:需要500ms -->
+        <AnimationCommand target="btnAlphaBlue" command="play(500)" tags="clean" condition="#btnAlphaBlue == 0" />
+        <!-- 火箭变蓝:需要500ms -->
+        <AnimationCommand target="rocketBlueAlpha" command="play(500)" tags="clean" condition="#rocketBlueAlpha == 0" />
+        <!-- 转盘变蓝 -->
+        <AnimationCommand target="fanBlueAlphaOnClean" command="play(500)" tags="clean" condition="#fanBlueAlphaOnClean == 0" />
+    </Function>
+
+    <!-- 可清理内存值动画 -->
+    <Var name="memoryCleanableAniVal" expression="#cleanableMemory">
+        <VariableAnimation initPause="true" loop="false" tag="clean">
+            <Item value="#cleanableMemory" time="0" easeType="CubicEaseInOut" />
+            <Item value="0" time="5000" />
+        </VariableAnimation>
+        <VariableAnimation initPause="true" loop="false" tag="init">
+            <Item value="#cleanableMemory" time="0" />
+        </VariableAnimation>
+    </Var>
+
+    <!-- 实际值 -->
+    <Var name="valOnAni" expression="ifelse(#memoryCleanableAniVal { #oneGB,formatFloat('%.0f',#memoryCleanableAniVal/1000/1000),formatFloat('%.2f',#memoryCleanableAniVal/1000/1000/1000))" type="string" />
+    <Var name="unitOnAni" expression="ifelse(#memoryCleanableAniVal }= #oneGB, 'GB', 'MB')" type="string" />
+
+    <!-- 上次清理内存 -->
+    <Var name="lastMemoryVal" expression="ifelse(#lastMemoryCleanable { #oneGB,formatFloat('%.0f',#lastMemoryCleanable/1000/1000),formatFloat('%.2f',#lastMemoryCleanable/1000/1000/1000))" type="string" />
+    <Var name="lastMemoryUnit" expression="ifelse(#lastMemoryCleanable }= #oneGB, 'GB', 'MB')" type="string" />
+    <Var name="lastMemoryFreed" expression="@lastMemoryVal+@lastMemoryUnit" type="string" />
+
+    <!-- 设置动态帧率:执行清理时 -->
+    <FramerateController name="setFrameRateClean" initPause="true" loop="false">
+        <ControlPoint frameRate="120" time="0" />
+        <ControlPoint frameRate="120" time="6000" />
+        <ControlPoint frameRate="0" time="6001" />
+    </FramerateController>
+
+    <!-- 通知客户端，执行清理 -->
+    <Function name="sendCleanBroadcast">
+        <IntentCommand action="com.miui.intent.action.CLEAN_MEMORY" broadcast="true" />
+    </Function>
+
+    <!-- 振动 -->
+    <Function name="vibrate">
+        <IntentCommand action="com.miui.intent.action.VIBRATE" broadcast="true" condition="#isActive">
+            <Extra name="linear_effect" type="int" expression="2" />
+            <Extra name="vibrate_milli" type="long" expression="22" />
+        </IntentCommand>
+    </Function>
+
+    <!-- timer -->
+    <Var name="vibrate-clean-timer">
+        <VariableAnimation name="vibrateTimerAni" initPause="true" loop="false">
+            <Item value="0" time="0" />
+            <Item value="4600" time="4600" />
+            <Triggers>
+                <Trigger action="end" condition="#vibrateTimerAni.current_frame==-1">
+                    <FunctionCommand target="vibrate" />
+                </Trigger>
+            </Triggers>
+        </VariableAnimation>
+    </Var>
+    <!-- timer -->
+    <Var name="freed-clean-timer">
+        <VariableAnimation name="freedCleanTimerAni" initPause="true" loop="false">
+            <Item value="0" time="0" />
+            <Item value="4600" time="4600" />
+            <Triggers>
+                <Trigger action="end" condition="#freedCleanTimerAni.current_frame==-1">
+                    <!-- 4600时波纹以及文字效果 -->
+                    <AnimationCommand target="freedDone" command="play" delay="50" />
+                    <AnimationCommand target="freedNum" command="play" delay="50" />
+                    <!-- 波纹 -->
+                    <FunctionCommand target="playInk" />
+                </Trigger>
+            </Triggers>
+        </VariableAnimation>
+    </Var>
+
+    <!-- timer -->
+    <Var name="rocket-clean-timer">
+        <VariableAnimation name="rocketCleanTimerAni" initPause="true" loop="false">
+            <Item value="0" time="0" />
+            <Item value="4600" time="4600" />
+            <Triggers>
+                <Trigger action="end" condition="#rocketCleanTimerAni.current_frame==-1">
+                    <AnimationCommand target="rocketY" command="pause" tags="move" />
+                    <VariableCommand name="rocketYConfig" expression="#rocketY" />
+                    <AnimationCommand target="rocketY" command="play" tags="back" />
+                </Trigger>
+            </Triggers>
+        </VariableAnimation>
+    </Var>
+
+    <!-- timer -->
+    <Var name="btn-clean-timer">
+        <VariableAnimation name="btnCleanTimerAni" initPause="true" loop="false">
+            <Item value="0" time="0" />
+            <Item value="3000" time="3000" />
+            <Triggers>
+                <Trigger action="end" condition="#btnCleanTimerAni.current_frame==-1">
+                    <!-- 进入加速蓝色状态 -->
+                    <VariableCommand name="cleaningBlue" expression="1" />
+                    <!-- 按钮变蓝 -->
+                    <AnimationCommand target="btnAlphaBlue" command="play" tags="clean" />
+                    <!-- 火箭变蓝 -->
+                    <AnimationCommand target="rocketBlueAlpha" command="play" tags="clean" />
+                    <!-- 转盘变蓝 -->
+                    <!-- 等蓝色转盘完全出现，关闭红色状态 -->
+                    <AnimationCommand target="fanBlueAlphaOnClean" command="play" tags="clean" />
+
+                    <!-- 开始变蓝->500ms后，变蓝动画完成，红色消失 -->
+                    <VariableCommand name="cleaningRed" expression="0" delay="500" />
+
+                </Trigger>
+            </Triggers>
+        </VariableAnimation>
+    </Var>
+
+    <!-- timer -->
+    <Var name="status-clean-timer">
+        <VariableAnimation name="statusCleanTimerAni" initPause="true" loop="false">
+            <Item value="0" time="0" />
+            <Item value="4600" time="4600" />
+            <Triggers>
+                <Trigger action="end" condition="#statusCleanTimerAni.current_frame==-1">
+                    <!-- 4600时加速完成 -->
+                    <VariableCommand name="status" expression="2" />
+                    <!-- 下面标签属性非常重要 ！！！-->
+                    <VariableCommand name="cleaning" expression="0" delay="400" />
+                    <VariableCommand name="cleaningRed" expression="0" delay="400" />
+                    <VariableCommand name="cleaningBlue" expression="0" delay="400" />
+                </Trigger>
+            </Triggers>
+        </VariableAnimation>
+    </Var>
+
+    <!-- 执行加速动画 -->
+    <Function name="playClean">
+        <!-- 设置帧率:6秒钟 -->
+        <AnimationCommand target="setFrameRateClean" command="play" />
+
+        <!-- 发送广播：内存清理，正是上线时请打开！！！！！ -->
+        <FunctionCommand target="sendCleanBroadcast" />
+
+        <!-- 进入红色状态 -->
+        <VariableCommand name="cleaningRed" expression="1" />
+
+        <!-- 数字下降动画 -->
+        <AnimationCommand target="memoryCleanableAniVal" command="play" tags="clean" />
+        <!-- btnBox缩放动画 -->
+        <AnimationCommand target="btnBoxScaleVal" command="play" tags="clean" />
+
+        <!-- 按钮及转盘变蓝 -->
+        <AnimationCommand target="btn-clean-timer" command="play" />
+
+        <!-- 火箭动画 -->
+        <AnimationCommand target="rocketY" command="play" tags="move" />
+        <AnimationCommand target="rocket-clean-timer" command="play" />
+
+        <!-- 风扇缩放动画 -->
+        <AnimationCommand target="fanScaleVal" command="play" tags="clean" />
+        <!-- 风扇旋转动画 -->
+        <!-- 速度从0->1200，1200-1200.1 1200.1->0 -->
+        <VariableCommand name="rotSpeedEnabled" expression="1" />
+        <AnimationCommand target="rotSpeed" command="play" tags="clean" />
+
+        <!-- 振动 -->
+        <AnimationCommand target="vibrate-clean-timer" command="play" />
+
+        <!-- 波纹以及文字效果 -->
+        <AnimationCommand target="freed-clean-timer" command="play" />
+
+        <AnimationCommand target="status-clean-timer" command="play" />
+
+    </Function>
+
+    <Function name="cancelCleanAni">
+        <!-- 取消振动 -->
+        <AnimationCommand target="vibrate-clean-timer" command="pause" />
+        <!-- 取消波纹 -->
+        <AnimationCommand target="freed-clean-timer" command="pause" />
+
+        <!-- 数字下降动画 -->
+        <AnimationCommand target="memoryCleanableAniVal" command="play(5000)" tags="clean" />
+        <!-- btnBox缩放动画 -->
+        <AnimationCommand target="btnBoxScaleVal" command="play(5000)" tags="clean" />
+
+        <!-- 取消火箭动画，并回归原来位置-->
+        <AnimationCommand target="rocketY" command="pause" tags="move" />
+        <AnimationCommand target="rocketY" command="pause" tags="loop" />
+        <AnimationCommand target="rocket-clean-timer" command="pause" />
+        <VariableCommand name="rocketYConfig" expression="#rocketY" />
+        <AnimationCommand target="rocketY" command="play(1000)" tags="hit-back" />
+
+        <!-- 风扇缩放动画 -->
+        <AnimationCommand target="fanScaleVal" command="play(5000)" tags="clean" />
+        <!-- 风扇旋转动画 -->
+        <!-- 速度从0->1200，1200-1200.1 1200.1->0 -->
+        <VariableCommand name="rotSpeedEnabled" expression="0" />
+        <AnimationCommand target="rotSpeed" command="play(500)" tags="clean" />
+
+        <AnimationCommand target="btn-clean-timer" command="pause" />
+        <AnimationCommand target="btnAlphaBlue" command="play(500)" tags="clean" />
+        <AnimationCommand target="rocketBlueAlpha" command="play(500)" tags="clean" />
+        <AnimationCommand target="fanBlueAlphaOnClean" command="play(500)" tags="clean" />
+
+        <!-- 加速完成 -->
+        <AnimationCommand target="status-clean-timer" command="pause" />
+        <VariableCommand name="status" expression="2" />
+        <VariableCommand name="cleaning" expression="0" />
+        <VariableCommand name="cleaningRed" expression="0" />
+        <VariableCommand name="cleaningBlue" expression="0" />
+    </Function>
+
+
+    <!-- 松手timer -->
+    <Var name="timer">
+        <VariableAnimation name="timerAni" initPause="true" loop="false">
+            <Item value="0" time="0" />
+            <Item value="1000" time="1000" />
+            <Triggers>
+                <Trigger action="end" condition="#timerAni.current_frame==-1">
+                    <!-- 火箭透明度恢复至255，共200ms -->
+                    <AnimationCommand target="rocketBlueAlpha" command="play" tags="hit-back" condition="#status }= 3" />
+
+                    <!-- 显示已清理内存值 -->
+                    <!-- 从状态为4返回时需要等hit值变为0 -->
+                    <AnimationCommand target="freedNumAlpha" command="play" tags="show" condition="#status == 3" />
+                    <AnimationCommand target="freedNumAlpha" command="play" tags="show" delay="300" condition="#status == 4" />
+
+                    <!-- 重置状态 -->
+                    <VariableCommand name="status" expression="2" condition="#status == 3" />
+
+                    <!-- 从status=4返回需要等hit值变为0动画执行完毕 -->
+                    <VariableCommand name="status" expression="2" delay="300" condition="#status == 4" />
+                    <VariableCommand name="btnEnabled" expression="0" condition="#status == 4" />
+                    <VariableCommand name="hitAniConfig" expression="#hitAni" condition="#status == 4" />
+                    <AnimationCommand target="hitAni" command="play" tags="back" condition="#status == 4" />
+                    <VariableCommand name="btnEnabled" expression="1" delay="300" condition="#status == 4" />
+
+                    <!-- 修复长按bug -->
+                    <!-- 按钮放大 -->
+                    <VariableCommand name="btnBoxScaleConfig" type="number[]" expression="" values="#btnBoxScaleVal, min(#btnBoxScaleVal*1.2,1)" />
+                    <AnimationCommand target="btnBoxScaleVal" command="pause" tags="hit" />
+                    <AnimationCommand target="btnBoxScaleVal" command="play" tags="back" />
+
+                    <!-- 风扇缩小 -->
+                    <VariableCommand name="fanScaleConfig" type="number[]" expression="" values="#fanScaleVal" />
+                    <AnimationCommand target="fanScaleVal" command="pause" tags="hit" />
+                    <AnimationCommand target="fanScaleVal" command="play" tags="back" />
+
+                    <!-- 旋转开始减速 -->
+                    <VariableCommand name="rotSpeedEnabled" expression="1" />
+                    <VariableCommand name="rotSpeedConfig" type="number[]" expression="" values="#rotSpeed, 0" />
+                    <AnimationCommand target="rotSpeed" command="pause" tags="hit" />
+                    <AnimationCommand target="rotSpeed" command="play" tags="back" />
+
+                    <!-- 火箭回归原来位置 -->
+                    <VariableCommand name="rocketYConfig" expression="#rocketY" />
+                    <AnimationCommand target="rocketY" command="play" tags="hit-back" />
+
+                    <!-- 恢复hitting状态 -->
+                    <VariableCommand name="hitting" expression="0" delay="500" />
+                </Trigger>
+            </Triggers>
+        </VariableAnimation>
+    </Var>
+    <Function name="cancelHitAni">
+        <!-- 火箭透明度恢复至255，共200ms -->
+        <AnimationCommand target="rocketBlueAlpha" command="play(200)" tags="hit-back" condition="#status }= 3" />
+
+        <!-- 显示已清理内存值 -->
+        <!-- 从状态为4返回时需要等hit值变为0 -->
+        <AnimationCommand target="freedNumAlpha" command="play(200)" tags="show" />
+
+        <VariableCommand name="hitAniConfig" expression="#hitAni" condition="#status == 4" />
+        <AnimationCommand target="hitAni" command="play(300)" tags="back" condition="#status == 4" />
+        <VariableCommand name="btnEnabled" expression="1" />
+
+        <!-- 重置状态 -->
+        <VariableCommand name="status" expression="2" />
+
+        <!-- 修复长按bug -->
+        <!-- 按钮放大 -->
+        <VariableCommand name="btnBoxScaleConfig" type="number[]" expression="" values="#btnBoxScaleVal, min(#btnBoxScaleVal*1.2,1)" />
+        <AnimationCommand target="btnBoxScaleVal" command="pause" tags="hit" />
+        <AnimationCommand target="btnBoxScaleVal" command="play(2000)" tags="back" />
+
+        <!-- 风扇缩小 -->
+        <VariableCommand name="fanScaleConfig" type="number[]" expression="" values="#fanScaleVal" />
+        <AnimationCommand target="fanScaleVal" command="pause" tags="hit" />
+        <AnimationCommand target="fanScaleVal" command="play(2000)" tags="back" />
+
+        <!-- 旋转开始减速 -->
+        <VariableCommand name="rotSpeedEnabled" expression="0" />
+        <VariableCommand name="rotSpeedConfig" type="number[]" expression="" values="#rotSpeed, 0" />
+        <AnimationCommand target="rotSpeed" command="pause" tags="hit" />
+        <AnimationCommand target="rotSpeed" command="play(2000)" tags="back" />
+
+        <!-- 火箭回归原来位置 -->
+        <VariableCommand name="rocketYConfig" expression="#rocketY" />
+        <AnimationCommand target="rocketY" command="play(1000)" tags="hit-back" />
+
+        <!-- 恢复hitting状态 -->
+        <VariableCommand name="hitting" expression="0" />
+    </Function>
+
+
+    <Function name="playHitDown">
+        <!-- 设置帧率:3秒钟 -->
+        <AnimationCommand target="setFrameRateClean" command="play(6000-3000)" />
+
+        <!-- 按钮缩小 -->
+        <VariableCommand name="btnBoxScaleConfig" type="number[]" expression="" values="#btnBoxScaleVal, max(#btnBoxScaleVal*0.85,0.64)" />
+        <AnimationCommand target="btnBoxScaleVal" command="pause" tags="back" />
+        <AnimationCommand target="btnBoxScaleVal" command="play" tags="hit" />
+
+        <!-- 开始旋转 -->
+        <VariableCommand name="rotSpeedEnabled" expression="1" />
+        <VariableCommand name="rotSpeedConfig" type="number[]" expression="" values="#rotSpeed, min(#rotSpeed + 200,22000)" />
+        <AnimationCommand target="rotSpeed" command="pause" tags="back" />
+        <AnimationCommand target="rotSpeed" command="play" tags="hit" />
+
+        <!-- 风扇放大 -->
+        <VariableCommand name="fanScaleConfig" type="number[]" expression="" values="#fanScaleVal, min(#fanScaleVal*1.4, 3)" />
+        <AnimationCommand target="fanScaleVal" command="pause" tags="back" />
+        <AnimationCommand target="fanScaleVal" command="play" tags="hit" />
+
+        <!-- 火箭向上移动 -->
+        <AnimationCommand target="rocketY" command="play" tags="hit" />
+
+        <!-- 松手计数 -->
+        <AnimationCommand target="timer" command="play" />
+
+        <!-- 设置为hiting状态 -->
+        <VariableCommand name="hitting" expression="1" />
+
+    </Function>
+
+    <Function name="playBoom">
+        <VariableCommand name="boomEnabled" expression="1" />
+        <VariableCommand name="boomEnabled" expression="0" delay="500" />
+        <VariableCommand name="boomIndex" expression="-1" delay="500" />
+        <!-- 清理资源 -->
+        <ExternCommand command="__clearResource" delay="505" />
+    </Function>
+
+    <Function name="playHitUp">
+        <!-- 设置帧率:3秒钟 -->
+        <AnimationCommand target="setFrameRateClean" command="play(6000-3000)" />
+
+        <!-- 进入状态3：当未显示完全部warning时 -->
+        <VariableCommand name="status" expression="3" condition="#status == 2 ** #warningShown == 0" />
+        <!-- index直接+1即可 -->
+        <VariableCommand name="warningIndex" expression="#warningIndex + 1" condition="#status == 3" />
+
+        <!-- 进入状态4:显示hit值-->
+        <VariableCommand name="status" expression="4" condition="#warningShown == 1" />
+        <!-- hit值++，增加1之后，开始缩放效果 -->
+        <VariableCommand name="hitAniConfig" expression="#hitAni" condition="#status == 4" />
+        <AnimationCommand target="hitAni" command="play" tags="add" condition="#status == 4" />
+        <!-- hit值每变化50 -->
+        <FunctionCommand target="playBoom" condition="(#hit+1)%50 == 0 ** #hit } 10" />
+
+        <VariableCommand name="warningShown" expression="ifelse(#warningIndex }= #warningsLen - 1,1,0)" />
+
+        <!-- 连击时隐藏火箭 -->
+        <AnimationCommand target="rocketBlueAlpha" command="play" tags="hit" condition="#status }= 3" />
+
+        <!-- 按钮放大 -->
+        <VariableCommand name="btnBoxScaleConfig" type="number[]" expression="" values="#btnBoxScaleVal, min(#btnBoxScaleVal*1.2,1)" />
+        <AnimationCommand target="btnBoxScaleVal" command="pause" tags="hit" />
+        <AnimationCommand target="btnBoxScaleVal" command="play" tags="back" />
+
+        <!-- 风扇缩小 -->
+        <VariableCommand name="fanScaleConfig" type="number[]" expression="" values="#fanScaleVal" />
+        <AnimationCommand target="fanScaleVal" command="pause" tags="hit" />
+        <AnimationCommand target="fanScaleVal" command="play" tags="back" />
+
+        <!-- 旋转开始减速 -->
+        <VariableCommand name="rotSpeedEnabled" expression="1" />
+        <VariableCommand name="rotSpeedConfig" type="number[]" expression="" values="#rotSpeed, 0" />
+        <AnimationCommand target="rotSpeed" command="pause" tags="hit" />
+        <AnimationCommand target="rotSpeed" command="play" tags="back" />
+
+        <!-- 火箭回归原来位置 -->
+        <VariableCommand name="rocketYConfig" expression="#rocketY" />
+        <AnimationCommand target="rocketY" command="play" tags="hit-back" />
+
+        <!-- 隐藏已清理内存值 -->
+        <AnimationCommand target="freedNumAlpha" command="play" tags="hide" delay="2" />
+
+        <!-- 松手计数 -->
+        <AnimationCommand target="timer" command="play" />
+    </Function>
+
+    <Function name="playInk">
+        <VariableCommand name="showInk" expression="1" />
+        <AnimationCommand target="ink" command="play" />
+    </Function>
+
+    <!-- 中文下warning字体大小 -->
+    <Var name="cnSize" expression="80*#wScale" />
+    <Var name="enSize" expression="ifelse((#warningIndex == 0 ** #status == 3) || #status == 2, 56*#wScale,72*#wScale)" />
+    <Var name="boSize" expression="36*#wScale" />
+    <Var name="ugSize" expression="52*#wScale" />
+    <Var name="warningContent" expression="ifelse(#status == 2 ,@str_freed_success,@warnings[#warningIndex])" type="string" />
+    <Var name="warningBottomY" expression="ifelse(#isCN, #cnSize + 50 , ifelse(#isEnglish, #enSize*2 + 70, #boSize + 65))" />
+    <Var name="freedMemoryContent" expression="strReplaceAll(@str_memory_freed,'SLOT', @lastMemoryFreed)" type="string" />
+
+
+    <Var name="showRed" expression="(#status { 2 ** #cleaning == 0) || (#cleaning ** #cleaningRed)" />
+    <Var name="showBlue" expression="#status }= 2 || (#cleaning ** #cleaningBlue)" />
+
+    <!-- 无障碍播报 例：可释放内存7.78GB -->
+    <Var name="cacheDescription" expression="@str_cache+@valOnAni+@unitOnAni" type="string" />
+
+    <Group x="#view_width/2 - #w/2" y="0" w="#w" h="#h" clip="true">
+        <Rectangle x="0" y="0" w="#w" h="#h" fillColor="@bgColor" cornerRadius="46" visibility="!#enable_background_blur" />
+
+        <!-- ink -->
+        <Group visibility="#showInk" x="0" y="0" w="#w" h="#h" clip="true" layered="true">
+            <Rectangle x="0" y="0" w="#w" h="#h" fillColor="@bgColor" cornerRadius="46" visibility="!#enable_background_blur" />
+            <Image name="ink" x="#circleCenterX" y="#circleCenterY -5" w="582" h="582" pivotX="582/2" pivotY="582/2" align="center" alignV="center" srcExp="ifelse(#isDark==1, 'images/dark_ink.webp','images/ink.webp')" xfermode="src_in">
+                <ScaleAnimation name="linkScale" loop="false" initPause="true">
+                    <Item value="0" time="0" easeType="QuartEaseOut" />
+                    <Item value="0.36" time="1" />
+                    <Item value="2.8" time="600" />
+                    <Item value="0" time="601" />
+                    <Triggers>
+                        <Trigger action="end" condition="#linkScale.current_frame==-1">
+                            <VariableCommand name="showInk" expression="0" />
+                        </Trigger>
+                    </Triggers>
+                </ScaleAnimation>
+
+                <!--透明度-->
+                <AlphaAnimation>
+                    <Item value="255" time="0" easeType="QuartEaseOut" />
+                    <Item value="255" time="300" />
+                    <Item value="0" time="600" />
+                    <Item value="255" time="601" />
+                </AlphaAnimation>
+            </Image>
+
+        </Group>
+        <!-- 未初始化或有可清理内存时 -->
+        <Group
+            x="1"
+            y="-8*#wScale"
+            visibility="#status {= 1"
+            w="max(int(#memoryText.text_width) + 58 + #unitText.text_width,41 + ifelse(#isUighur == 0,#textNotUighur.text_width,#textUighur.text_width))"
+            h="max(23.5*#wScale, 30)+#memoryText.text_height+ifelse(#isUighur == 0,#textNotUighur.text_height,#textUighur.text_height)"
+            contentDescriptionExp="ifelse(#cleaning,@str_boosting,@cacheDescription)"
+        >
+            <Group x="40" y="max(23.5*#wScale, 30)">
+                <!-- 内存数量 -->
+                <Text name="memoryText" x="0" y="0" color="@numberColor" textExp="ifelse(#isPreview, '732',ifelse(#status == 0, '--', @valOnAni))" size="min(max(100-(100-76)/84*(440-#w), 76),100)" fontFamily="mitype-mono-bold"
+                    bold="true" />
+
+                <!-- 单位：MB GB -->
+                <Text name="unitText" visibility="#isPreview || #status == 1" x="int(#memoryText.text_width) + 58 - 40" y="15*#wScale + 33 - max(23.5*#wScale, 30)" color="@unitColor" textExp="ifelse(#isPreview, 'MB',@unitOnAni)" size="max(36*#wScale, 30)" fontFamily="mipro-medium" />
+            </Group>
+            <!-- 描述文本：可释放内存/正在加速 not isUighur -->
+            <Text name="textNotUighur" visibility="#isUighur == 0" x="41" y="152 - min((1-#wScale)*120, 30)" color="@descColor" textExp="ifelse(#cleaning, @str_boosting, @str_cache)" size="max(32*#wScale, 28)" fontFamily="mipro-medium" width="#w-80" marqueeSpeed="30"
+            />
+
+            <!-- 描述文本：可释放内存/正在加速 isUighur -->
+            <Text name="textUighur" visibility="#isUighur" x="41" y="152 - min((1-#wScale)*120, 30)" color="@descColor" textExp="ifelse(#cleaning, @str_boosting, @str_cache)" size="max(32*#wScale, 28)" fontFamily="mipro-medium" width="#w-80" multiLine="true"
+            />
+        </Group>
+
+        <Var name="freedNumY" type="number" expression="ifelse(#isEnglish,9,#isTibetan,20,#isUighur,20,#isCN,19,0)*#wScale" const="false" />
+        <Var name="showWarningText" type="boolean" expression="#status {= 3" const="false" />
+        <Var name="showFreedNumText" type="boolean" expression="#lastMemoryCleanable } 0 ** #status == 2" const="false" />
+        <!-- 内存清理完成 -->
+        <Group x="0" y="0" visibility="#status }= 2" clip="true">
+            <!--加速完成文本或连击warning -->
+            <Group visibility="#showWarningText" name="freedDone" x="40" y="39">
+
+                <!-- 英文，需要显示多行 -->
+                <Text visibility="#isEnglish" x="0" multiLine="true" width="#w-40-10" color="@numberColor" textExp="@warningContent" size="#enSize" fontFamily="mipro-semibold"/>
+
+                <!-- 藏文-->
+                <Text visibility="#isTibetan" y="10" bold="true" color="@numberColor" textExp="@warningContent" size="#boSize" width="#w-80" marqueeSpeed="120" />
+
+                <!-- 维语 -->
+                <Text visibility="#isUighur" bold="true" marqueeSpeed="120" width="#w-80" color="@numberColor" textExp="@warningContent" size="#ugSize" />
+
+                <!-- 中文 -->
+                <Text visibility="#isCN" color="@numberColor" y="-8*#wScale" textExp="@warningContent" size="#cnSize" fontFamily="mipro-semibold" />
+
+                <!-- 位移动画 -->
+                <PositionAnimation loop="false" initPause="true">
+                    <Item x="0" y="0" time="0" />
+                    <Item x="-15" y="-15" time="100" />
+                    <Item x="0" y="0" time="900" />
+                </PositionAnimation>
+            </Group>
+
+            <!-- 已释放内存文本 -->
+            <Group visibility="#showFreedNumText" name="freedNum" x="41" y="#warningBottomY" alpha="#freedNumAlpha">
+                <!-- 英文下 -->
+                <Text name="freedNumEn" visibility="#isEnglish" y="#freedNumY" width="#w - 40" color="@descColor" size="28*#wScale" align="left" textExp="@freedMemoryContent" alignV="top" fontFamily="mipro-medium" multiLine="true" />
+
+                <!-- 藏文 -->
+                <Text name="freedNumTib" visibility="#isTibetan" y="#freedNumY" color="@descColor" size="30*#wScale" align="left" textExp="@freedMemoryContent" alignV="top" bold="true" width="#w-80" marqueeSpeed="30" />
+
+                <!-- 维语 -->
+                <Text name="freedNumUigh" visibility="#isUighur" y="#freedNumY" color="@descColor" size="30*#wScale" align="left" textExp="@freedMemoryContent" alignV="top" fontFamily="mipro-medium" width="#w-80" multiLine="true" />
+
+                <!-- 中文 -->
+                <Text name="freedNumCn" visibility="#isCN" y="#freedNumY" width="#w - 40" color="@descColor" size="32*#wScale" align="left" textExp="@freedMemoryContent" alignV="top" fontFamily="mipro-medium" />
+
+                <PositionAnimation loop="false" initPause="true">
+                    <Item x="0" y="0" time="0" />
+                    <Item x="-7.5" y="-7.5" time="100" />
+                    <Item x="0" y="0" time="600" />
+                </PositionAnimation>
+            </Group>
+            <Var name="freedNumTextH" type="number" expression="ifelse(#isEnglish,#freedNumEn.text_height,#isTibetan,#freedNumTib.text_height,#isUighur,#freedNumUigh.text_height,#isCN,#freedNumCn.text_height,0)" const="false" />
+            <Group visibility="#showWarningText || #showFreedNumText" w="#w" h="#warningBottomY+#freedNumY+#freedNumTextH" contentDescriptionExp="ifelse(#showWarningText,@warningContent,'')+ifelse(#showFreedNumText,',' + @freedMemoryContent,'')" />
+
+
+            <!-- 显示boom效果 -->
+            <Image visibility="#status == 4 ** #boomEnabled == 1" x="0" y="0" w="#w" h="#w" src="images/boom/boom.webp" srcid="#boomIndex" />
+
+            <!-- 终止效果 -->
+            <Group visibility="#status == 4 ** #hit }= #hitFinal" x="0" w="#w" h="#h" clip="true" layered="true">
+                <Rectangle x="0" y="0" w="#w" h="#h" fillColor="#00000000" strokeAlign="inner" weight="8" strokeColor="#26D9D1" cornerRadius="52" />
+                <Image x="0" y="0" rotation="#fanRotation/3" scale="1.32" w="#w" h="#h" pivotX="#w/2" pivotY="#h/2" src="images/final-bg.webp" xfermode="src_atop" />
+            </Group>
+
+
+            <!-- 显示hit -->
+            <Group x="0" y="0" visibility="#status == 4" pivotX="45" pivotY="#hitCenterY" scale="#hitScale" clip="true">
+                <!-- x -->
+                <Text x="40" y="#hitCenterY-4" color="@hitColor" text="×" size="ifelse(#hit { 50, 88*max(#wScale,0.851), #hitSizeX_large)" alignV="center" fontFamily="mipro-bold" />
+
+                <!-- hit值 < #hitFinal -->
+                <Text visibility="#hit { #hitFinal" x="40 + 68*#wScale" y="#hitCenterY-6" color="@hitColor" textExp="#hit" alignV="center" fontFamily="mitype-mono-semibold" size="ifelse(#hit { 50, 128*max(#wScale,0.851), #hitSize160)" contentDescriptionExp="#hit" />
+
+                <!-- hit = #hitFinal -->
+                <Group visibility="#hit }= #hitFinal">
+                    <Group x="40" w="#w" h="200" clip="true" layered="true">
+                        <Text x="68*#wScale" y="#hitCenterY-6" color="@hitColor" text="999" size="#hitSize160" alignV="center" fontFamily="mitype-mono-semibold" contentDescriptionExp="#hitFinal" />
+                        <Rectangle y="#hitCenterY-60" w="#w-40" h="#hitCenterY+25" xfermode="src_in">
+                            <FillShaders>
+                                <LinearGradient x="#w" y="0" x1="0" y1="0" tile="clamp">
+                                    <GradientStop color="#0091FB" position="0" />
+                                    <GradientStop color="#11B0FF" position="0.5" />
+                                    <GradientStop color="#75D2FF" position="1" />
+                                </LinearGradient>
+                            </FillShaders>
+                        </Rectangle>
+                    </Group>
+                </Group>
+            </Group>
+        </Group>
+
+        <!-- 右下角加速圆球 -->
+        <Group scale="#ballScale" pivotX="#circleCenterX" pivotY="#circleCenterY">
+            <Group x="#circleCenterX" y="#circleCenterY" rotation="#fanRotation" w="#fanWidth" h="#fanWidth" pivotX="#fanWidth/2" pivotY="#fanWidth/2" align="center" alignV="center" scale="min(max(#fanScaleVal,#fanScaleInitVal),1)">
+                <!-- 加速风扇fan:red 1 -->
+                <Image visibility="#cleaningRed ** #rotSpeedReal {= 9" w="#fanWidth" h="#fanWidth" srcExp="@fanSrc" srcid="1" />
+
+                <!-- 加速风扇fan:red 2 -->
+                <!-- 执行清理3000ms时，蓝色转盘开始出现，alpha->255,255时，红色转盘开始消失，-->
+                <Image visibility="#cleaningRed ** #rotSpeedReal }= 7" w="#fanWidth" h="#fanWidth" srcExp="@fanSrc" srcid="2" alpha="max(min((#rotSpeedReal-7)/2*255,255),0)" />
+
+                <!-- 加速风扇fan:blue 3 -->
+                <Image visibility="(#cleaningBlue || #hitting) ** #rotSpeedReal }= 7" w="#fanWidth" h="#fanWidth" srcExp="@fanSrc" srcid="3" alpha="ifelse(#cleaningRed, #fanBlueAlphaOnClean, max(min((#rotSpeedReal-7)/2*255,255),0))" />
+
+                <!-- 加速风扇fan:blue 4 -->
+                <Image visibility="(#cleaningBlue || #hitting) ** #rotSpeedReal {= 9" w="#fanWidth" h="#fanWidth" srcExp="@fanSrc" srcid="4" />
+            </Group>
+
+
+            <Group x="0" y="0" scale="min(max(#btnBoxScaleVal,0.64),1)" pivotX="#circleCenterX" pivotY="#circleCenterY">
+                <!-- 背景 -->
+                <Group visibility="ifelse(#enable_background_blur ** #isDark==1, 0, 1)" x="#circleCenterX" y="#circleCenterY + 16" w="#btnBgWidth" h="#btnBgWidth" align="center" alignV="center">
+                    <Image visibility="1" w="#btnBgWidth" h="#btnBgWidth" srcExp="@ballBgSrc" srcid="2" alpha="#btnAlphaBlue" />
+                    <Image visibility="#showRed" w="#btnBgWidth" h="#btnBgWidth" srcExp="@ballBgSrc" srcid="1" />
+                    <Image visibility="#showBlue" w="#btnBgWidth" h="#btnBgWidth" srcExp="@ballBgSrc" srcid="2" alpha="#btnAlphaBlue" />
+                </Group>
+
+                <!-- 按钮 -->
+                <Group x="#circleCenterX" y="#circleCenterY" w="#btnWidth" h="#btnWidth" align="center" alignV="center">
+                    <Image visibility="1" w="#btnWidth" h="#btnWidth" srcExp="@ballSrc" srcid="2" alpha="#btnAlphaBlue" />
+                    <Image visibility="#showRed" w="#btnWidth" h="#btnWidth" srcExp="@ballSrc" srcid="1" />
+                    <Image visibility="#showBlue" w="#btnWidth" h="#btnWidth" srcExp="@ballSrc" srcid="2" alpha="#btnAlphaBlue" />
+                </Group>
+
+            </Group>
+
+            <!-- 火箭 -->
+            <Group x="#circleCenterX+1" y="#circleCenterY + #rocketY" w="#iconW" h="#iconH" align="center" alignV="center" pivotX="#iconW/2" pivotY="#iconH/2" scale="0.5 + min(max(#btnBoxScaleVal,0.64),1)/2">
+                <Image visibility="1" srcExp="@rocketSrc" w="#iconW" h="#iconH" srcid="2" alpha="#rocketBlueAlpha" />
+                <!-- 红色,没有透明度变化 -->
+                <Image visibility="#showRed" w="#iconW" h="#iconH" srcExp="@rocketSrc" srcid="1" />
+                <!-- 蓝色 -->
+                <Image visibility="#showBlue" srcExp="@rocketSrc" w="#iconW" h="#iconH" srcid="2" alpha="#rocketBlueAlpha" />
+            </Group>
+
+        </Group>
+
+        <!-- 点击按钮 -->
+        <Button x="#circleCenterX" y="#circleCenterY" contentDescriptionExp="@str_boost_speed + ifelse(#cleaning == 0 ** #status {= 1, ',' + @cacheDescription, '')" w="250" h="250" align="center" alignV="center">
+            <Triggers>
+                <Trigger action="down">
+                    <!-- 连击 -->
+                    <FunctionCommand target="playHitDown" condition="#cleaning == 0 ** #status }= 2 ** #btnEnabled==1 ** #isPreview == 0 ** #isActive == 1" />
+                </Trigger>
+
+                <Trigger action="up">
+                    <!-- 未清理过：执行清理 -->
+                    <FunctionCommand target="playClean" condition="#status == 1 ** #cleaning == 0 ** #btnEnabled==1 ** #cleanableMemory } 0 ** #isPreview == 0 ** #isActive == 1" />
+                    <VariableCommand name="cleaning" expression="1" condition="#status == 1 ** #cleaning == 0 ** #btnEnabled==1 ** #cleanableMemory } 0 ** #isPreview == 0 ** #isActive == 1" />
+
+                    <!-- 已清理过：连击 -->
+                    <FunctionCommand target="playHitUp" condition="#cleaning == 0 ** #status }= 2 ** #btnEnabled==1 ** #isPreview == 0 ** #isActive == 1" />
+                </Trigger>
+            </Triggers>
+        </Button>
+    </Group>
+
+
+    <!-- debug -->
+    <Group visibility="0" x="#view_width/2 - #w/2" y="200" w="#w" h="#h" clip="true">
+        <Text size="30" y="30" color="#000000" textExp="'#init_count= ' + #init_count" />
+    </Group>
+</Widget>

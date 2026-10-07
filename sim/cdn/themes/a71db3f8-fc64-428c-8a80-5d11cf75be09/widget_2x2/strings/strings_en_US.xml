@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="str_cache">Occupied RAM</string>
+  <string name="str_boosting">Boosting speed</string>
+  <string name="str_memory_freed">Freed up SLOT of RAM</string>
+  <string name="str_freed_success">Boosted successfully</string>
+  <string name="str_warning_1">Everything looks good!</string>
+  <string name="str_warning_2">Hey!</string>
+  <string name="str_warning_3">Please!</string>
+  <string name="str_warning_4">Whatever</string>
+  <string name="lang">en_US</string>
+  <string name="str_boost_speed">Boost speed</string>
+</resources>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="RTL">0</string>
+  <string name="high_i18n">عالية </string>
+  <string name="low_i18n">منخفضة </string>
+  <string name="aqi_good_i18n">جيد</string>
+  <string name="aqi_moderate_i18n">جيد</string>
+  <string name="aqi_pollution_i18n">معتدل</string>
+  <string name="aqi_unhealthy_i18n">غير صحي</string>
+  <string name="aqi_dangerous_i18n">شديدة</string>
+  <string name="aqi_hazardous_i18n">خطير</string>
+  <string name="humidness_i18n">الرطوبة</string>
+  <string name="now_i18n">الآن</string>
+  <string name="location_i18n">الموقع</string>
+  <string name="weather_i18n">الطقس</string>
+  <string name="low_temp_i18n">منخفض</string>
+  <string name="aqi_i18n">جودة الهواء</string>
+  <string name="weather_auth_tip_i18n">انقر للحصول على معلومات الطقس</string>
+  <string name="tomorrow_i18n">غداً</string>
+  <string name="sunrise_i18n">شروق</string>
+  <string name="sunset_i18n">غروب</string>
+  <string name="sunrising_i18n">الشمس تشرق</string>
+  <string name="sunseting_i18n">الشمس تغرب</string>
+  <string name="sunrise_sunset_i18n">شروق الشمس وغروبها</string>
+  <string name="hour_after_i18n">\'خلال \'+#sun_hour+\'س\'</string>
+  <string name="minute_after_i18n">\'خلال \'+#sun_minute+دق \'</string>
+  <string name="morning_i18n">#sun_morning+\' ص\'</string>
+  <string name="afternoon_i18n">#sun_afternoon+\' م\'</string>
+  <string name="authorization_and_open_i18n">منح أذونات لعرض الطقس</string>
+  <string name="wind_level_i18n"></string>
+  <string name="talkback_temperature_range">درجة الحرارة القصوى: 变量1. درجة الحرارة الدنيا: 变量2</string>
+  <string name="talkback_humidity">الرطوبة: 变量3</string>
+  <string name="talkback_wind">الرياح: القوة 变量4</string>
+</resources>

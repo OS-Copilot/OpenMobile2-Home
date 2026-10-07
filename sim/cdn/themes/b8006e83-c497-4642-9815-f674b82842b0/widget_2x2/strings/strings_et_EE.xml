@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="RTL">0</string>
+  <string name="high_i18n">Kõrge </string>
+  <string name="low_i18n">Madal </string>
+  <string name="aqi_good_i18n">Hea</string>
+  <string name="aqi_moderate_i18n">Paras</string>
+  <string name="aqi_pollution_i18n">Mõõdukas</string>
+  <string name="aqi_unhealthy_i18n">Ebatervislik</string>
+  <string name="aqi_dangerous_i18n">Raske</string>
+  <string name="aqi_hazardous_i18n">Ohtlik</string>
+  <string name="humidness_i18n">Niiskus</string>
+  <string name="now_i18n">Praegu</string>
+  <string name="location_i18n">Asukoht</string>
+  <string name="weather_i18n">Ilm</string>
+  <string name="low_temp_i18n">Madal</string>
+  <string name="aqi_i18n">ÕKI</string>
+  <string name="weather_auth_tip_i18n">Ilmainfo saamiseks toksake</string>
+  <string name="tomorrow_i18n">Homme</string>
+  <string name="sunrise_i18n">Päikesetõus</string>
+  <string name="sunset_i18n">Päikeseloojang</string>
+  <string name="sunrising_i18n">Päike tõuseb</string>
+  <string name="sunseting_i18n">Päike loojub</string>
+  <string name="sunrise_sunset_i18n">Päikesetõus ja -loojang</string>
+  <string name="hour_after_i18n">#sun_hour+\' h\'+\' pärast\'</string>
+  <string name="minute_after_i18n">#sun_minute+\' min\'+\' pärast\'</string>
+  <string name="morning_i18n">#sun_morning+\' hommikul\'</string>
+  <string name="afternoon_i18n">#sun_afternoon+\' pärastlõunal\'</string>
+  <string name="authorization_and_open_i18n">Andke ilmateate vaatamiseks load</string>
+  <string name="wind_level_i18n"></string>
+  <string name="talkback_temperature_range">Maksimaalne temperatuur: 变量1. Minimaalne: temperatuur: 变量2</string>
+  <string name="talkback_humidity">Niiskus: 变量3</string>
+  <string name="talkback_wind">Tuuletugevus 变量4</string>
+</resources>

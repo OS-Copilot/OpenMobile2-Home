@@ -1,0 +1,1 @@
+import{j as r}from"./index-CI4N314F.js";const o=({message:t,visible:e})=>e?r.jsx("div",{className:"fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-black/80 text-white px-4 py-2 rounded-lg text-[13px] shadow-lg",children:t}):null;export{o as T};

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="RTL">0</string>
+  <string name="high_i18n">ສູງ </string>
+  <string name="low_i18n">ຕໍ່າ </string>
+  <string name="aqi_good_i18n">​ດີ</string>
+  <string name="aqi_moderate_i18n">ໃຊ້ໄດ້</string>
+  <string name="aqi_pollution_i18n">​ປານ​ກາງ</string>
+  <string name="aqi_unhealthy_i18n">ບໍ່ດີຕໍ່ສຸຂະພາບ</string>
+  <string name="aqi_dangerous_i18n">ຮຸນແຮງທີ່ສຸດ</string>
+  <string name="aqi_hazardous_i18n">​​​ອັນ​ຕະ​ລາຍຫຼາຍ</string>
+  <string name="humidness_i18n">ຄວາມຊຸ່ມ</string>
+  <string name="now_i18n">ຕອນນີ້</string>
+  <string name="location_i18n">ຕຳແໜ່ງທີ່ຕັ້ງ</string>
+  <string name="weather_i18n">ສະພາບອາກາດ</string>
+  <string name="low_temp_i18n">ຕໍ່າ</string>
+  <string name="aqi_i18n">AQI</string>
+  <string name="weather_auth_tip_i18n">ແຕະເພື່ອຮັບຂໍ້ມູນສະພາບອາກາດ</string>
+  <string name="tomorrow_i18n">ມື້ອື່ນ</string>
+  <string name="sunrise_i18n">ຕາເວັນຂຶ້ນ</string>
+  <string name="sunset_i18n">ຕາເວັນຕົກ</string>
+  <string name="sunrising_i18n">ຕາເວັນກຳລັງຂຶ້ນ</string>
+  <string name="sunseting_i18n">ຕາເວັນກຳລັງຕົກ</string>
+  <string name="sunrise_sunset_i18n">ຕາເວັນຂຶ້ນແລະຕາເວັນຕົກ</string>
+  <string name="hour_after_i18n">\'ໃນ \'+#sun_hour+\'ຊົ່ວໂມງ\'</string>
+  <string name="minute_after_i18n">\'ໃນ \'+#sun_minute+\'ນາທີ\'</string>
+  <string name="morning_i18n">#sun_morning+\' AM\'</string>
+  <string name="afternoon_i18n">#sun_afternoon+\' PM\'</string>
+  <string name="authorization_and_open_i18n">ຮັບການອະນຸຍາດເພື່ອເບິ່ງສະພາບອາກາດ</string>
+  <string name="wind_level_i18n"></string>
+  <string name="talkback_temperature_range">ອຸນຫະພູມສູງສຸດ: 变量1. ອຸນຫະພູມຕໍ່າສຸດ: 变量2</string>
+  <string name="talkback_humidity">ຄວາມຊຸ່ມ: 变量3</string>
+  <string name="talkback_wind">ລົມ: ຄວາມແຮງ 变量4</string>
+</resources>

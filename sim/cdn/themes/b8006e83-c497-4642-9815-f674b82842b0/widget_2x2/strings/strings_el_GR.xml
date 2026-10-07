@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="RTL">0</string>
+  <string name="high_i18n">Υψηλή </string>
+  <string name="low_i18n">Χαμηλή </string>
+  <string name="aqi_good_i18n">Πολύ καλή</string>
+  <string name="aqi_moderate_i18n">Καλή</string>
+  <string name="aqi_pollution_i18n">Μέτρια</string>
+  <string name="aqi_unhealthy_i18n">Ανθυγιεινή</string>
+  <string name="aqi_dangerous_i18n">Σοβαρά ανθυγιεινή</string>
+  <string name="aqi_hazardous_i18n">Επικίνδυνη</string>
+  <string name="humidness_i18n">Υγρασία</string>
+  <string name="now_i18n">Τώρα</string>
+  <string name="location_i18n">Τοποθεσία</string>
+  <string name="weather_i18n">Καιρός</string>
+  <string name="low_temp_i18n">Χαμηλή</string>
+  <string name="aqi_i18n">ΔΠΑ</string>
+  <string name="weather_auth_tip_i18n">Πατήστε για πληροφορίες καιρού</string>
+  <string name="tomorrow_i18n">Αύριο</string>
+  <string name="sunrise_i18n">Ανατολή</string>
+  <string name="sunset_i18n">Δύση</string>
+  <string name="sunrising_i18n">Ανατολή ηλίου</string>
+  <string name="sunseting_i18n">Δύση ηλίου</string>
+  <string name="sunrise_sunset_i18n">Ανατολή και δύση</string>
+  <string name="hour_after_i18n">\'Σε \'+#sun_hour+\' ώ\'</string>
+  <string name="minute_after_i18n">\'Σε \'+#sun_minute+\' λ\'</string>
+  <string name="morning_i18n">#sun_morning+\' ΠΜ\'</string>
+  <string name="afternoon_i18n">#sun_afternoon+\' ΜΜ\'</string>
+  <string name="authorization_and_open_i18n">Παραχωρήστε άδειες για προβολή καιρού</string>
+  <string name="wind_level_i18n"></string>
+  <string name="talkback_temperature_range">Μέγιστη θερμοκρασία: 变量1. Ελάχιστη θερμοκρασία: 变量2</string>
+  <string name="talkback_humidity">Υγρασία: 变量3</string>
+  <string name="talkback_wind">Άνεμος: Ισχύς 变量4</string>
+</resources>

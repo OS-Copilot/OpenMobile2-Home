@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="RTL">0</string>
+  <string name="high_i18n">Yüksək </string>
+  <string name="low_i18n">Aşağı </string>
+  <string name="aqi_good_i18n">Yaxşı</string>
+  <string name="aqi_moderate_i18n">Kafi</string>
+  <string name="aqi_pollution_i18n">Orta</string>
+  <string name="aqi_unhealthy_i18n">Zərərli</string>
+  <string name="aqi_dangerous_i18n">Şiddətli</string>
+  <string name="aqi_hazardous_i18n">Zərərli</string>
+  <string name="humidness_i18n">Rütubət</string>
+  <string name="now_i18n">İndi</string>
+  <string name="location_i18n">Məkan</string>
+  <string name="weather_i18n">Hava</string>
+  <string name="low_temp_i18n">Aşağı</string>
+  <string name="aqi_i18n">HKƏ</string>
+  <string name="weather_auth_tip_i18n">Hava haqqında məlumat almaq üçün toxunun</string>
+  <string name="tomorrow_i18n">Sabah</string>
+  <string name="sunrise_i18n">Gün doğuşu</string>
+  <string name="sunset_i18n">Gün batışı</string>
+  <string name="sunrising_i18n">Günəş çıxır</string>
+  <string name="sunseting_i18n">Günəş batır</string>
+  <string name="sunrise_sunset_i18n">Gün çıxması və gün batması</string>
+  <string name="hour_after_i18n">\'+#sun_hour+\'h\' saata</string>
+  <string name="minute_after_i18n">\'+#sun_minute+\'m\' dəqiqəyə</string>
+  <string name="morning_i18n">#sun_morning+\' AM\'</string>
+  <string name="afternoon_i18n">#sun_afternoon+\' PM\'</string>
+  <string name="authorization_and_open_i18n">Havaya baxmaq üçün icazələr ver</string>
+  <string name="wind_level_i18n"></string>
+  <string name="talkback_temperature_range">Maksimum temperatur: 变量1. Minimum temperatur: 变量2</string>
+  <string name="talkback_humidity">Rütubət: 变量3</string>
+  <string name="talkback_wind">Külək: Güc 变量4</string>
+</resources>

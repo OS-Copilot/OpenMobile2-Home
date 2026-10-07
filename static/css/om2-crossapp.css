@@ -1,0 +1,248 @@
+/* ==========================================================================
+   OpenMobile-2 — cross-app mechanisms widget (#crossapp)
+   Companion to static/js/om2-crossapp.js. Two mini phones drawn in HTML.
+   Every colour is a main.css token except the app colours, which arrive
+   from the data as --xa-c (this phone), --xa-from and --xa-to (the two
+   apps of the item), plus the two inks laid over them. Sizes inside a
+   phone are em off a font size derived from the phone width, so a screen
+   scales as one piece. Class namespace: xa-.
+   ========================================================================== */
+
+/* --------------------------------------------------------------- 1. layout */
+.xa {
+  --xa-w: 150px;
+  --xa-ink: #fff;
+  --xa-ink-dark: #0b1220;
+  --xa-drop: rgba(0, 0, 0, 0.7);
+  position: relative;
+}
+.xa-tab:focus-visible { outline: 2px solid var(--accent-400); outline-offset: 2px; }
+.xa-band {
+  position: relative;
+  padding: 10px 14px 16px;
+  border: 1px solid var(--hairline-cool);
+  border-radius: var(--r-lg);
+  background: var(--chart-track);
+}
+.xa-band-label { margin-bottom: 12px; font: 500 11px/1 var(--font-body); letter-spacing: 0.02em; text-align: center; color: var(--text-faint); }
+.xa-stage { position: relative; display: flex; justify-content: center; gap: clamp(28px, 12%, 72px); }
+.xa-side { display: grid; justify-items: center; gap: 9px; }
+.xa-caption { font: 500 12.5px/1 var(--font-body); color: var(--text-hi); }
+.xa-progress { height: 2px; margin: 12px 2px 0; border-radius: 1px; background: var(--chart-track); overflow: hidden; }
+.xa-progress i { display: block; height: 100%; background: var(--accent-400); transform: scaleX(0); transform-origin: 0 50%; }
+.xa-text { margin: 12px 0 0; min-height: 1.5em; font-size: 14px; line-height: 1.5; color: var(--text-dim); }
+
+/* ---------------------------------------------------------------- 2. phone
+   Rail, bezel and screen after the hero wall phone, at a sixth of its size. */
+.xa-phone {
+  --xa-bezel: var(--surface-2);
+  --xa-rail-hi: color-mix(in srgb, var(--text-hi) 52%, var(--xa-bezel));
+  --xa-rail-mid: color-mix(in srgb, var(--text-hi) 16%, var(--xa-bezel));
+  --xa-rail-lo: color-mix(in srgb, var(--bg) 72%, var(--xa-bezel));
+  --xa-r: 1.9em;
+  position: relative;
+  width: var(--xa-w);
+  height: calc(var(--xa-w) * 2.1333);
+  padding: 2px;
+  border-radius: var(--xa-r);
+  font-size: calc(var(--xa-w) / 15);
+  background: linear-gradient(135deg, var(--xa-rail-hi), var(--xa-rail-mid) 32%, var(--xa-rail-lo));
+  box-shadow: inset 0 1px 0 var(--edge-hi), 0 24px 40px -26px rgba(0, 0, 0, 0.75), var(--shadow);
+}
+.xa-phone.is-light-c { --xa-ink: var(--xa-ink-dark); }
+.xa-bezel { height: 100%; padding: 0.55em; border-radius: calc(var(--xa-r) - 2px); background: var(--xa-bezel); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.22); }
+.xa-screen {
+  position: relative; display: flex; flex-direction: column; height: 100%;
+  border-radius: calc(var(--xa-r) - 2px - 0.55em); background: var(--bg); overflow: hidden; isolation: isolate;
+}
+.xa-screen::after {
+  content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none; border-radius: inherit;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.06), transparent 40%);
+  box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.3);
+}
+.xa-cam {
+  position: absolute; z-index: 3; top: 0.7em; left: 50%; width: 0.9em; height: 0.9em; margin-left: -0.45em; border-radius: 50%;
+  background: radial-gradient(circle at 34% 34%, rgba(255, 255, 255, 0.7) 0 0.08em, transparent 0.17em), color-mix(in srgb, var(--bg) 55%, black);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--text-hi) 26%, transparent);
+}
+.xa-status { display: flex; align-items: center; justify-content: space-between; height: 2.2em; padding: 0.2em 1.1em 0; color: var(--text-dim); }
+.xa-clock { font: 600 0.85em/1 var(--font-body); }
+.xa-sig { display: inline-flex; align-items: center; gap: 0.35em; }
+.xa-sig-bars {
+  width: 1em; height: 0.75em;
+  background: repeating-linear-gradient(90deg, currentColor 0 0.17em, transparent 0.17em 0.28em);
+  -webkit-mask: linear-gradient(to top right, transparent 50%, #000 50%);
+  mask: linear-gradient(to top right, transparent 50%, #000 50%);
+}
+.xa-sig-bat { position: relative; width: 1.5em; height: 0.75em; border: 1px solid currentColor; border-radius: 0.2em; opacity: 0.8; }
+.xa-sig-bat::after { content: ""; position: absolute; inset: 1px 0.3em 1px 1px; border-radius: 1px; background: currentColor; }
+.xa-app-head {
+  display: flex; align-items: center; gap: 0.45em; height: 2.3em; padding: 0 0.9em;
+  background: color-mix(in srgb, var(--xa-c) 24%, var(--bg)); border-bottom: 1px solid color-mix(in srgb, var(--xa-c) 35%, transparent);
+  font: 600 0.95em/1 var(--font-body); color: var(--text-hi); transition: opacity 0.3s ease;
+}
+.xa-app-ico { width: 1.3em; height: 1.3em; border-radius: 0.35em; background: var(--xa-c); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3); }
+.xa-app-body { position: relative; flex: 1 1 auto; min-height: 0; padding: 0.7em 0.8em; overflow: hidden; transition: opacity 0.3s ease; }
+.xa-screen.has-sheet .xa-app-head, .xa-screen.has-sheet .xa-app-body { opacity: 0.45; }
+
+/* ----------------------------------------------------------- 3. primitives
+   Grey blocks for text, gradient tiles for photos, cards, the highlight
+   ring, the action pill (floating, or the checkout button). */
+.xa-ln { display: block; height: 0.62em; margin: 0.4em 0; border-radius: 0.31em; background: color-mix(in srgb, var(--text-hi) 14%, transparent); }
+.xa-ln.is-dim { opacity: 0.55; }
+.xa-row { display: flex; align-items: center; gap: 0.55em; }
+.xa-col { flex: 1 1 auto; min-width: 0; }
+.xa-card { padding: 0.7em 0.75em; border-radius: 0.8em; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline-cool), 0 1px 2px var(--edge-lo); }
+.xa-card + .xa-card { margin-top: 0.6em; }
+.xa-card.is-dim { opacity: 0.5; }
+.xa-avatar { flex: none; width: 2.2em; height: 2.2em; border-radius: 50%; background: color-mix(in srgb, var(--text-hi) 18%, transparent); }
+.xa-tile, .xa-thumb { position: relative; display: block; border-radius: 0.5em; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18); }
+.xa-tile { aspect-ratio: 1 / 1; }
+.xa-thumb { flex: none; width: 2.6em; height: 2.6em; border-radius: 0.45em; }
+.xa-g0 { background: linear-gradient(140deg, var(--dom-lifestyle), var(--dom-travel)); }
+.xa-g1 { background: linear-gradient(140deg, var(--pop-300), var(--dom-shopping)); }
+.xa-g2 { background: linear-gradient(140deg, var(--dom-productivity), var(--dom-entertainment)); }
+.xa-g3 { background: linear-gradient(140deg, var(--cyan-300), var(--dom-social)); }
+.xa-hot { position: relative; transition: box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease; }
+.xa-hot.is-on, .xa-tile.is-pick { box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.5px var(--xa-c); }
+.xa-pill {
+  position: absolute; z-index: 3; left: 50%; top: -2em; transform: translate(-50%, 4px);
+  padding: 0.35em 0.75em; border-radius: 999px; background: var(--xa-c); color: var(--xa-ink);
+  font: 600 0.95em/1.2 var(--font-body); white-space: nowrap; pointer-events: none; opacity: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.xa-pill::after { content: ""; position: absolute; left: 50%; bottom: -0.35em; margin-left: -0.35em; border: 0.35em solid transparent; border-top-color: var(--xa-c); border-bottom: 0; }
+.xa-pill.is-on { opacity: 1; transform: translate(-50%, 0); animation: xa-pulse 0.9s ease-in-out 3; }
+.xa-slot > .xa-pill { top: auto; bottom: 0.6em; }
+.xa-btn, .xa-btn.is-on { position: static; display: block; width: 88%; margin: 0.9em auto 0; padding: 0.6em; text-align: center; opacity: 1; transform: none; }
+.xa-btn::after { display: none; }
+.xa-btn.is-on { animation: xa-pulse 0.9s ease-in-out 3; }
+.xa-btn.is-done { background: var(--surface-2); color: var(--xa-c); box-shadow: inset 0 0 0 1.5px var(--xa-c); animation: none; }
+.xa-btn.is-done::before, .xa-chip-result::before {
+  content: ""; display: inline-block; width: 0.38em; height: 0.7em; margin: 0 0.55em -0.08em 0;
+  border: solid currentColor; border-width: 0 2px 2px 0; transform: rotate(45deg);
+}
+
+/* -------------------------------------------------------------- 4. screens */
+.xa-quote {
+  margin: 0.5em -0.2em 0; padding: 0.35em 0.5em; border-left: 2px solid var(--hairline-strong); border-radius: 0 0.4em 0.4em 0;
+  background: var(--chart-track); font: 500 0.92em/1.35 var(--font-body); color: var(--text-hi);
+}
+.xa-quote.is-on { background: color-mix(in srgb, var(--xa-c) 24%, transparent); border-left-color: var(--xa-c); box-shadow: none; }
+.xa-acts { justify-content: space-around; margin-top: 0.4em; }
+.xa-acts .xa-ln, .xa-total .xa-ln, .xa-bubble .xa-ln:only-child, .xa-input .xa-ln, .xa-share-app .xa-ln, .xa-form > .xa-ln { margin: 0; }
+.xa-note { padding: 0.3em 0.2em; }
+.xa-title { height: 1em; margin-bottom: 0.9em; }
+.xa-paste { display: flex; align-items: center; min-height: 1.4em; margin: 0.3em -0.25em 0; padding: 0.1em 0.25em; border-radius: 0.3em; font: 500 0.95em/1.3 var(--font-body); color: var(--text-hi); }
+.xa-paste.is-in { animation: xa-flash 1.8s ease forwards; }
+.xa-caret { flex: none; width: 1.5px; height: 1.1em; margin-left: 1px; background: var(--xa-c); animation: xa-blink 1s steps(2) infinite; }
+.xa-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.35em; padding: 0.2em 0; }
+.xa-badge {
+  position: absolute; right: 0.25em; top: 0.25em; min-width: 1.35em; height: 1.35em; padding: 0 0.3em; border-radius: 999px;
+  background: var(--xa-c); color: var(--xa-ink); font: 700 0.8em/1.35em var(--font-body); text-align: center;
+  box-shadow: 0 0 0 1.5px var(--bg); animation: xa-pop 0.3s ease;
+}
+.xa-chat { display: flex; flex-direction: column; gap: 0.55em; padding: 0.2em 0; }
+.xa-msg { display: flex; align-items: flex-end; gap: 0.4em; }
+.xa-msg-out { flex-direction: row-reverse; }
+.xa-msg .xa-avatar { width: 1.9em; height: 1.9em; border-radius: 0.45em; }
+.xa-bubble { max-width: 72%; min-width: 3.2em; padding: 0.45em 0.6em; border-radius: 0.8em; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline-cool); }
+.xa-bubble .xa-ln { margin: 0.3em 0; }
+.xa-msg-out .xa-bubble { background: color-mix(in srgb, var(--text-hi) 10%, var(--surface-2)); }
+.xa-msg-photo { opacity: 0; transform: translateY(6px) scale(0.9); transform-origin: 0 100%; transition: opacity 0.3s ease, transform 0.3s ease; }
+.xa-msg-photo.is-in { opacity: 1; transform: none; }
+.xa-msg-photo .xa-bubble { padding: 0.3em; }
+.xa-msg-photo .xa-thumb { width: 3.6em; height: 3.6em; }
+.xa-total { display: flex; align-items: center; justify-content: space-between; margin: 0.4em -0.3em 0; padding: 0.45em 0.3em 0.2em; border-top: 1px solid var(--hairline-cool); border-radius: 0.4em; }
+.xa-amt { font: 600 1.05em/1 var(--font-mono); color: var(--text-hi); }
+.xa-sheet {
+  position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; padding: 0.5em 0.9em 1em;
+  border-radius: 1.2em 1.2em 0 0; background: var(--surface-2);
+  box-shadow: inset 0 1px 0 var(--edge-hi), 0 -10px 24px -10px var(--xa-drop);
+  transform: translateY(104%); transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.xa-sheet.is-up { transform: none; }
+.xa-handle { display: block; width: 2.4em; height: 0.3em; margin: 0 auto 0.8em; border-radius: 0.15em; background: var(--hairline-strong); }
+.xa-share-row { display: flex; justify-content: space-between; padding: 0 0.1em; }
+.xa-share-app { display: grid; justify-items: center; gap: 0.4em; width: 22%; }
+.xa-share-ico { width: 2.5em; height: 2.5em; border-radius: 30%; background: var(--chart-track); box-shadow: inset 0 0 0 1px var(--hairline-cool); }
+.xa-share-app.is-to .xa-share-ico { background: var(--xa-to); box-shadow: 0 0 0 2px var(--surface-2), 0 0 0 3.5px var(--xa-to); }
+.xa-share-name { font: 600 0.8em/1 var(--font-body); color: var(--text-hi); }
+.xa-pay { text-align: center; }
+.xa-pay .xa-row { justify-content: center; }
+.xa-pay .xa-row .xa-ln { flex: none; margin: 0; }
+.xa-pay > .xa-ln { margin-left: auto; margin-right: auto; }
+.xa-merchant { flex: none; width: 1.6em; height: 1.6em; border-radius: 0.4em; background: var(--xa-from); }
+.xa-big { min-height: 1.3em; margin: 0.45em 0 0.3em; font: 600 1.7em/1.2 var(--font-mono); color: var(--text-hi); }
+.xa-big.is-in { animation: xa-pop 0.3s ease; }
+.xa-finger { position: relative; width: 3.4em; height: 3.4em; margin: 0.7em auto 0; border-radius: 50%; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--xa-c) 45%, transparent); opacity: 0.6; transition: opacity 0.3s ease; }
+.xa-finger i {
+  position: absolute; inset: 0.55em; border-radius: 50%;
+  background: repeating-radial-gradient(circle at 50% 58%, var(--xa-c) 0 1px, transparent 1px 0.34em);
+  -webkit-mask: radial-gradient(circle at 50% 58%, #000 60%, transparent 62%);
+  mask: radial-gradient(circle at 50% 58%, #000 60%, transparent 62%);
+}
+.xa-finger.is-on { opacity: 1; animation: xa-pulse 0.8s ease-in-out 2; }
+.xa-form { display: grid; gap: 0.55em; padding: 0.2em 0; }
+.xa-slot { position: relative; display: grid; place-items: center; height: 5.6em; border: 1.5px dashed var(--hairline-strong); border-radius: 0.7em; background: var(--chart-track); }
+.xa-slot.is-on { border-color: var(--xa-c); box-shadow: none; }
+.xa-plus { position: relative; width: 1.4em; height: 1.4em; transition: opacity 0.2s ease; }
+.xa-plus::before, .xa-plus::after { content: ""; position: absolute; left: 0; top: 50%; width: 100%; height: 2px; margin-top: -1px; border-radius: 1px; background: var(--text-faint); }
+.xa-plus::after { transform: rotate(90deg); }
+.xa-thumbs { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 0.5em; opacity: 0; }
+.xa-thumbs .xa-thumb { width: 3.4em; height: 3.4em; }
+.xa-slot.is-done { border-style: solid; border-color: var(--xa-c); }
+.xa-slot.is-done .xa-plus, .xa-slot.is-done .xa-pill { opacity: 0; }
+.xa-slot.is-done .xa-thumbs { opacity: 1; animation: xa-pop 0.35s ease; }
+.xa-result { min-height: 1.2em; font: 500 0.85em/1.2 var(--font-body); color: var(--text-dim); text-align: center; }
+.xa-input { display: flex; align-items: center; height: 2em; padding: 0 0.6em; border-radius: 0.45em; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline-cool); }
+
+/* ------------------------------------------------------- 5. arcs and chips
+   The overlay sits above both phones; the chip follows the dashed arc. */
+.xa-overlay { position: absolute; inset: 0; z-index: 5; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.xa-arc { fill: none; stroke: var(--hairline-strong); stroke-width: 1.5; stroke-dasharray: 5 5; opacity: 0; transition: opacity 0.3s ease; }
+.xa-arc.is-on { opacity: 1; }
+.xa-chip {
+  position: absolute; z-index: 6; left: 0; top: 0; max-width: 160px; padding: 4px 10px; border-radius: 999px;
+  background: var(--surface-3); color: var(--text-hi); font: 600 11.5px/1.3 var(--font-body);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 0; pointer-events: none;
+  box-shadow: 0 0 0 1.5px var(--xa-from), 0 10px 20px -8px var(--xa-drop);
+}
+.xa-chip.is-on { opacity: 1; }
+.xa-chip-back { box-shadow: 0 0 0 1.5px var(--xa-to), 0 10px 20px -8px var(--xa-drop); }
+.xa-chip-amount { font-family: var(--font-mono); }
+.xa-chip-result { color: var(--xa-to); }
+.xa-chip-photo, .xa-chip-photos { display: inline-flex; align-items: center; padding: 3px; border-radius: 7px; }
+.xa-chip .xa-thumb { width: 26px; height: 26px; border-radius: 5px; box-shadow: 0 0 0 1.5px var(--surface-3); }
+.xa-chip .xa-thumb + .xa-thumb { margin-left: -12px; }
+
+/* ---------------------------------------------------------- 6. light theme */
+:root[data-theme="light"] .xa { --xa-drop: rgba(15, 23, 42, 0.3); }
+:root[data-theme="light"] .xa-phone {
+  --xa-bezel: var(--surface-3);
+  --xa-rail-hi: var(--surface-3);
+  --xa-rail-mid: color-mix(in srgb, var(--text-hi) 10%, var(--xa-bezel));
+  --xa-rail-lo: color-mix(in srgb, var(--text-hi) 32%, var(--xa-bezel));
+  box-shadow: inset 0 1px 0 var(--edge-hi), 0 18px 30px -24px rgba(0, 0, 0, 0.35), var(--shadow);
+}
+:root[data-theme="light"] .xa-screen::after { background: linear-gradient(115deg, rgba(255, 255, 255, 0.4), transparent 40%); box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.08); }
+:root[data-theme="light"] .xa-cam { background: radial-gradient(circle at 34% 34%, rgba(255, 255, 255, 0.7) 0 0.08em, transparent 0.17em), color-mix(in srgb, var(--text-hi) 70%, black); box-shadow: 0 0 0 1px var(--text-dim); }
+:root[data-theme="light"] .xa-pill { box-shadow: 0 2px 6px rgba(15, 23, 42, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
+
+/* ---------------------------------------------------------------- 7. motion */
+@keyframes xa-pulse { 50% { scale: 1.08; } }
+@keyframes xa-blink { 50% { opacity: 0; } }
+@keyframes xa-pop { 0% { opacity: 0; scale: 0.6; } 100% { opacity: 1; scale: 1; } }
+@keyframes xa-flash { 0%, 40% { background: color-mix(in srgb, var(--xa-c) 32%, transparent); } 100% { background: transparent; } }
+@media (prefers-reduced-motion: reduce) {
+  .xa *, .xa *::before, .xa *::after { animation: none !important; transition: none !important; }
+  .xa-paste.is-in { background: color-mix(in srgb, var(--xa-c) 32%, transparent); }
+  .xa-progress i { transform: scaleX(1); }
+}
+@media (max-width: 480px) {
+  .xa { --xa-w: 124px; }
+  .xa-stage { gap: 22px; }
+  .xa-band { padding: 10px 8px 14px; }
+  .xa-chip { max-width: 128px; }
+}
