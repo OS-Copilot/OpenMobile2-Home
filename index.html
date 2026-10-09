@@ -624,6 +624,7 @@
       </div>
     </section>
 
+
     <!-- ================================================================== -->
     <!-- BibTeX                                                              -->
     <!-- ================================================================== -->
@@ -633,6 +634,8 @@
           <span class="eyebrow">Citation</span>
           <h2 class="section-title">BibTeX</h2>
         </div>
+
+        <!-- OpenMobile-2 Citation -->
         <!-- TODO: citation key, author list and the arXiv id once the paper is public. -->
         <div class="bibtex rise">
           <div class="bibtex-bar">
@@ -653,9 +656,52 @@
   year={}
 }</pre>
         </div>
+
+        <!-- MobileGym Citation -->
+        <p class="section-sub" style="margin-top:28px;margin-bottom:16px">
+          If you find <strong>MobileGym++</strong> useful, please also cite the original
+          <a href="https://github.com/Purewhiter/mobilegym" target="_blank" rel="noopener">MobileGym</a> paper.
+        </p>
+
+        <div class="bibtex rise">
+          <div class="bibtex-bar">
+            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="fn">mobilegym.bib</span>
+            <button class="copy-btn" id="copyMobileGymBib" type="button">
+              <svg aria-hidden="true" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="5.5" y="5.5" width="9" height="9" rx="1.6" />
+                <path d="M10.5 5.5v-3a1 1 0 0 0-1-1h-7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h3" />
+              </svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre id="mobilegym-bibtex">@article{wu2026mobilegym,
+  title={Mobilegym: A verifiable and highly parallel simulation platform for mobile gui agent research},
+  author={Wu, Dingbang and Hao, Rui and Wang, Haiyang and Wu, Shuzhe and Xiao, Han and Li, Zhenghong and Zhou, Bojiang and Ju, Zheng and Liu, Zichen and Fan, Lue and others},
+  journal={arXiv preprint arXiv:2605.26114},
+  year={2026}
+}</pre>
+        </div>
+
       </div>
     </section>
   </main>
+
+    <!-- Copy button for MobileGym citation -->
+    <script>
+      document.getElementById('copyMobileGymBib').addEventListener('click', async function () {
+        const text = document.getElementById('mobilegym-bibtex').textContent;
+        try {
+          await navigator.clipboard.writeText(text);
+          const label = this.querySelector('span');
+          label.textContent = 'Copied!';
+          setTimeout(() => { label.textContent = 'Copy'; }, 2000);
+        } catch (err) {
+          console.error('Failed to copy MobileGym BibTeX:', err);
+        }
+      });
+    </script>
+
 
   <!-- ==================================================================== -->
   <!-- Footer                                                                -->
