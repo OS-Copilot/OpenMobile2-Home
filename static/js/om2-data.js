@@ -195,13 +195,28 @@
   ];
   /* success and mean steps, GUI-only vs with tools, on MobileGym++ Bench (Sec. 5.3 text):
      after hybrid SFT the tool gain is +5.6 (9B) and +10.3 (27B) points and
-     trajectories are 4.8 and 5.8 steps shorter. Per-model step counts for the
-     other rows are in Fig. 5b only; not reproduced here. */
+     trajectories are 4.8 and 5.8 steps shorter. */
   var TOOL_EFFECT = {
     stepsShorter: { "9B": 4.8, "27B": 5.8 },
     gainAfterHybridSFT: { "9B": 5.6, "27B": 10.3 },
     gainBase: { min: 2.8, max: 4.2 }
   };
+  /* mean steps per task on MobileGym++ Bench, GUI-only vs with tools, for the
+     eight configurations the paper's tool-analysis figure (Fig. 5b) reports;
+     values are the figure's own labels. The text's 4.8 / 5.8 (after hybrid
+     SFT) and "at most 3.4" (before) agree with them. The figure's GUI-only
+     success for 9B GUI-only SFT (41.1) and the 27B base (46.3) differs
+     from Table 2 (40.9, 46.5) by 0.2; the page keeps Table 2. */
+  var TOOL_STEPS = [
+    { model: "GUI-Owl-1.5-8B",  stage: null,           gui: 33.9, hyb: 34.6 },
+    { model: "GUI-Owl-1.5-32B", stage: null,           gui: 32.3, hyb: 36.7 },
+    { model: "OpenMobile-2-9B",  stage: "Base",         gui: 43.4, hyb: 42.9 },
+    { model: "OpenMobile-2-9B",  stage: "GUI-only SFT", gui: 24.9, hyb: 25.9 },
+    { model: "OpenMobile-2-9B",  stage: "Hybrid SFT",   gui: 28.0, hyb: 23.2 },
+    { model: "OpenMobile-2-27B", stage: "Base",         gui: 32.0, hyb: 28.6 },
+    { model: "OpenMobile-2-27B", stage: "GUI-only SFT", gui: 21.9, hyb: 23.9 },
+    { model: "OpenMobile-2-27B", stage: "Hybrid SFT",   gui: 25.0, hyb: 19.2 }
+  ];
 
   /* ---------------------------------------------------------- environment coverage (Sec. 5.3, Table 3)
      Fixed budget of 2K emulator trajectories; the 15 in-distribution apps are
@@ -481,6 +496,7 @@
     results: RESULTS,
     toolUse: TOOL_USE,
     toolEffect: TOOL_EFFECT,
+    toolSteps: TOOL_STEPS,
     coverage: COVERAGE,
     walkthroughs: { pipeline: PIPELINE, construction: CONSTRUCTION, taobao: TASK_TAOBAO },
     pipelineTour: PIPELINE_TOUR,

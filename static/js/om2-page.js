@@ -45,7 +45,9 @@
     mount("results-table", "resultsTable");
     mount("chart-stages", "stageChart");
     mount("chart-coverage", "coverageScaling");
+    mount("tools-slides", "slides");
     mount("chart-tools", "toolDumbbell");
+    mount("chart-tool-steps", "toolSteps");
     live = mount("live-sim", "liveSim", {
       /* MobileGym++ build, served by the sibling Pages site OpenMobile2-Sim
          (same origin, so the window API is reachable); see

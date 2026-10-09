@@ -1239,6 +1239,43 @@ footer.site .fine a { color: var(--text-dim); }
 .wt-legend { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 13px; color: var(--text-dim); }
 .wt-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
 .wt-note { font-size: 13.5px; color: var(--text-dim); margin: 12px 0 0; }
+/* slides: panels on one horizontal track (scroll-snap, swipe or wheel),
+   with a pager of labelled dots and two arrows (om2-slides.js) */
+.wt-slides-track {
+  display: flex;
+  overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.wt-slides-track::-webkit-scrollbar { display: none; }
+.wt-slides-track { align-items: flex-start; transition: height 0.3s ease; }
+.wt-slide { flex: 0 0 100%; min-width: 0; scroll-snap-align: start; scroll-snap-stop: always; }
+/* pager: a segmented control naming the panels, a ghost arrow either side */
+.wt-slides-nav { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; }
+.wt-slides-nav .wt-btn {
+  width: 28px; height: 28px; min-width: 0; padding: 0; justify-content: center;
+  border-color: transparent; background: transparent; color: var(--text-dim); box-shadow: none;
+}
+.wt-slides-nav .wt-btn:hover { color: var(--text-hi); background: var(--chart-track); border-color: transparent; }
+.wt-slides-nav .wt-btn:disabled { opacity: 0.3; pointer-events: none; }
+.wt-slides-seg {
+  display: inline-flex; gap: 2px; padding: 3px;
+  border-radius: 999px; border: 1px solid var(--hairline-cool); background: var(--chart-track);
+}
+.wt-slide-dot {
+  display: inline-flex; align-items: center; gap: 7px;
+  height: 26px; padding: 0 12px 0 10px; border-radius: 999px;
+  border: 0; background: transparent;
+  color: var(--text-dim); font: 500 12.5px/1 var(--font-body); cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.wt-slide-dot i { width: 6px; height: 6px; border-radius: 50%; background: var(--hairline-strong); transition: background 0.15s ease; }
+.wt-slide-dot:hover { color: var(--text-hi); }
+.wt-slide-dot[aria-current="true"] { color: var(--text-hi); background: var(--surface-2); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18), inset 0 0 0 1px var(--hairline-cool); }
+.wt-slide-dot[aria-current="true"] i { background: var(--accent-400); }
+.wt-slide-dot:focus-visible, .wt-slides-track:focus-visible { outline: 2px solid var(--accent-400); outline-offset: 2px; }
 .wt-kbd { font: 500 11px var(--font-mono); color: var(--text-faint); }
 
 /* --------------------------------------------------------------------------

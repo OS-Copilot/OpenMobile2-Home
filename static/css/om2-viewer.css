@@ -274,6 +274,7 @@
 .tv-lane-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin: 0 0 10px; }
 .tv-lane-head h4 { margin: 0; font: 600 15px/1.3 var(--font-body); color: var(--text-hi); }
 .tv-lane-head .tv-tag { height: 22px; }
+.tv-lane-head .tv-tag.is-model { height: auto; min-height: 22px; padding: 3px 9px; white-space: normal; line-height: 1.35; }
 
 /* pairs card */
 .tv-pairs .wt-tabs { margin-bottom: 18px; }

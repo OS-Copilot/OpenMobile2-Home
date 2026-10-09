@@ -564,7 +564,12 @@
             <div class="chart-head"><h3>Tools pay off after hybrid training</h3></div>
             <p class="chart-note">Tool access barely moves success before hybrid SFT. After it, the hybrid
               lane gains the most and finishes in fewer steps.</p>
-            <div id="chart-tools"></div>
+            <!-- two panels on one track: success, then mean steps; swipe,
+                 the arrows or the labels move between them (om2-slides.js) -->
+            <div class="wt-slides" id="tools-slides">
+              <div class="wt-slide" data-label="Success rate"><div id="chart-tools"></div></div>
+              <div class="wt-slide" data-label="Steps per task"><div id="chart-tool-steps"></div></div>
+            </div>
           </div>
         </div>
       </div>
@@ -761,6 +766,7 @@
   <script src="static/js/om2-stepper.js"></script>
   <script src="static/js/om2-lanes.js"></script>
   <script src="static/js/om2-charts.js"></script>
+  <script src="static/js/om2-slides.js"></script>
   <script src="static/js/om2-table.js"></script>
   <script src="static/js/om2-crossapp.js"></script>
   <script src="static/js/om2-live.js"></script>
