@@ -66,6 +66,10 @@
   box-shadow: 0 34px 60px -30px rgba(0, 0, 0, 0.75), var(--shadow);
 }
 :root[data-theme="light"] .lv-phone { box-shadow: 0 28px 50px -30px rgba(0, 0, 0, 0.35), var(--shadow); }
+/* arriving from the hero phone's swipe-up: the phone settles into place */
+.lv.is-arrive .lv-phone { animation: lv-arrive 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) both; }
+@keyframes lv-arrive { from { transform: translateY(36px); opacity: 0.35; } }
+@media (prefers-reduced-motion: reduce) { .lv.is-arrive .lv-phone { animation: none; } }
 .lv-bezel {
   flex: 1 1 auto;
   min-width: 0;

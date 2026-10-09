@@ -179,6 +179,7 @@
 .tv-tag.is-ok { color: var(--ok); }
 .tv-tag.is-bad { color: var(--bad); }
 .tv-tag.is-model { color: var(--text-dim); }
+.tv-tag.is-delta { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, transparent); }
 .tv-pairlink { margin-left: auto; }
 
 /* step strip */

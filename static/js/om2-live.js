@@ -231,7 +231,7 @@
     }
     key("reset", "Reset", function () {
       var sim = state.iframe && state.iframe.contentWindow && state.iframe.contentWindow.__SIM__;
-      if (sim && sim.reset) { setReady(false); sim.reset(); }
+      if (sim && sim.reset) { setReady(false); clearLog(); sim.reset(); }
     });
     key("power", "Power off", function () { powerOff(); state.wasOff = true; }, "lv-key-off");
 
@@ -336,6 +336,12 @@
       scheduleState(320);
     }
     var typeBuf = "", typeTimer = null;
+    /* a reset or power-off starts a fresh episode: empty the log */
+    function clearLog() {
+      clearTimeout(typeTimer); typeBuf = ""; logCount = 0;
+      while (agentLog.firstChild) agentLog.removeChild(agentLog.firstChild);
+      if (!agentEmpty.parentNode) agentPanel.appendChild(agentEmpty);
+    }
     function flushType() {
       if (typeBuf) { logAction("type", JSON.stringify(typeBuf)); typeBuf = ""; }
       typeTimer = null;
@@ -607,12 +613,23 @@
       if (state.iframe) { state.iframe.remove(); state.iframe = null; }
       state.on = false;
       setReady(false);
+      clearLog();
       root.classList.remove("is-on");
       stApp.textContent = "off"; stRoute.textContent = "";
       toolsApp = null; while (toolsList.firstChild) toolsList.removeChild(toolsList.firstChild);
       toolsHead.textContent = "home screen"; toolsEmpty.textContent = "Open an app to see its tools."; toolsPanel.appendChild(toolsEmpty);
     }
     boot.addEventListener("click", function () { state.wasOff = false; powerOn(); });
+    /* the hero phone's swipe-up lands here: switch on if needed and let the
+       phone settle into place */
+    function arrive() {
+      if (!state.on) { state.wasOff = false; powerOn(); }
+      root.classList.remove("is-arrive");
+      void root.offsetWidth;
+      root.classList.add("is-arrive");
+      clearTimeout(state.arriveTimer);
+      state.arriveTimer = setTimeout(function () { root.classList.remove("is-arrive"); }, 1500);
+    }
 
     /* scale the phone to the space it has; the layout box follows the scale */
     function fit() {
@@ -676,6 +693,7 @@
       el: root,
       powerOn: powerOn,
       powerOff: powerOff,
+      arrive: arrive,
       os: function () { return state.iframe && state.iframe.contentWindow && state.iframe.contentWindow.__OS__ || null; },
       destroy: function () { powerOff(); root.remove(); }
     };

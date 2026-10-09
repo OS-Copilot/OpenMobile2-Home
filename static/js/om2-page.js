@@ -9,15 +9,25 @@
   function mount(id, fn) {
     var el = document.getElementById(id);
     var W = window.OM2Widgets || {};
-    if (!el || typeof W[fn] !== "function") return;
-    try { W[fn](el, arguments[2] || {}); }
+    if (!el || typeof W[fn] !== "function") return null;
+    try { return W[fn](el, arguments[2] || {}); }
     catch (e) { if (window.console) console.error("[om2] " + fn + " on #" + id, e); }
+    return null;
   }
 
   function init() {
     var D = window.OM2;
     if (!D) return;
-    mount("app-wall", "appWall");
+    /* the hero phone hands over to the live demo: a swipe up (or a click on
+       the hint) scrolls to the simulator card and switches the phone on */
+    var live = null;
+    mount("app-wall", "appWall", {
+      onEnter: function () {
+        var head = document.querySelector("#live .section-head") || document.getElementById("live");
+        if (head) head.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (live && live.arrive) live.arrive();
+      }
+    });
     mount("chart-domains", "domainCoverage");
     mount("crossapp", "crossApp", { items: D.crossApp });
     mount("construction-steps", "stepper", { steps: D.walkthroughs.construction.steps });
@@ -25,8 +35,8 @@
     mount("pipeline-flow", "pipelineFlow", { data: D.pipelineTour, base: "viewer/" });
     mount("task-pairs", "trajPairs", {
       pairs: [
-        { label: "Restock the pantry cart", gui: "bench-case74-gui", hybrid: "bench-case74" },
-        { label: "Prep day before a deadline", gui: "bench-case73-gui", hybrid: "bench-case73" }
+        { label: "Prep day before a deadline", gui: "bench-case73-gui", hybrid: "bench-case73" },
+        { label: "Restock the pantry cart", gui: "bench-case74-gui", hybrid: "bench-case74" }
       ]
     });
     mount("example-cards", "trajCards", { viewer: "viewer.html" });
@@ -36,7 +46,7 @@
     mount("chart-stages", "stageChart");
     mount("chart-coverage", "coverageScaling");
     mount("chart-tools", "toolDumbbell");
-    mount("live-sim", "liveSim", {
+    live = mount("live-sim", "liveSim", {
       /* MobileGym++ build, served by the sibling Pages site OpenMobile2-Sim
          (same origin, so the window API is reachable); see
          tools/assemble_sim.py and README */

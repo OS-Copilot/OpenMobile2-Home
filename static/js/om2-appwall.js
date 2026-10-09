@@ -25,6 +25,7 @@
     minCols: 8,
     maxCols: 12,
     clock: "9:41",
+    onEnter: null,            /* function: a swipe up on the screen (or the hint) calls it */
     labels: {
       sim: "MobileGym++ client",
       emu: "Android emulator",
@@ -33,7 +34,8 @@
       isNew: "built in this work",
       system: "system client",
       simulated: "simulated",
-      emulator: "emulator"
+      emulator: "emulator",
+      swipe: "Swipe up to enter MobileGym++"
     }
   };
 
@@ -268,6 +270,8 @@
     var grid = el("div", "aw-grid");
     var foot = el("div", "aw-foot");
     var dock = el("div", "aw-dock");
+    var swipe = el("button", "aw-swipe");
+    var swipeIco = el("i", "aw-swipe-ico");
     var capDot = el("i", "aw-dot");
     var capText = el("span", "aw-cap-text");
     var capName = el("b");
@@ -283,7 +287,12 @@
     sig.innerHTML = STATUS_ICONS;
     status.setAttribute("aria-hidden", "true");
     cam.setAttribute("aria-hidden", "true");
-    foot.setAttribute("aria-hidden", "true");
+    dock.setAttribute("aria-hidden", "true");
+    swipe.type = "button";
+    swipe.setAttribute("aria-label", L.swipe);
+    swipeIco.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5"/></svg>';
+    swipe.appendChild(swipeIco);
+    swipe.appendChild(el("span", "aw-swipe-text", L.swipe));
     tip.setAttribute("role", "tooltip");
     grid.setAttribute("role", "group");
     grid.setAttribute("aria-label", plural(ordered.length, "app", "apps") + " in the playground, by domain");
@@ -338,6 +347,7 @@
     dock.appendChild(capDot);
     dock.appendChild(capText);
     foot.appendChild(dock);
+    if (typeof o.onEnter === "function") foot.appendChild(swipe);
     foot.appendChild(el("i", "aw-home"));
     wall.appendChild(grid);
     screen.appendChild(wash);
@@ -523,6 +533,39 @@
     }
     function onVis() { sync(); }
 
+    /* ---- hand-over: a swipe up on the screen (mouse or pen; a touch swipe
+       scrolls the page, which gets there too) or the hint button. The wall
+       slides off the top, the page scrolls to the live demo, and the wall is
+       put back once it is out of view. */
+    var swipeStart = null, swiped = false, leaveTimer = null;
+    function enter() {
+      if (typeof o.onEnter !== "function" || root.classList.contains("is-leaving")) return;
+      clearTimeout(unlockTimer); unlock();
+      root.classList.add("is-leaving");
+      try { o.onEnter(); } catch (err) { if (global.console) global.console.error("[appWall] onEnter", err); }
+      clearTimeout(leaveTimer);
+      leaveTimer = setTimeout(function () {
+        root.classList.add("is-restoring");
+        root.classList.remove("is-leaving");
+        global.requestAnimationFrame(function () { root.classList.remove("is-restoring"); });
+      }, reduced() ? 0 : 1600);
+    }
+    function onSwipeDown(e) {
+      if (e.pointerType === "touch" || (e.pointerType === "mouse" && e.button !== 0)) return;
+      swipeStart = { x: e.clientX, y: e.clientY };
+      swiped = false;
+    }
+    function onSwipeMove(e) {
+      if (!swipeStart || swiped) return;
+      var dx = e.clientX - swipeStart.x, dy = e.clientY - swipeStart.y;
+      if (dy < -60 && Math.abs(dy) > Math.abs(dx) * 1.5) { swiped = true; swipeStart = null; hideTip(); enter(); }
+    }
+    function onSwipeEnd() { swipeStart = null; }
+    function onSwipeClick(e) {
+      /* the pointerup that ends a swipe would otherwise pin a domain */
+      if (swiped) { swiped = false; e.stopPropagation(); e.preventDefault(); }
+    }
+
     grid.addEventListener("pointerover", onOver);
     grid.addEventListener("pointerout", onOut);
     grid.addEventListener("pointermove", onMove);
@@ -534,6 +577,14 @@
     legend.addEventListener("click", onChipClick);
     phone.addEventListener("pointerenter", onEnter);
     phone.addEventListener("pointerleave", onLeave);
+    if (typeof o.onEnter === "function") {
+      screen.addEventListener("pointerdown", onSwipeDown);
+      screen.addEventListener("pointermove", onSwipeMove);
+      screen.addEventListener("pointerup", onSwipeEnd);
+      screen.addEventListener("pointercancel", onSwipeEnd);
+      screen.addEventListener("click", onSwipeClick, true);
+      swipe.addEventListener("click", function (e) { e.stopPropagation(); enter(); });
+    }
     root.addEventListener("keydown", onKey);
     document.addEventListener("visibilitychange", onVis);
     if (reducedMq) {
@@ -599,6 +650,7 @@
       options: applyOptions,
       destroy: function () {
         clearTimeout(unlockTimer);
+        clearTimeout(leaveTimer);
         stop();
         if (ro) ro.disconnect(); else global.removeEventListener("resize", relayout);
         document.removeEventListener("visibilitychange", onVis);

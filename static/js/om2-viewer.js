@@ -523,11 +523,18 @@
     target.appendChild(root);
     var players = [null, null], active = 0;
 
-    function lane(holder, ep, label) {
+    function lane(holder, ep, label, delta) {
       holder.innerHTML = "";
       var tag = ep.mode === "hybrid" ? h("span", { class: "tv-tag is-mode-hybrid", text: countsText(ep) })
         : h("span", { class: "tv-tag", text: plural(stepCount(ep), "step", "steps") + " · taps only" });
-      holder.appendChild(h("div", { class: "tv-lane-head" }, [h("h4", { text: label }), tag, ep.note ? h("span", { class: "tv-tag is-model", text: ep.note }) : null]));
+      /* the hybrid lane says how its step count compares with the GUI-only run */
+      var cmp = null;
+      if (typeof delta === "number") {
+        cmp = h("span", { class: "tv-tag " + (delta > 0 ? "is-delta" : "is-model"),
+          text: delta > 0 ? plural(delta, "step", "steps") + " fewer than taps only"
+            : delta === 0 ? "same step count as taps only" : plural(-delta, "step", "steps") + " more than taps only" });
+      }
+      holder.appendChild(h("div", { class: "tv-lane-head" }, [h("h4", { text: label }), tag, cmp, ep.note ? h("span", { class: "tv-tag is-model", text: ep.note }) : null]));
       var mount = h("div");
       holder.appendChild(mount);
       return W.trajPlayer(mount, { base: base, compact: true, episode: ep });
@@ -546,7 +553,7 @@
         task.appendChild(document.createTextNode(eps[1].title + " "));
         if (eps[1].instruction && eps[1].instruction !== eps[1].title) task.appendChild(h("span", { lang: "zh", text: "— " + eps[1].instruction }));
         players[0] = lane(left, eps[0], "GUI-only");
-        players[1] = lane(right, eps[1], "Hybrid: GUI and app-native tools");
+        players[1] = lane(right, eps[1], "Hybrid: GUI and app-native tools", stepCount(eps[0]) - stepCount(eps[1]));
       }).catch(function (err) {
         left.innerHTML = "";
         left.appendChild(h("div", { class: "tv-loading", text: "Could not load this pair (" + err.message + ")." }));
