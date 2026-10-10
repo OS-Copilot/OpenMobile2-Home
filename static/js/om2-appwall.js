@@ -7,7 +7,7 @@
    OM2Widgets.appWall(elOrSelector, opts) -> { el, update(opts), destroy() }
    opts: apps, domains (default OM2.*), interval (ms, 2800), autoplay (true),
          pin (domain key), maxWidth (px, 360; null fills the container),
-         aspect (width / height, 9/19), minCols (8), maxCols (12),
+         aspect (optional outer width / height; default fits a 9/20 screen), minCols (8), maxCols (12),
          clock ("9:41"), labels ({ sim, emu, simKey, emuKey, isNew, system,
          simulated, emulator }).
    ========================================================================== */
@@ -21,11 +21,11 @@
     autoplay: true,
     pin: null,
     maxWidth: 360,
-    aspect: 9 / 19,
+    aspect: null,
     minCols: 8,
     maxCols: 12,
     clock: "9:41",
-    onEnter: null,            /* function: a swipe up on the screen (or the hint) calls it */
+    onEnter: null,            /* function(screen, lifecycle): creates an inline simulator */
     labels: {
       sim: "MobileGym++ client",
       emu: "Android emulator",
@@ -35,7 +35,8 @@
       system: "system client",
       simulated: "simulated",
       emulator: "emulator",
-      swipe: "Swipe up to enter MobileGym++"
+      swipe: "Try MobileGym++",
+      swipeHint: "Swipe up or click to play"
     }
   };
 
@@ -289,10 +290,13 @@
     cam.setAttribute("aria-hidden", "true");
     dock.setAttribute("aria-hidden", "true");
     swipe.type = "button";
-    swipe.setAttribute("aria-label", L.swipe);
+    swipe.setAttribute("aria-label", L.swipe + ". " + L.swipeHint);
     swipeIco.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5"/></svg>';
+    var swipeCopy = el("span", "aw-swipe-copy");
+    swipeCopy.appendChild(el("span", "aw-swipe-text", L.swipe));
+    swipeCopy.appendChild(el("span", "aw-swipe-hint", L.swipeHint));
+    swipe.appendChild(swipeCopy);
     swipe.appendChild(swipeIco);
-    swipe.appendChild(el("span", "aw-swipe-text", L.swipe));
     tip.setAttribute("role", "tooltip");
     grid.setAttribute("role", "group");
     grid.setAttribute("aria-label", plural(ordered.length, "app", "apps") + " in the playground, by domain");
@@ -347,12 +351,13 @@
     dock.appendChild(capDot);
     dock.appendChild(capText);
     foot.appendChild(dock);
-    if (typeof o.onEnter === "function") foot.appendChild(swipe);
     foot.appendChild(el("i", "aw-home"));
     wall.appendChild(grid);
     screen.appendChild(wash);
     screen.appendChild(status);
     screen.appendChild(cam);
+    /* Put the main action before the icon grid in keyboard navigation. */
+    if (typeof o.onEnter === "function") screen.appendChild(swipe);
     screen.appendChild(wall);
     screen.appendChild(foot);
     /* lock screen: time, today's date, a padlock; slides away on unlock */
@@ -415,7 +420,7 @@
     var shownKey;
 
     function reduced() { return !!(reducedMq && reducedMq.matches); }
-    function playing() { return o.autoplay && !reduced() && !pinKey && !over && !document.hidden; }
+    function playing() { return o.autoplay && !entered && !reduced() && !pinKey && !over && !document.hidden; }
     function current() {
       if (active) return active.tile.getAttribute("data-dom");
       if (previewKey) return previewKey;
@@ -533,37 +538,75 @@
     }
     function onVis() { sync(); }
 
-    /* ---- hand-over: a swipe up on the screen (mouse or pen; a touch swipe
-       scrolls the page, which gets there too) or the hint button. The wall
-       slides off the top, the page scrolls to the live demo, and the wall is
-       put back once it is out of view. */
-    var swipeStart = null, swiped = false, leaveTimer = null;
+    /* ---- unlock into a live device in this very screen. No page scrolling. */
+    var swipeStart = null, swiped = false, entered = false, simulator = null;
+    var wheelTravel = 0, wheelTimer = null;
+    function restore() {
+      entered = false;
+      simulator = null;
+      root.classList.remove("is-playing", "is-live");
+      wall.inert = false;
+      foot.inert = false;
+      swipe.inert = false;
+      wall.removeAttribute("aria-hidden");
+      foot.removeAttribute("aria-hidden");
+      swipe.removeAttribute("aria-hidden");
+      root.setAttribute("aria-label", "All applications in the playground, coloured by domain");
+      sync();
+      swipe.focus({ preventScroll: true });
+    }
     function enter() {
-      if (typeof o.onEnter !== "function" || root.classList.contains("is-leaving")) return;
+      if (typeof o.onEnter !== "function" || entered) return;
       clearTimeout(unlockTimer); unlock();
-      root.classList.add("is-leaving");
-      try { o.onEnter(); } catch (err) { if (global.console) global.console.error("[appWall] onEnter", err); }
-      clearTimeout(leaveTimer);
-      leaveTimer = setTimeout(function () {
-        root.classList.add("is-restoring");
-        root.classList.remove("is-leaving");
-        global.requestAnimationFrame(function () { root.classList.remove("is-restoring"); });
-      }, reduced() ? 0 : 1600);
+      entered = true;
+      hideTip(); stop();
+      wall.inert = true;
+      foot.inert = true;
+      swipe.inert = true;
+      wall.setAttribute("aria-hidden", "true");
+      foot.setAttribute("aria-hidden", "true");
+      swipe.setAttribute("aria-hidden", "true");
+      root.classList.add("is-playing");
+      root.setAttribute("aria-label", "Interactive MobileGym++ playground");
+      try {
+        simulator = o.onEnter(screen, {
+          onReady: function () { if (entered) root.classList.add("is-live"); },
+          onClose: restore
+        });
+        if (!simulator) restore();
+      } catch (err) {
+        restore();
+        if (global.console) global.console.error("[appWall] onEnter", err);
+      }
     }
     function onSwipeDown(e) {
-      if (e.pointerType === "touch" || (e.pointerType === "mouse" && e.button !== 0)) return;
+      swiped = false;
+      if (entered || (e.pointerType === "mouse" && e.button !== 0)) return;
       swipeStart = { x: e.clientX, y: e.clientY };
       swiped = false;
     }
     function onSwipeMove(e) {
-      if (!swipeStart || swiped) return;
+      if (!swipeStart || swiped || entered) return;
       var dx = e.clientX - swipeStart.x, dy = e.clientY - swipeStart.y;
-      if (dy < -60 && Math.abs(dy) > Math.abs(dx) * 1.5) { swiped = true; swipeStart = null; hideTip(); enter(); }
+      if (dy < -50 && Math.abs(dy) > Math.abs(dx) * 1.3) {
+        swiped = true; swipeStart = null;
+        e.preventDefault(); enter();
+      }
     }
     function onSwipeEnd() { swipeStart = null; }
     function onSwipeClick(e) {
-      /* the pointerup that ends a swipe would otherwise pin a domain */
+      /* The pointerup ending a swipe must not activate a tile or a new control. */
       if (swiped) { swiped = false; e.stopPropagation(); e.preventDefault(); }
+    }
+    function onWheel(e) {
+      /* Contain trackpad momentum on the loading layer and navigation bar. */
+      if (entered) { e.preventDefault(); return; }
+      if (e.deltaY <= 0 || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+      e.preventDefault();
+      wheelTravel += e.deltaY * (e.deltaMode === 1 ? 16 : 1);
+      clearTimeout(wheelTimer);
+      wheelTimer = setTimeout(function () { wheelTravel = 0; }, 220);
+      if (wheelTravel > 65) { wheelTravel = 0; enter(); }
     }
 
     grid.addEventListener("pointerover", onOver);
@@ -578,9 +621,12 @@
     phone.addEventListener("pointerenter", onEnter);
     phone.addEventListener("pointerleave", onLeave);
     if (typeof o.onEnter === "function") {
+      screen.addEventListener("wheel", onWheel, { passive: false });
       screen.addEventListener("pointerdown", onSwipeDown);
       screen.addEventListener("pointermove", onSwipeMove);
       screen.addEventListener("pointerup", onSwipeEnd);
+      global.addEventListener("pointerup", onSwipeEnd);
+      global.addEventListener("pointercancel", onSwipeEnd);
       screen.addEventListener("pointercancel", onSwipeEnd);
       screen.addEventListener("click", onSwipeClick, true);
       swipe.addEventListener("click", function (e) { e.stopPropagation(); enter(); });
@@ -650,7 +696,8 @@
       options: applyOptions,
       destroy: function () {
         clearTimeout(unlockTimer);
-        clearTimeout(leaveTimer);
+        clearTimeout(wheelTimer);
+        if (simulator) simulator.destroy();
         stop();
         if (ro) ro.disconnect(); else global.removeEventListener("resize", relayout);
         document.removeEventListener("visibilitychange", onVis);
@@ -658,12 +705,14 @@
           if (reducedMq.removeEventListener) reducedMq.removeEventListener("change", onVis);
           else if (reducedMq.removeListener) reducedMq.removeListener(onVis);
         }
+        global.removeEventListener("pointerup", onSwipeEnd);
+        global.removeEventListener("pointercancel", onSwipeEnd);
         root.removeEventListener("keydown", onKey);
         if (tip.parentNode) tip.parentNode.removeChild(tip);
         root.textContent = "";
         root.style.removeProperty("--aw-glow");
         root.style.removeProperty("--aw-w");
-        root.classList.remove("aw", "has-focus");
+        root.classList.remove("aw", "has-focus", "is-unlocked", "is-playing", "is-live");
       }
     };
   }

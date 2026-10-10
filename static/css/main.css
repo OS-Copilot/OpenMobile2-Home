@@ -640,6 +640,22 @@ h2.section-title { font-size: clamp(28px, 3.6vw, 38px); margin-bottom: 12px; }
 .legend { margin: 16px 0 0; font-size: 13px; color: var(--text-faint); }
 .legend sup { color: var(--accent-400); }
 .eq-key { color: var(--accent-300); font-weight: 600; }
+.authors .author-mark {
+  font-size: 0.8em;
+  margin-left: 3px;
+  line-height: 0;
+  color: var(--accent-300);
+}
+.author-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 22px;
+  line-height: 1.6;
+}
+.author-role { display: inline-flex; align-items: baseline; gap: 6px; white-space: nowrap; }
+.role-mark { color: var(--accent-300); font-weight: 600; }
 
 /* --------------------------------------------------------------------------
    9. Link row
@@ -668,6 +684,15 @@ h2.section-title { font-size: clamp(28px, 3.6vw, 38px); margin-bottom: 12px; }
   background: var(--surface-2);
 }
 .btn:active { transform: none; }
+.links .btn { justify-content: center; }
+.links .btn svg { width: 16px; height: 16px; }
+.links .btn[aria-disabled="true"] { cursor: default; }
+.links .btn[aria-disabled="true"]:hover {
+  transform: none;
+  color: var(--text-hi);
+  border-color: var(--hairline-cool);
+  background-color: var(--surface-1);
+}
 
 .btn-primary {
   background: var(--accent-400);
@@ -1522,6 +1547,7 @@ footer.site::before {
   .affils { justify-content: flex-start; text-align: left; }
   .byline { text-align: left; }
   .authors { text-align: left; }
+  .author-legend { justify-content: flex-start; text-align: left; gap: 6px 18px; }
 }
 
 @media (max-width: 620px) {

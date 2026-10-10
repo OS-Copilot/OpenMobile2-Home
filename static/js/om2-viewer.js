@@ -534,7 +534,7 @@
           text: delta > 0 ? plural(delta, "step", "steps") + " fewer than taps only"
             : delta === 0 ? "same step count as taps only" : plural(-delta, "step", "steps") + " more than taps only" });
       }
-      holder.appendChild(h("div", { class: "tv-lane-head" }, [h("h4", { text: label }), tag, cmp, ep.note ? h("span", { class: "tv-tag is-model", text: ep.note }) : null]));
+      holder.appendChild(h("div", { class: "tv-lane-head" }, [h("h4", { text: label }), tag, cmp]));
       var mount = h("div");
       holder.appendChild(mount);
       return W.trajPlayer(mount, { base: base, compact: true, episode: ep });

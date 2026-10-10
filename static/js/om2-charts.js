@@ -440,11 +440,15 @@
       var rows = stepRows(), Wd = c.width, narrow = Wd < 560;
       if (!rows.length) return;
       var labelW = Math.min(240, Math.ceil(maxOf(rows, function (r) { return textW(r.label) * (r.ours ? 1.06 : 1); })) + 16);
-      var m = { l: narrow ? 8 : labelW, r: 78, t: 6, b: 40 };
+      /* Reserve annotation space on both sides, separate from model labels. */
+      var noteW = Math.ceil(maxOf(rows, function (r) {
+        return textW(f1(r.hyb) + " (" + signed(r.hyb - r.gui) + ")", 11.5);
+      })) + 14;
+      var m = { l: narrow ? 8 : labelW, r: noteW, t: 6, b: 40 };
       var H = Math.max(c.height || 0, m.t + rows.length * (narrow ? 36 : 22) + m.b);
       var rowH = (H - m.t - m.b) / rows.length;
       var lo = 12, hi = 46;
-      var sx = linear(lo, hi, m.l, Wd - m.r);
+      var sx = linear(lo, hi, m.l + noteW, Wd - m.r);
       var pop = cssVar("--pop-400", "#ff8f6b"), dim = cssVar("--text-dim", "#8b98a8"), faint = cssVar("--text-faint", "#65717f");
       var svg = c.svg(Wd, H, "GUI-only versus hybrid mean steps per task on MobileGym++ Bench, per model and training stage");
       vgrid(svg, [15, 25, 35, 45], sx, m.t, H - m.b, String);
@@ -459,17 +463,18 @@
         el("line", { x1: sx(r.gui), x2: sx(r.hyb), y1: cy, y2: cy, stroke: shorter ? pop : faint, "stroke-width": 2 }, svg);
         el("circle", { cx: sx(r.gui), cy: cy, r: 5, fill: dim, class: "ch-dot" }, svg);
         el("circle", { cx: sx(r.hyb), cy: cy, r: 5, fill: pop, class: "ch-dot" }, svg);
-        /* the hybrid count, then the change against GUI-only, past the far dot */
-        var t = txt(f1(r.hyb), { x: sx(Math.max(r.gui, r.hyb)) + 9, y: cy + 4, class: "ch-value", style: "fill:" + pop }, svg);
-        var ts = el("tspan", { dx: 5, style: "fill:" + dim + ";font-weight:500" }, t);
-        ts.textContent = signed(d);
+        /* Follow the hybrid endpoint outward, so labels never cross the connector. */
+        var t = txt(f1(r.hyb), { x: sx(r.hyb) + (shorter ? -10 : 10), y: cy + 4,
+          "text-anchor": shorter ? "end" : "start", class: "ch-value ch-step-value ch-halo", style: "fill:" + pop }, svg);
+        var ts = el("tspan", { dx: 4, style: "fill:" + dim + ";font-weight:500" }, t);
+        ts.textContent = "(" + signed(d) + ")";
         hover(el("rect", { x: narrow ? 0 : m.l - 4, y: top, width: narrow ? Wd : Wd - m.l + 4, height: rowH, class: "ch-hit" }, svg), [
           r.full,
           "GUI-only " + f1(r.gui) + " steps \u00b7 Hybrid " + f1(r.hyb) + " steps \u00b7 " + signed(d) + " steps",
           "Success: GUI-only " + f1(r.sGui) + " \u00b7 Hybrid " + f1(r.sHyb)
         ]);
       });
-      c.legend([{ label: "GUI-only", color: dim, kind: "dot" }, { label: "Hybrid", color: pop, kind: "dot" }]);
+      c.legend([{ label: "GUI-only", color: dim, kind: "dot" }, { label: "Hybrid · steps (change vs GUI-only)", color: pop, kind: "dot" }]);
     } });
   };
 

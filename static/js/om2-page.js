@@ -18,14 +18,15 @@
   function init() {
     var D = window.OM2;
     if (!D) return;
-    /* the hero phone hands over to the live demo: a swipe up (or a click on
-       the hint) scrolls to the simulator card and switches the phone on */
-    var live = null;
+    /* Boot a separate simulator inside the hero only after a visitor enters. */
     mount("app-wall", "appWall", {
-      onEnter: function () {
-        var head = document.querySelector("#live .section-head") || document.getElementById("live");
-        if (head) head.scrollIntoView({ behavior: "smooth", block: "start" });
-        if (live && live.arrive) live.arrive();
+      onEnter: function (screen, lifecycle) {
+        return window.OM2Widgets.heroSim(screen, {
+          src: "/OpenMobile2-Sim/",
+          controlsHost: screen.closest(".aw-stage"),
+          onReady: lifecycle.onReady,
+          onClose: lifecycle.onClose
+        });
       }
     });
     /* charts in two-up rows take the height of their card (height "fill")
@@ -45,12 +46,11 @@
     mount("tool-schemas", "toolSchemas", { schemas: D.toolSchemas });
     mount("chart-bench", "benchComposition");
     mount("results-table", "resultsTable");
-    mount("chart-stages", "stageChart");
     mount("chart-coverage", "coverageScaling", { height: "fill", minHeight: 300 });
     mount("tools-slides", "slides");
     mount("chart-tools", "toolDumbbell", { height: "fill" });
     mount("chart-tool-steps", "toolSteps", { height: "fill" });
-    live = mount("live-sim", "liveSim", {
+    mount("live-sim", "liveSim", {
       /* MobileGym++ build, served by the sibling Pages site OpenMobile2-Sim
          (same origin, so the window API is reachable); see
          tools/assemble_sim.py and README */
