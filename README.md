@@ -27,7 +27,8 @@ static/js/om2-lanes.js   one task done GUI-only and with tools; tool schemas
 static/js/om2-charts.js  dependency-free SVG charts
 static/js/om2-table.js   main results table (sortable) and environment comparison
 static/js/om2-crossapp.js cross-app mechanisms scene
-static/js/om2-live.js    the live simulator card
+static/js/om2-live.js    the live simulator card and shared device setup
+static/js/om2-hero.js    on-demand simulator inside the hero phone
 static/js/om2-pipeline.js data pipeline tour (stations, stage visuals, autoplay)
 static/js/om2-viewer.js  trajectory player, viewer page, example cards, GUI vs hybrid pair
 static/js/om2-sim-apps.js every app in the live-demo build (generated, see tools/)
@@ -58,7 +59,7 @@ colour in one place. Charts re-render on container resize and on the
 
 | Mount | Component | Shows |
 | --- | --- | --- |
-| `#app-wall` | `appWall` | all 125 apps on a phone, by domain and runtime, behind a lock screen that opens on load |
+| `#app-wall` | `appWall` + `heroSim` | app wall that unlocks in place into a playable phone on swipe, scroll or click |
 | `#chart-domains` | `domainCoverage` | apps per domain, simulated vs emulator |
 | `#crossapp` | `crossApp` | the four cross-app mechanisms |
 | `#construction-steps` | `stepper` | how a commercial app is rebuilt |
@@ -70,22 +71,30 @@ colour in one place. Charts re-render on container resize and on the
 | `#tool-schemas` | `toolSchemas` | the Taobao tool signatures |
 | `#chart-bench` | `benchComposition` | MobileGym++ Bench by app count and domain |
 | `#results-table` | `resultsTable` | Table 2 of the paper, sortable |
-| `#chart-stages` | `stageChart` | the four training stages per benchmark |
 | `#chart-coverage` | `coverageScaling` | environment coverage at a fixed budget |
 | `#chart-tools` | `toolDumbbell` | GUI-only vs hybrid success per model |
 | `#viewer` (viewer.html) | `trajViewer` | filters, episode list and the player |
 
 ## Filling in what is left
 
-- **Links.** Code, data and models point at GitHub and Hugging Face. The paper
-  and MobileGym++ links are still parked: `class="btn pending"` in the hero and
-  `class="card feature pending-card"` under Resources, with no `href`. For each,
-  drop the class and add the `href`. `data-link` names the artifact.
+- **Links.** MobileGym++, code, data and models point at GitHub and Hugging
+  Face. The paper link has no `href` yet: add its release URL and remove
+  `aria-disabled` and the "Paper coming soon" title when it is available.
 - **Byline, news, venue, BibTeX, GitHub button, social card.** Search `TODO`.
 - **Numbers.** Every value in `om2-data.js` follows the ICLR 2027 submission;
   re-check against the camera-ready before release.
 
 ## Live demo
+
+The hero phone starts as the app wall. Swiping up, scrolling down over the
+phone, or activating its hint opens a separate simulator inside the same
+frame; the page stays in place. No hero simulator resources load until this
+interaction. The screen matches the simulator's native 360×800 viewport;
+its own bottom and edge gestures provide home, recents and back navigation.
+A small control below the phone restores the app wall. Loading failures offer Retry and
+Back. `om2-hero.js` uses `storageIsolation=load` so its state and files do not
+interfere with the lower live demo. Both instances use `/OpenMobile2-Sim/`
+on the same origin and share browser-cached assets.
 
 The live card embeds the MobileGym++ simulator as a same-origin iframe and
 drives it through `window.__OS__` / `__SIM__` / `__MOBILE_GYM_TOOLS__` (see

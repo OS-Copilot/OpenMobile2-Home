@@ -118,9 +118,9 @@
   }
 
   /* -------------------------------------------------------------- 4. copy */
-  function copyBib() {
-    var btn = document.getElementById("copyBib");
-    var pre = document.getElementById("bibtex");
+  function bindBibCopy(buttonId, textId) {
+    var btn = document.getElementById(buttonId);
+    var pre = document.getElementById(textId);
     if (!btn || !pre) return;
     btn.addEventListener("click", function () {
       var text = pre.textContent;
@@ -147,6 +147,12 @@
         legacy();
       }
     });
+  }
+
+  function copyBib() {
+    bindBibCopy("copyBib", "bibtex");
+    bindBibCopy("copyOpenMobileBib", "openmobile-bibtex");
+    bindBibCopy("copyMobileGymBib", "mobilegym-bibtex");
   }
 
   /* --------------------------------------------------------------- 5. init

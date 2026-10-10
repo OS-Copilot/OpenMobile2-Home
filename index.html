@@ -36,16 +36,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="static/css/main.css">
-  <link rel="stylesheet" href="static/css/om2-appwall.css">
+  <link rel="stylesheet" href="static/css/main.css?v=20261010-polish">
+  <link rel="stylesheet" href="static/css/om2-appwall.css?v=20261010-load-note2">
   <link rel="stylesheet" href="static/css/om2-stepper.css">
   <link rel="stylesheet" href="static/css/om2-lanes.css">
   <link rel="stylesheet" href="static/css/om2-charts.css">
-  <link rel="stylesheet" href="static/css/om2-table.css">
+  <link rel="stylesheet" href="static/css/om2-table.css?v=20261010-1">
   <link rel="stylesheet" href="static/css/om2-crossapp.css">
   <link rel="stylesheet" href="static/css/om2-live.css">
   <link rel="stylesheet" href="static/css/om2-pipeline.css">
-  <link rel="stylesheet" href="static/css/om2-viewer.css">
+  <link rel="stylesheet" href="static/css/om2-viewer.css?v=20261010-pair-align">
   <!-- Reveal-on-scroll hides content until JS un-hides it, so only opt in when
        JS is running; and the theme must be set before first paint. Both happen
        here, before the body renders. -->
@@ -210,17 +210,12 @@
           </li>
         </ul>
 
-        <!-- Release links. Each is parked (class "pending", no href) until its
-             artifact is public: then drop "pending" and add the href. -->
+        <!-- Paper remains unavailable until its release URL is added. -->
         <div class="links">
-          <a class="btn btn-primary pending" data-link="paper">
-            <!-- arXiv logomark -->
-            <svg viewBox="0 0 17.732 24.269" aria-hidden="true">
-              <g transform="translate(-566.984 -271.548)">
-                <path d="M573.549,280.916l2.266,2.738,6.674-7.84c.353-.47.52-.717.353-1.117a1.218,1.218,0,0,0-1.061-.748h0a.953.953,0,0,0-.712.262Z" fill="currentColor"/>
-                <path d="M579.525,282.225l-10.606-10.174a1.413,1.413,0,0,0-.834-.5,1.09,1.09,0,0,0-1.027.66c-.167.4-.047.681.319,1.206l8.44,10.242h0l-6.282,7.716a1.336,1.336,0,0,0-.323,1.3,1.114,1.114,0,0,0,1.04.69A.992.992,0,0,0,571,293l8.519-7.92A1.924,1.924,0,0,0,579.525,282.225Z" fill="#b31b1b"/>
-                <path d="M584.32,293.912l-8.525-10.275,0,0L573.53,280.9l-1.389,1.254a2.063,2.063,0,0,0,0,2.965l10.812,10.419a.925.925,0,0,0,.742.282,1.039,1.039,0,0,0,.953-.667A1.261,1.261,0,0,0,584.32,293.912Z" fill="currentColor"/>
-              </g>
+          <a class="btn" data-link="paper" role="link" aria-disabled="true" title="Paper coming soon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9Z" stroke-linejoin="round" />
+              <path d="M14 3v6h6M8 13h8M8 17h6" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
             Paper
           </a>
@@ -230,7 +225,7 @@
             </svg>
             Code
           </a>
-          <a class="btn pending" data-link="environment">
+          <a class="btn" data-link="environment" href="https://github.com/OpenMobile2/MobileGym-plusplus" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
               <rect x="6" y="2.5" width="12" height="19" rx="2.5" />
               <path d="M10.5 18.5h3" stroke-linecap="round" />
@@ -238,11 +233,16 @@
             MobileGym++
           </a>
           <a class="btn" data-link="data" href="https://huggingface.co/datasets/OpenMobile-2/OpenMobile-Data" target="_blank" rel="noopener">
-            <span class="ic" aria-hidden="true">🤗</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <ellipse cx="12" cy="6" rx="8" ry="3" />
+              <path d="M4 6v6c0 1.66 3.58 3 8 3s8-1.34 8-3V6M4 12v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6" />
+            </svg>
             Data
           </a>
           <a class="btn" data-link="models" href="https://huggingface.co/OpenMobile-2" target="_blank" rel="noopener">
-            <span class="ic" aria-hidden="true">🤗</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M12 3l7.5 4.2v9.6L12 21l-7.5-4.2V7.2L12 3ZM12 12v9M12 12 4.5 7.8M12 12l7.5-4.2" stroke-linejoin="round" />
+            </svg>
             Models
           </a>
         </div>
@@ -250,15 +250,16 @@
 
       <!-- Key art: the playground itself. om2-appwall.js draws every app in
            MobileGym++ and the emulator set as a tile on a phone, coloured by
-           domain (data: om2-data.js). -->
+           domain (data: om2-data.js), then unlocks into a live simulator on demand. -->
       <figure class="hero-art">
         <div id="app-wall" aria-label="All applications in the playground, coloured by domain"></div>
+        <figcaption class="hero-load-note">This preview loads apps over the network; local loading is faster.</figcaption>
       </figure>
     </div>
   </header>
 
   <!-- Byline. Equal contribution is marked by colour (the .eq authors), the
-       first four on their own line. TODO: affiliations (crests are 96x96 PNG
+       first six on their own line. TODO: affiliations (crests are 96x96 PNG
        pairs in public/affil/, listed in .affils) once he sends them. -->
   <section class="byline" aria-label="Authors">
     <div class="panel">
@@ -266,10 +267,10 @@
         <span class="lead">
             <span class="au eq">Chenyang Yan</span>,
             <span class="au eq">Yingying Zhang</span>,
-            <span class="au eq"><a href="https://njucckevin.github.io/" target="_blank" rel="noopener">Kanzhi Cheng</a></span>,
+            <span class="au eq"><a href="https://njucckevin.github.io/" target="_blank" rel="noopener">Kanzhi Cheng</a><sup class="author-mark" aria-label="Project lead" title="Project lead">†</sup></span>,
             <span class="au eq"><a href="https://qiushisun.github.io/" target="_blank" rel="noopener">Qiushi Sun</a></span>,
             <span class="au eq">Zhengyuan Pan</span>,
-            <span class="au eq">Zheng Ma</span>
+            <span class="au eq">Zheng Ma<sup class="author-mark" aria-label="Project lead" title="Project lead">†</sup></span>
         </span>
         <span class="rest">
             <span class="au">Hang Yan</span>,
@@ -287,12 +288,16 @@
             <span class="au">Tiankuo Yao</span>,
             <span class="au">Bo Wang</span>,
             <span class="au">Ben Kao</span>,
-            <span class="au">Jianbing Zhang</span>,
-            <span class="au">Lewei Lu</span>,
+            <span class="au">Jianbing Zhang<sup class="author-mark" aria-label="Corresponding author" title="Corresponding author">✉&#xfe0e;</sup></span>,
+            <span class="au">Lewei Lu<sup class="author-mark" aria-label="Corresponding author" title="Corresponding author">✉&#xfe0e;</sup></span>,
             <span class="au">Dahua Lin</span>
         </span>
       </p>
-      <p class="legend"><span class="eq-key">Highlighted</span> authors contributed equally.</p>
+      <p class="legend author-legend">
+        <span><span class="eq-key">Highlighted</span> authors contributed equally.</span>
+        <span class="author-role"><span class="role-mark" aria-hidden="true">†</span> Project leads</span>
+        <span class="author-role"><span class="role-mark" aria-hidden="true">✉&#xfe0e;</span> Corresponding authors</span>
+      </p>
     </div>
   </section>
 
@@ -544,11 +549,6 @@
           <div class="chart-head"><h3>Main results</h3></div>
           <div id="results-table"></div>
         </div>
-
-        <div class="card chart-card rise" style="margin-top:24px">
-          <div class="chart-head"><h3>What each training stage adds</h3></div>
-          <div id="chart-stages"></div>
-        </div>
       </div>
     </section>
 
@@ -593,9 +593,8 @@
           <span class="eyebrow">Resources</span>
           <h2 class="section-title">Environments, data, models and <span class="accent">recipes</span></h2>
         </div>
-        <!-- Parked like the hero buttons: add the href and drop "pending-card". -->
         <div class="grid grid-4 rise">
-          <a class="card feature pending-card" data-link="environment">
+          <a class="card feature" data-link="environment" href="https://github.com/OpenMobile2/MobileGym-plusplus" target="_blank" rel="noopener">
             <div class="ico">
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
                 <rect x="6" y="2.5" width="12" height="19" rx="2.5" />
@@ -647,6 +646,7 @@
         <div class="section-head">
           <span class="eyebrow">Citation</span>
           <h2 class="section-title">BibTeX</h2>
+          <p class="section-sub">If you find the OpenMobile series useful, please consider citing the relevant papers below.</p>
         </div>
 
         <!-- OpenMobile-2 Citation -->
@@ -668,6 +668,27 @@
   author={Chenyang Yan and Yingying Zhang and Kanzhi Cheng and Qiushi Sun and Zhengyuan Pan and Zheng Ma and Hang Yan and Yian Wang and Nuo Chen and Jialin Cao and Xingdong Gong and Wenpo Song and Han Chen and Zichen Ding and Fangzhi Xu and Shujian Huang and Xinyu Dai and Yichen Liu and Tiankuo Yao and Bo Wang and Ben Kao and Jianbing Zhang and Lewei Lu and Dahua Lin},
   journal={},
   year={}
+}</pre>
+        </div>
+
+        <!-- OpenMobile Citation -->
+        <div class="bibtex rise" style="margin-top:24px">
+          <div class="bibtex-bar">
+            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="fn">openmobile.bib</span>
+            <button class="copy-btn" id="copyOpenMobileBib" type="button">
+              <svg aria-hidden="true" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="5.5" y="5.5" width="9" height="9" rx="1.6" />
+                <path d="M10.5 5.5v-3a1 1 0 0 0-1-1h-7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h3" />
+              </svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre id="openmobile-bibtex">@article{cheng2026openmobile,
+  title={OpenMobile: Building open mobile agents with task and trajectory synthesis},
+  author={Cheng, Kanzhi and Li, Zehao and Ma, Zheng and Chen, Nuo and Cao, Jialin and Sun, Qiushi and Ding, Zichen and Xu, Fangzhi and Yan, Hang and Chen, Jiajun and others},
+  journal={arXiv preprint arXiv:2604.15093},
+  year={2026}
 }</pre>
         </div>
 
@@ -701,20 +722,7 @@
     </section>
   </main>
 
-    <!-- Copy button for MobileGym citation -->
-    <script>
-      document.getElementById('copyMobileGymBib').addEventListener('click', async function () {
-        const text = document.getElementById('mobilegym-bibtex').textContent;
-        try {
-          await navigator.clipboard.writeText(text);
-          const label = this.querySelector('span');
-          label.textContent = 'Copied!';
-          setTimeout(() => { label.textContent = 'Copy'; }, 2000);
-        } catch (err) {
-          console.error('Failed to copy MobileGym BibTeX:', err);
-        }
-      });
-    </script>
+
 
 
   <!-- ==================================================================== -->
@@ -771,18 +779,19 @@
 
   <script src="static/js/om2-data.js"></script>
   <script src="static/js/om2-sim-apps.js"></script>
-  <script src="static/js/om2-appwall.js"></script>
+  <script src="static/js/om2-appwall.js?v=20261010-cta1"></script>
   <script src="static/js/om2-stepper.js"></script>
   <script src="static/js/om2-lanes.js"></script>
-  <script src="static/js/om2-charts.js"></script>
+  <script src="static/js/om2-charts.js?v=20261010-polish"></script>
   <script src="static/js/om2-slides.js"></script>
-  <script src="static/js/om2-table.js"></script>
+  <script src="static/js/om2-table.js?v=20261010-1"></script>
   <script src="static/js/om2-crossapp.js"></script>
-  <script src="static/js/om2-live.js"></script>
+  <script src="static/js/om2-live.js?v=20261010-hero4"></script>
+  <script src="static/js/om2-hero.js?v=20261010-hero4"></script>
   <script src="static/js/om2-pipeline.js"></script>
-  <script src="static/js/om2-viewer.js"></script>
-  <script src="static/js/main.js"></script>
-  <script src="static/js/om2-page.js"></script>
+  <script src="static/js/om2-viewer.js?v=20261010-pair-align"></script>
+  <script src="static/js/main.js?v=20261010-polish"></script>
+  <script src="static/js/om2-page.js?v=20261010-hero4"></script>
 </body>
 
 </html>

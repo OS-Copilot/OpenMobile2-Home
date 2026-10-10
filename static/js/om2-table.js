@@ -129,6 +129,11 @@
     var shell = h("div", "table-shell", host);
     var scroll = h("div", "table-scroll", shell);
     var table = h("table", "data rt-table", scroll);
+    var colgroup = h("colgroup", null, table);
+    h("col", "rt-col-model", colgroup);
+    cols.forEach(function (c) {
+      h("col", c.key === "aw.p1" ? "rt-col-std" : "rt-col-metric", colgroup);
+    });
     var thead = h("thead", null, table);
 
     var gr = h("tr", "group", thead);

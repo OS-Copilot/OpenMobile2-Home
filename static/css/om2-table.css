@@ -5,7 +5,17 @@
 
 /* --------------------------------------------------------- results table */
 /* separate borders: with collapse, a sticky cell leaves its borders behind */
-.rt table.data { border-collapse: separate; border-spacing: 0; }
+.rt table.data { border-collapse: separate; border-spacing: 0; table-layout: fixed; min-width: 1140px; }
+.rt .rt-col-model { width: 24%; }
+.rt .rt-col-std { width: 12%; }
+.rt .rt-col-metric { width: 8%; }
+.rt table.data thead th.sortable,
+.rt table.data td.rt-num { text-align: center; vertical-align: middle; }
+.rt table.data thead th.sortable > span:first-child { position: relative; }
+.rt table.data thead th.sortable .arrow {
+  position: absolute;
+  margin-top: 2px;
+}
 .rt thead tr.group th { padding: 12px 12px 3px; border-bottom: none; letter-spacing: 0.09em; }
 .rt thead th.sortable { outline-offset: -2px; }
 .rt th.rt-bstart, .rt td.rt-bstart { border-left: 1px solid var(--chart-grid); }

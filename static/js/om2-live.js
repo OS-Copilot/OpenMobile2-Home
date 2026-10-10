@@ -173,6 +173,14 @@
     } catch (e) { if (window.console) console.warn("[om2-live] preset", e); }
   }
 
+  /* Shared setup for independent embedded devices; each owns its own iframe. */
+  W.simRuntime = {
+    confineScrolling: confineScrolling,
+    applyLocale: applyLocale,
+    applyPreset: applyPreset,
+    weather: WEATHER_DEFAULT
+  };
+
   W.liveSim = function (target, opts) {
     var host = typeof target === "string" ? document.querySelector(target) : target;
     if (!host) return null;
