@@ -1066,6 +1066,15 @@ table.data .rank {
    14. Charts & figures
    -------------------------------------------------------------------------- */
 .chart-card { padding: 26px 34px 22px; }
+/* two-up rows: both cards end on one line; a chart mounted with height
+   "fill" (om2-charts.js) grows to the card's height */
+.grid-2 > .chart-card { display: flex; flex-direction: column; }
+.ch-root.ch-fill { flex: 1 1 auto; min-height: 0; }
+.tool-rules { list-style: none; margin: 22px 0 0; padding: 18px 0 0; display: grid; gap: 9px; border-top: 1px solid var(--hairline); }
+.tool-rules li { position: relative; padding-left: 16px; font-size: 13.5px; line-height: 1.55; color: var(--text-dim); }
+.tool-rules li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-400); }
+.tool-rules b { color: var(--text-hi); font-weight: 600; }
+.tool-rules code { font: 500 12px var(--font-mono); color: var(--text); }
 .chart-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
 .chart-head h3 { font-size: 20px; margin: 0; }
 .chart-note { font-size: 14px; color: var(--text-dim); margin: 0 0 16px; max-width: 980px; line-height: 1.6; }
@@ -1250,8 +1259,11 @@ footer.site .fine a { color: var(--text-dim); }
   scrollbar-width: none;
 }
 .wt-slides-track::-webkit-scrollbar { display: none; }
-.wt-slides-track { align-items: flex-start; transition: height 0.3s ease; }
-.wt-slide { flex: 0 0 100%; min-width: 0; scroll-snap-align: start; scroll-snap-stop: always; }
+.wt-slide { flex: 0 0 100%; min-width: 0; scroll-snap-align: start; scroll-snap-stop: always; display: flex; flex-direction: column; }
+/* inside a card that stretches to its row: the track takes the spare height
+   and a filling chart (.ch-fill) grows into it */
+.chart-card > .wt-slides { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+.chart-card > .wt-slides > .wt-slides-track { flex: 1 1 auto; min-height: 0; }
 /* pager: a segmented control naming the panels, a ghost arrow either side */
 .wt-slides-nav { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; }
 .wt-slides-nav .wt-btn {

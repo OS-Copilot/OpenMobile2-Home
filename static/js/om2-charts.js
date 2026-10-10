@@ -162,13 +162,27 @@
     if (!root) throw new Error("OM2Widgets: no element matches " + target);
     if (!global.OM2) throw new Error("OM2Widgets: window.OM2 is missing; load om2-data.js first");
     var o = assign(assign({}, spec.defaults), opts || {});
-    var st = { width: 0, box: null, drawn: false, seen: false, pending: null, dead: false, metric: o.metric };
+    var st = { width: 0, rootH: 0, extras: 0, box: null, drawn: false, seen: false, pending: null, dead: false, metric: o.metric };
     var ro = null, io = null, onResize = null;
     root.classList.add("ch-root");
+    /* height "fill": the chart is as tall as its container (a flex item in a
+       card that stretches to its grid row), never under opts.minHeight; the
+       legend and notes below the svg are measured and subtracted */
+    var fill = o.height === "fill";
+    if (fill) root.classList.add("ch-fill");
 
     function width() { return Math.round(root.getBoundingClientRect().width); }
+    function rootH() { return Math.round(root.getBoundingClientRect().height); }
+    function chartHeight() {
+      if (!fill) return o.height;
+      /* the first pass draws at the floor height to measure the legend and
+         notes; only then does the chart take the container's height, so a
+         pass never grows the row by its own extras */
+      if (!st.measured) return o.minHeight || 200;
+      return Math.max(o.minHeight || 200, rootH() - st.extras);
+    }
     function context(w) {
-      var c = { root: root, opts: o, width: w, height: o.height, anim: [], box: html("div", "ch-box") };
+      var c = { root: root, opts: o, width: w, height: chartHeight(), anim: [], box: html("div", "ch-box") };
       c.svg = function (sw, sh, label) {
         var s = el("svg", { class: "ch-svg", width: sw, height: sh, viewBox: "0 0 " + sw + " " + sh,
           role: "img", "aria-label": label }, c.box);
@@ -190,6 +204,18 @@
       spec.draw(c, st);
       if (st.box) root.replaceChild(c.box, st.box); else root.appendChild(c.box);
       st.box = c.box;
+      if (fill) {
+        var svgEl = c.box.querySelector("svg.ch-svg");
+        var extras = svgEl ? Math.round(c.box.getBoundingClientRect().height - svgEl.getBoundingClientRect().height) : 0;
+        st.rootH = rootH();
+        var first = !st.measured;
+        st.measured = true;
+        if ((first || Math.abs(extras - st.extras) > 1) && (st.fillPass || 0) < 2) {
+          st.extras = extras; st.fillPass = (st.fillPass || 0) + 1;
+          return render(animate);
+        }
+        st.fillPass = 0;
+      }
       var wantAnim = !reduced && (animate || !st.drawn || !!st.pending);
       st.drawn = true;
       st.pending = null;
@@ -198,7 +224,7 @@
       else { zero(c.anim); st.pending = c.anim; }
     }
     function onTheme() { render(false); }
-    function onSize() { if (width() !== st.width) render(false); }
+    function onSize() { if (width() !== st.width || (fill && rootH() !== st.rootH)) render(false); }
 
     if (global.ResizeObserver) {
       ro = new global.ResizeObserver(function () { raf(onSize); });
@@ -326,7 +352,7 @@
           [d.label, d.tasks + " of " + total + " tasks touch this domain"]);
       });
       var cap = "a cross-domain task counts in each domain it touches";
-      if (textW(cap) <= R.w - rm.l) txt(cap, { x: R.x + rm.l, y: R.y + R.h - 4, class: "ch-caption" }, svg);
+      if (textW(cap, 11.5) <= R.w - rm.l) txt(cap, { x: R.x + rm.l, y: R.y + R.h - 4, class: "ch-caption" }, svg);
       else c.note("A cross-domain task counts in each domain it touches.");
     } });
   };
@@ -368,7 +394,7 @@
       var rows = dumbbellRows(), Wd = c.width, narrow = Wd < 560;
       var labelW = Math.min(240, Math.ceil(maxOf(rows, function (r) { return textW(r.label) * (r.ours ? 1.06 : 1); })) + 16);
       var m = { l: narrow ? 8 : labelW, r: 44, t: 6, b: 40 };
-      var H = c.height || m.t + rows.length * (narrow ? 36 : 22) + m.b;
+      var H = Math.max(c.height || 0, m.t + rows.length * (narrow ? 36 : 22) + m.b);
       var rowH = (H - m.t - m.b) / rows.length;
       var sx = linear(0, 100, m.l, Wd - m.r);
       var pop = cssVar("--pop-400", "#ff8f6b"), dim = cssVar("--text-dim", "#8b98a8"), faint = cssVar("--text-faint", "#65717f");
@@ -415,7 +441,7 @@
       if (!rows.length) return;
       var labelW = Math.min(240, Math.ceil(maxOf(rows, function (r) { return textW(r.label) * (r.ours ? 1.06 : 1); })) + 16);
       var m = { l: narrow ? 8 : labelW, r: 78, t: 6, b: 40 };
-      var H = c.height || m.t + rows.length * (narrow ? 36 : 22) + m.b;
+      var H = Math.max(c.height || 0, m.t + rows.length * (narrow ? 36 : 22) + m.b);
       var rowH = (H - m.t - m.b) / rows.length;
       var lo = 12, hi = 46;
       var sx = linear(lo, hi, m.l, Wd - m.r);

@@ -66,15 +66,11 @@
 
     var cur = 0;
     function index() { return Math.round(track.scrollLeft / Math.max(1, track.clientWidth)); }
-    /* the track is as tall as the panel in view, so the pager sits right
-       under it whatever the panels' own heights */
-    function fitHeight() { var hh = panels[cur].offsetHeight; if (hh) track.style.height = hh + "px"; }
     function mark(i) {
       cur = i;
       dots.forEach(function (d, j) { if (j === i) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current"); });
       prev.disabled = i === 0;
       next.disabled = i === panels.length - 1;
-      fitHeight();
     }
     function go(i) {
       i = Math.max(0, Math.min(panels.length - 1, i));
@@ -97,13 +93,10 @@
     track.addEventListener("scroll", onScroll, { passive: true });
     track.addEventListener("keydown", onKey);
     /* a resize changes the panel width; keep the current panel in place */
-    var onResize = function () { track.scrollLeft = panels[cur].offsetLeft - track.offsetLeft; fitHeight(); };
+    var onResize = function () { track.scrollLeft = panels[cur].offsetLeft - track.offsetLeft; };
     var ro = null;
-    if ("ResizeObserver" in global) {
-      ro = new global.ResizeObserver(onResize);
-      ro.observe(track);
-      panels.forEach(function (p) { ro.observe(p); });
-    } else global.addEventListener("resize", onResize);
+    if ("ResizeObserver" in global) { ro = new global.ResizeObserver(onResize); ro.observe(track); }
+    else global.addEventListener("resize", onResize);
     mark(0);
 
     return {

@@ -398,7 +398,7 @@
             apps on the same playground.</p>
         </div>
 
-        <div class="grid grid-2 rise" style="align-items:start">
+        <div class="grid grid-2 rise">
           <div class="card chart-card">
             <div class="chart-head"><h3>Apps by domain and runtime</h3></div>
             <div id="chart-domains"></div>
@@ -503,10 +503,19 @@
           <div id="task-pairs"></div>
         </div>
 
-        <div class="grid grid-2 rise" style="margin-top:24px;align-items:start">
+        <div class="grid grid-2 rise" style="margin-top:24px">
           <div class="card chart-card">
             <div class="chart-head"><h3>What a tool looks like</h3></div>
             <div id="tool-schemas"></div>
+            <ul class="tool-rules">
+              <li><b>One action slot.</b> At each step the policy picks one action from the GUI actions and the
+                foreground app's tools. A catalog is attached when its app comes to the front and removed when it
+                leaves.</li>
+              <li><b>Same state.</b> A tool handler and the screen read and write one store, so
+                <code>add_to_cart</code> changes the cart the GUI renders.</li>
+              <li><b>Strict inputs.</b> A schema rejects undeclared keys, and every call returns a structured
+                receipt with its output or an error code.</li>
+            </ul>
           </div>
           <div class="card chart-card">
             <div class="chart-head"><h3>MobileGym++ Bench</h3></div>
@@ -553,7 +562,7 @@
           <h2 class="section-title">What <span class="accent">drives the gains</span></h2>
         </div>
 
-        <div class="grid grid-2 rise" style="align-items:start">
+        <div class="grid grid-2 rise">
           <div class="card chart-card">
             <div class="chart-head"><h3>Coverage over repetition</h3></div>
             <p class="chart-note">At a fixed budget of emulator trajectories, spreading them over more apps

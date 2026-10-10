@@ -28,7 +28,9 @@
         if (live && live.arrive) live.arrive();
       }
     });
-    mount("chart-domains", "domainCoverage");
+    /* charts in two-up rows take the height of their card (height "fill")
+       so the two cards of a row end at the same line */
+    mount("chart-domains", "domainCoverage", { height: "fill", minHeight: 300 });
     mount("crossapp", "crossApp", { items: D.crossApp });
     mount("construction-steps", "stepper", { steps: D.walkthroughs.construction.steps });
     mount("env-compare", "envCompare");
@@ -44,10 +46,10 @@
     mount("chart-bench", "benchComposition");
     mount("results-table", "resultsTable");
     mount("chart-stages", "stageChart");
-    mount("chart-coverage", "coverageScaling");
+    mount("chart-coverage", "coverageScaling", { height: "fill", minHeight: 300 });
     mount("tools-slides", "slides");
-    mount("chart-tools", "toolDumbbell");
-    mount("chart-tool-steps", "toolSteps");
+    mount("chart-tools", "toolDumbbell", { height: "fill" });
+    mount("chart-tool-steps", "toolSteps", { height: "fill" });
     live = mount("live-sim", "liveSim", {
       /* MobileGym++ build, served by the sibling Pages site OpenMobile2-Sim
          (same origin, so the window API is reachable); see
