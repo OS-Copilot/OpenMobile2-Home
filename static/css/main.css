@@ -281,6 +281,9 @@ section { position: relative; }
 .band-tight { padding: 52px 0; }
 
 .section-head { text-align: left; max-width: 950px; margin: 0 0 36px; }
+/* Long overview/data titles can use the full content width before wrapping. */
+.section-head-wide { max-width: none; }
+.section-head-wide .section-title { text-wrap: balance; }
 
 .eyebrow {
   display: inline-flex;
