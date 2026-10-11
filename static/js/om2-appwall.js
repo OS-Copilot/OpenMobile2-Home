@@ -6,7 +6,7 @@
 
    OM2Widgets.appWall(elOrSelector, opts) -> { el, update(opts), destroy() }
    opts: apps, domains (default OM2.*), interval (ms, 2800), autoplay (true),
-         pin (domain key), maxWidth (px, 360; null fills the container),
+         pin (domain key), maxWidth (px, 384; null fills the container),
          aspect (optional outer width / height; default fits a 9/20 screen), minCols (8), maxCols (12),
          clock ("9:41"), labels ({ sim, emu, simKey, emuKey, isNew, system,
          simulated, emulator }).
@@ -20,7 +20,7 @@
     interval: 2800,
     autoplay: true,
     pin: null,
-    maxWidth: 360,
+    maxWidth: 384,
     aspect: null,
     minCols: 8,
     maxCols: 12,
