@@ -3,6 +3,7 @@
   "use strict";
   var W = window.OM2Widgets = window.OM2Widgets || {};
   var instances = new WeakMap();
+  var locales = new WeakMap();
   var SCREEN_W = 360, SCREEN_H = 800, BOOT_TIMEOUT = 60000;
 
   function h(tag, cls, parent, text) {
@@ -34,9 +35,10 @@
     if (!screen) return null;
     if (instances.has(screen)) return instances.get(screen);
     opts = opts || {};
+    var locale = /^zh/i.test(opts.locale || locales.get(screen) || "en") ? "zh-Hans" : "en";
     var disposed = false, ready = false, attempt = 0;
     var frame = null, readyDocument = null, poll = null, deadline = null, observer = null;
-    var frameCleanup = null, listeners = [];
+    var frameCleanup = null, stopLocaleWatch = null, listeners = [];
     var root = h("div", "hs is-loading", screen);
     root.setAttribute("role", "region");
     root.setAttribute("aria-label", "MobileGym++ playground");
@@ -61,24 +63,45 @@
     retry.type = "button";
     var back = h("button", "hs-back", actions, "Back");
     back.type = "button";
-    var closeButton = h("button", "hs-close", opts.controlsHost || screen.parentNode);
+    var controls = h("div", "hs-controls", opts.controlsHost || screen.parentNode);
+    controls.setAttribute("role", "group");
+    controls.setAttribute("aria-label", "Playground controls");
+    var closeButton = h("button", "hs-control hs-close", controls);
     closeButton.type = "button";
     closeButton.title = "Return to app wall";
     closeButton.setAttribute("aria-label", "Return to app wall");
     closeButton.appendChild(icon("M10 6l-6 6 6 6M4 12h16"));
     h("span", "", closeButton, "Back to app wall");
+    var languageButton = h("button", "hs-control hs-language", controls);
+    languageButton.type = "button";
+    languageButton.disabled = true;
+    languageButton.appendChild(icon("M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM3 12h18M12 3a16 16 0 0 1 0 18 16 16 0 0 1 0-18Z"));
+    var languageLabel = h("span", "", languageButton);
+    function updateLanguageButton() {
+      var chinese = locale === "zh-Hans";
+      languageLabel.textContent = chinese ? "English" : "中文";
+      languageLabel.setAttribute("lang", chinese ? "en" : "zh-Hans");
+      languageButton.title = chinese ? "Switch simulator to English" : "Switch simulator to Chinese";
+      languageButton.setAttribute("aria-label", languageButton.title);
+    }
+    updateLanguageButton();
 
     function clearBootTimers() {
       clearInterval(poll); poll = null;
       clearTimeout(deadline); deadline = null;
     }
+    function clearLocaleWatch() {
+      if (stopLocaleWatch) { stopLocaleWatch(); stopLocaleWatch = null; }
+    }
     function removeFrame() {
+      clearLocaleWatch();
       if (frameCleanup) { frameCleanup(); frameCleanup = null; }
       if (frame) { frame.remove(); frame = null; }
       readyDocument = null;
     }
     function setReady(value) {
       ready = value;
+      languageButton.disabled = !value;
       if (frame) { frame.inert = !value; frame.tabIndex = value ? 0 : -1; }
       root.classList.toggle("is-ready", value);
     }
@@ -91,7 +114,7 @@
       var scale = width / SCREEN_W;
       viewport.style.width = SCREEN_W + "px";
       viewport.style.height = SCREEN_H + "px";
-      viewport.style.transform = "scale(" + scale + ")";
+      viewport.style.transform = scale === 1 ? "none" : "scale(" + scale + ")";
       viewport.style.transformOrigin = "top left";
     }
     function fail(message) {
@@ -122,10 +145,21 @@
         if (doc && !doc.getElementById("om2-hero-scroll")) {
           var containment = doc.createElement("style");
           containment.id = "om2-hero-scroll";
-          containment.textContent = "html,body{overscroll-behavior:none}*{overscroll-behavior:contain}";
+          /* Confine scrolling at the phone boundary. Inner overflow:hidden
+             cards must still pass wheel/trackpad gestures to their list. */
+          containment.textContent = "html,body,#root{overscroll-behavior:none}";
           (doc.head || doc.documentElement).appendChild(containment);
         }
-        runtime.applyLocale(win, opts.locale || "en");
+        runtime.applyLocale(win, locale);
+        if (os.locale && typeof os.locale.getLocale === "function" && typeof os.locale.subscribe === "function") {
+          clearLocaleWatch();
+          stopLocaleWatch = os.locale.subscribe(function () {
+            if (disposed || candidate !== frame || candidate.contentDocument !== doc) return;
+            locale = /^en/i.test(os.locale.getLocale()) ? "en" : "zh-Hans";
+            locales.set(screen, locale);
+            updateLanguageButton();
+          });
+        }
         runtime.applyPreset(win, opts.weather || runtime.weather);
         clearBootTimers();
         readyDocument = doc;
@@ -186,6 +220,7 @@
              document, whose window API and scroll patches need reapplying. */
           if (ready && candidate.contentDocument === readyDocument) return;
           if (ready) {
+            clearLocaleWatch();
             setReady(false); readyDocument = null;
             root.classList.add("is-loading");
             root.setAttribute("aria-busy", "true");
@@ -217,7 +252,7 @@
       clearBootTimers(); removeFrame();
       if (observer) observer.disconnect();
       listeners.forEach(function (off) { off(); }); listeners = [];
-      closeButton.remove(); root.remove(); instances.delete(screen);
+      controls.remove(); root.remove(); instances.delete(screen);
     }
     function close() {
       if (disposed) return;
@@ -228,6 +263,15 @@
     on(retry, "click", start);
     on(back, "click", close);
     on(closeButton, "click", close);
+    on(languageButton, "click", function () {
+      if (disposed || !ready || !frame) return;
+      var os = frame.contentWindow.__OS__;
+      var current = os && os.locale && typeof os.locale.getLocale === "function" ? os.locale.getLocale() : locale;
+      locale = /^en/i.test(current) ? "zh-Hans" : "en";
+      W.simRuntime.applyLocale(frame.contentWindow, locale);
+      locales.set(screen, locale);
+      updateLanguageButton();
+    });
     if ("ResizeObserver" in window) {
       observer = new ResizeObserver(fit); observer.observe(screen);
     } else on(window, "resize", fit);

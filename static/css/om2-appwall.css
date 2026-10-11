@@ -58,7 +58,9 @@
   color: var(--text-dim); font: 400 12px/1.6 var(--font-body);
   text-align: center; text-wrap: pretty;
 }
-.aw-stage { position: relative; z-index: 0; width: 100%; max-width: 360px; margin: 0 auto; }
+/* 360 px native display + two 10 px bezels + two 2 px rails. Keep the
+   desktop simulator at 1:1; only narrower layouts need to scale it down. */
+.aw-stage { --aw-pad: 10px; position: relative; z-index: 0; width: 100%; max-width: 384px; margin: 0 auto; }
 .aw-blob,
 .aw-ground { position: absolute; z-index: -1; border-radius: 50%; pointer-events: none; }
 .aw-blob {
@@ -344,8 +346,10 @@
 }
 .aw.is-playing .aw-status, .aw.is-playing .aw-cam { opacity: 0; }
 .aw.is-playing .aw-screen::after, .aw.is-playing .aw-screen::before { opacity: 0; }
-.aw.is-playing .aw-float { animation-play-state: paused; }
-.aw.is-playing .aw-phone { transform: perspective(1400px) rotateY(0) rotateX(0); }
+/* Live content must leave the decorative compositing layers: pausing the
+   float freezes a fractional offset, and a zero-angle perspective is still 3D. */
+.aw.is-playing .aw-float { animation: none; transform: none; will-change: auto; }
+.aw.is-playing .aw-phone { transform: none; }
 .aw-screen { touch-action: none; }
 
 /* The simulator keeps this phone's shell and fills its existing screen. */
@@ -353,11 +357,11 @@
   position: absolute; inset: 0; z-index: 5;
   overflow: hidden; border-radius: inherit;
   background: #0b1017; color: #f4f8fb;
-  animation: hs-enter 0.65s cubic-bezier(0.22, 0.68, 0.22, 1) both;
+  animation: hs-enter 0.65s cubic-bezier(0.22, 0.68, 0.22, 1) backwards;
 }
 @keyframes hs-enter {
   from { opacity: 0; transform: translateY(18%) scale(0.96); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 1; transform: none; }
 }
 .hs-viewport { position: absolute; left: 0; top: 0; transform-origin: top left; }
 .hs-frame {
@@ -366,20 +370,26 @@
   opacity: 0; transition: opacity 0.5s ease;
 }
 .hs.is-ready .hs-frame { opacity: 1; }
-.hs-close {
+.hs-controls {
   position: absolute; top: calc(100% + 14px); left: 50%; z-index: 4;
   transform: translateX(-50%);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: max-content; max-width: 100%;
+}
+.hs-control {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  padding: 7px 12px; border-radius: 999px; white-space: nowrap;
+  height: 32px; padding: 0 12px; border-radius: 999px; white-space: nowrap;
   border: 1px solid var(--hairline-cool); background: var(--surface-2); color: var(--text-dim);
   font: 500 11px/1.4 var(--font-body); cursor: pointer;
   transition: color .2s ease, border-color .2s ease;
 }
-.hs-close:hover { color: var(--text-hi); border-color: var(--accent-400); }
-.hs-close:focus-visible, .hs-actions button:focus-visible {
+.hs-control:hover:not(:disabled) { color: var(--text-hi); border-color: var(--accent-400); }
+.hs-control:disabled { opacity: .45; cursor: wait; }
+.hs-language { min-width: 88px; }
+.hs-control:focus-visible, .hs-actions button:focus-visible {
   outline: 2px solid #6fe3cf; outline-offset: 2px;
 }
-.hs-close svg { width: 13px; height: 13px; }
+.hs-control svg { width: 13px; height: 13px; }
 .hs-loading {
   position: absolute; inset: 0; z-index: 3;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -477,5 +487,5 @@
   .aw-swipe-ico svg { animation: none; }
   .aw-wall, .aw-foot { transition: none; }
   .hs, .hs-spinner { animation: none; }
-  .hs-frame, .hs-close { transition: none; }
+  .hs-frame, .hs-control { transition: none; }
 }
