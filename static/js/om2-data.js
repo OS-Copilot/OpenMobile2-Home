@@ -267,7 +267,7 @@
      or an exported internal schema. Goal, rollout, checker and filtering
      examples come from the materials and viewer data noted below. */
   var PIPELINE_TOUR = {
-    episode: "sft-hyb-409-filemanagerdidavendorkeep",   /* OpenMobile-Data, simulator/hybrid: Files + TickTick */
+    episode: "bench-case74",   /* MobileGym++ Bench task 74, hybrid_tools_v5: Notes + TB Instant */
     stations: [
       { key: "sources", label: "Two runtimes", icon: "sources",
         caption: "Android emulator apps and the MobileGym++ clients feed the same pipeline. Environment exploration reveals app functionality; MobileGym++ also lets us inspect source code and the underlying databases.",
@@ -306,19 +306,20 @@
         caption: "Using this environment knowledge, the teacher model writes user goals a person would plausibly ask for and an agent can carry out. Low-quality and near-duplicate goals are dropped before any rollout.",
         /* the instruction of task 74 (materials, hybrid_tools_v5) */
         goal: { en: "Restock the Office pantry list from Notes into the TB Instant cart, one of each",
-                zh: "\u6309\u7b14\u8bb0\uff08Notes\uff09App \u4e2d\u201cOffice pantry\u201d\u5217\u51fa\u7684\u7f3a\u8d27\u8865\u9f50\u72ec\u7acb\u7684\u6dd8\u5b9d\u95ea\u8d2d App \u8d2d\u7269\u8f66\uff0c\u6bcf\u79cd\u53ea\u52a0\u4e00\u4ef6\uff1b\u4e0d\u8981\u8fdb\u5165\u6dd8\u5b9d App \u5185\u7684\u95ea\u8d2d\u5165\u53e3\uff0c\u4e0d\u8981\u52a0\u5165\u6e05\u5355\u4e4b\u5916\u7684\u5546\u54c1\uff0c\u4e5f\u4e0d\u8981\u7ed3\u7b97\u6216\u4e0b\u5355\u3002",
+                zh: "按笔记（Notes）App 中“Office pantry”列出的缺货补齐独立的淘宝闪购 App 购物车，每种只加一件；不要进入淘宝 App 内的闪购入口，不要加入清单之外的商品，也不要结算或下单。",
                 apps: ["Notes", "TB Instant"], context: ["Notes: read notes", "TB Instant: find products, edit cart"] },
         filters: ["quality", "diversity"] },
       { key: "rollout", label: "Roll out", icon: "rollout",
         caption: "The same model executes each goal with one thought and one action per turn. When the foreground app exposes tools, it may call one instead of tapping, and both channels write the same app state." },
       { key: "verify", label: "Verify", icon: "verify",
         caption: "A rollout is kept only if the task is complete. On the emulator a vision-language judge decides, and in MobileGym++ the programmatic verifier compares app state before and after.",
-        /* checker fields from the materials' results.jsonl: task 73 (kept) and task 10 (rejected) */
+        /* kept: task 74 hybrid run (bench-case74.json). rejected: task 10
+           from the materials' results.jsonl, shown so the fail path stays visible. */
         checks: [
-          { title: "Task 73 \u00b7 kept", verifier: "MobileGym++ programmatic verifier", pass: true, fields: [
-            { name: "calendar_new_event.title", expected: "Contract renewal", actual: "Contract renewal", pass: true },
-            { name: "calendar_new_event.allDay", expected: "true", actual: "true", pass: true },
-            { name: "wechat.dates to Mia Wang", expected: "2026-08-20, 2026-08-13", actual: "2026-08-20, 2026-08-13", pass: true }
+          { title: "Task 74 \u00b7 kept", verifier: "MobileGym++ programmatic verifier", pass: true, fields: [
+            { name: "tbsg.cart.milk", expected: "s_lusen__cv_fresh_milk \u00d71", actual: "s_lusen__cv_fresh_milk \u00d71", pass: true },
+            { name: "tbsg.cart.coffee", expected: "s_lusen__cv_coffee_can \u00d71", actual: "s_lusen__cv_coffee_can \u00d71", pass: true },
+            { name: "tbsg.cart.apples", expected: "s_meihao__sm_apple_bag \u00d71", actual: "s_meihao__sm_apple_bag \u00d71", pass: true }
           ] },
           { title: "Task 10 \u00b7 rejected", verifier: "MobileGym++ programmatic verifier", pass: false, fields: [
             { name: "wechat_bill_count", expected: "12", actual: "5", pass: false },
