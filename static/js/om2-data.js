@@ -242,10 +242,10 @@
     title: "How OpenMobile-Data is collected",
     steps: [
       { key: "abstract", label: "Abstract the environment",
-        text: "Each app becomes a state-action graph. On the emulator, exploration maps screens and transitions and merges look-alike screenshots into one state. In MobileGym++ the graph comes straight from the backend's pages, actions and business objects. A global view lists what the app can do; a local view lists what the current screen can reach.",
+        text: "Collect environment information through exploration, such as random walks, or by inspecting MobileGym++ source code and databases. Organize app functionality and relevant data into connected context for task synthesis.",
         tag: "both runtimes" },
       { key: "synthesize", label: "Write the goals",
-        text: "Conditioned on those views, the teacher model, Gemini-3.1-Pro-Preview, writes user goals that are realistic and executable, phrased as goals rather than widget names. Low-quality and near-duplicate goals are filtered out.",
+        text: "Conditioned on this environment knowledge, the teacher model, Gemini-3.1-Pro-Preview, writes user goals that are realistic and executable, phrased as goals rather than widget names. Low-quality and near-duplicate goals are filtered out.",
         tag: "teacher model" },
       { key: "rollout", label: "Roll out",
         text: "The same model executes each goal in its environment, one thought and one action per turn. When the foreground app exposes tools, the catalog is attached and a turn may be a tool call instead of a tap.",
@@ -262,54 +262,52 @@
     ]
   };
 
-  /* Flow-diagram form of the same pipeline (Sec. 4.1, Appendix D): short
-     labels and one-line captions, two runtimes converging into shared
-     stages and splitting into the two released resources. */
-  /* Section 4 and Appendix (task synthesis, rollout and filtering, executable
-     RL tasks). The tour follows one released trajectory (viewer/data) through
-     the stages; graph, goal, checker and step material are real items from
-     the materials folder and the viewer data, named in each comment. */
+  /* Data pipeline tour. The functionality map illustrates how environment
+     information is organized; its links are associations, not UI transitions
+     or an exported internal schema. Goal, rollout, checker and filtering
+     examples come from the materials and viewer data noted below. */
   var PIPELINE_TOUR = {
     episode: "sft-hyb-409-filemanagerdidavendorkeep",   /* OpenMobile-Data, simulator/hybrid: Files + TickTick */
     stations: [
       { key: "sources", label: "Two runtimes", icon: "sources",
-        caption: "Android emulator apps and the MobileGym++ clients feed the same pipeline. An agent explores the emulator apps screen by screen, while the simulator side comes straight from each app's own specification.",
+        caption: "Android emulator apps and the MobileGym++ clients feed the same pipeline. Environment exploration reveals app functionality; MobileGym++ also lets us inspect source code and the underlying databases.",
         sources: [
           { key: "emu", label: "Android emulator", sub: "configured apps, explored by an agent" },
-          { key: "sim", label: "MobileGym++", sub: "replicated clients with declared pages and actions" }
+          { key: "sim", label: "MobileGym++", sub: "replicated clients with accessible source code and data" }
         ] },
-      { key: "graph", label: "App graph", icon: "graph",
-        caption: "Every app gets a state\u2013action graph, with representative screens as nodes and the actions that move between them as edges. A global view lists what the app can do, and a local view lists what the current screen reaches.",
-        /* routes of TB Instant as recorded in the GUI-only episode of task 74 */
-        graph: {
-          app: "TB Instant",
+      { key: "graph", label: "Functionality map", icon: "graph",
+        caption: "Before synthesizing tasks, we collect environment information through exploration, such as random walks, or by inspecting MobileGym++ source code and databases. We organize app functionality and relevant data into connected context for writing feasible tasks.",
+        /* Illustrative associations using the apps in the following goal. */
+        knowledge: {
+          sources: [
+            { label: "Explore environments", detail: "e.g. random walks", icon: "graph" },
+            { label: "Inspect MobileGym++", detail: "Source code & databases", icon: "sources" }
+          ],
           nodes: [
-            { id: "home",   label: "/",                    x: 60,  y: 110 },
-            { id: "search", label: "/search",              x: 200, y: 50 },
-            { id: "result", label: "/search/result?q=",    x: 360, y: 50 },
-            { id: "shop",   label: "/retail/{shop}",       x: 520, y: 110 },
-            { id: "panel",  label: "/retail/{shop}?panel=search", x: 520, y: 200 },
-            { id: "cart",   label: "/cart",                x: 360, y: 180 },
-            { id: "orders", label: "/orders",              x: 200, y: 180 }
+            { id: "notes", label: "Notes", kind: "app", x: 80, y: 36 },
+            { id: "shop", label: "TB Instant", kind: "app", x: 80, y: 144 },
+            { id: "read", label: "Read notes", kind: "function", x: 300, y: 36,
+              context: "Identify the missing items in a pantry note." },
+            { id: "find", label: "Find products", kind: "function", x: 300, y: 108,
+              context: "Match items from the note to products in the catalog." },
+            { id: "edit", label: "Edit cart", kind: "function", x: 300, y: 180,
+              context: "Add the requested products using the current cart contents." },
+            { id: "note-data", label: "Note contents", kind: "data", x: 520, y: 36 },
+            { id: "catalog", label: "Product catalog", kind: "data", x: 520, y: 108 },
+            { id: "cart-data", label: "Cart items", kind: "data", x: 520, y: 180 }
           ],
-          edges: [
-            { from: "home",   to: "search", label: "tap search bar" },
-            { from: "search", to: "result", label: "type, submit" },
-            { from: "result", to: "shop",   label: "open a shop" },
-            { from: "shop",   to: "panel",  label: "search in shop" },
-            { from: "panel",  to: "cart",   label: "add to cart" },
-            { from: "home",   to: "cart",   label: "open cart" },
-            { from: "home",   to: "orders", label: "open orders" },
-            { from: "shop",   to: "cart",   label: "open cart" }
-          ],
-          local: "shop"
+          links: [
+            ["notes", "read"], ["shop", "find"], ["shop", "edit"],
+            ["read", "note-data"], ["find", "catalog"],
+            ["edit", "catalog"], ["edit", "cart-data"]
+          ]
         } },
       { key: "goals", label: "Write goals", icon: "goals", teacher: "Gemini 3.1 Pro Preview",
-        caption: "From those views the teacher model writes user goals a person would plausibly ask for and an agent can carry out. Low-quality and near-duplicate goals are dropped before any rollout.",
+        caption: "Using this environment knowledge, the teacher model writes user goals a person would plausibly ask for and an agent can carry out. Low-quality and near-duplicate goals are dropped before any rollout.",
         /* the instruction of task 74 (materials, hybrid_tools_v5) */
         goal: { en: "Restock the Office pantry list from Notes into the TB Instant cart, one of each",
                 zh: "\u6309\u7b14\u8bb0\uff08Notes\uff09App \u4e2d\u201cOffice pantry\u201d\u5217\u51fa\u7684\u7f3a\u8d27\u8865\u9f50\u72ec\u7acb\u7684\u6dd8\u5b9d\u95ea\u8d2d App \u8d2d\u7269\u8f66\uff0c\u6bcf\u79cd\u53ea\u52a0\u4e00\u4ef6\uff1b\u4e0d\u8981\u8fdb\u5165\u6dd8\u5b9d App \u5185\u7684\u95ea\u8d2d\u5165\u53e3\uff0c\u4e0d\u8981\u52a0\u5165\u6e05\u5355\u4e4b\u5916\u7684\u5546\u54c1\uff0c\u4e5f\u4e0d\u8981\u7ed3\u7b97\u6216\u4e0b\u5355\u3002",
-                apps: ["Notes", "TB Instant"], views: ["global view: Notes, TB Instant", "local view: /retail/{shop}"] },
+                apps: ["Notes", "TB Instant"], context: ["Notes: read notes", "TB Instant: find products, edit cart"] },
         filters: ["quality", "diversity"] },
       { key: "rollout", label: "Roll out", icon: "rollout",
         caption: "The same model executes each goal with one thought and one action per turn. When the foreground app exposes tools, it may call one instead of tapping, and both channels write the same app state." },
