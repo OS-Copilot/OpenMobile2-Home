@@ -78,13 +78,11 @@
       for (var k = 0; k < 24; k++) { var c = h("i", "pt-app", grid); c.style.animationDelay = (i * 0.4 + k * 0.045) + "s"; }
       tiles.push(t);
     });
-    /* the join sits in the middle column, between the two tiles */
+    /* Parallel sources, not a conversion from one runtime to the other. */
     var join = h("div", "pt-source-join");
     el.insertBefore(join, tiles[1]);
-    var js = svg("svg", { viewBox: "0 0 72 120", width: "72", height: "120", "aria-hidden": "true" }, join);
-    svg("path", { "class": "pt-beam", d: "M0 30 C 30 30, 40 60, 64 60" }, js);
-    svg("path", { "class": "pt-beam is-sim", d: "M0 90 C 30 90, 40 60, 64 60" }, js);
-    svg("circle", { "class": "pt-join-dot", cx: 64, cy: 60, r: 5 }, js);
+    var js = svg("svg", { viewBox: "0 0 32 32", width: "32", height: "32", "aria-hidden": "true" }, join);
+    svg("path", { d: "M7 16h18M16 7v18" }, js);
     return { el: el, start: function () { el.classList.add("is-live"); }, stop: function () { tl.clear(); } };
   }
 
