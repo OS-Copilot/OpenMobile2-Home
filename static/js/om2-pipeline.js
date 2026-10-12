@@ -1,9 +1,9 @@
 /* ==========================================================================
    OpenMobile-2 — data pipeline tour (#pipeline-flow)
-   One released trajectory walks the seven stations of the data pipeline:
-   two runtimes, app graph, goals, rollout, verification, step filtering,
-   the two outputs. Each station shows real material (data: OM2.pipelineTour,
-   the rollout is a viewer episode played by OM2Widgets.trajPlayer).
+   Seven stations explain the data pipeline: two runtimes, functionality
+   map, goals, rollout, verification, step filtering, and the two outputs.
+   The map is illustrative; later stations use released examples (data:
+   OM2.pipelineTour; the rollout is played by OM2Widgets.trajPlayer).
 
      OM2Widgets.pipelineFlow(elOrSelector, { data, base })
        -> { el, go(i), play(), pause(), destroy() }, or null without a host
@@ -86,63 +86,80 @@
     return { el: el, start: function () { el.classList.add("is-live"); }, stop: function () { tl.clear(); } };
   }
 
-  function visGraph(st) {
-    var g = st.graph, el = h("div", "pt-graph"), tl = timeline();
-    var head = h("div", "pt-graph-head", el);
-    h("span", "pt-tag", head, g.app);
-    var tabs = h("div", "wt-tabs pt-graph-tabs", head);
-    var tabG = h("button", "wt-tab", tabs, "Global view"); tabG.type = "button"; tabG.setAttribute("aria-selected", "true");
-    var tabL = h("button", "wt-tab", tabs, "Local view"); tabL.type = "button"; tabL.setAttribute("aria-selected", "false");
-    var s = svg("svg", { "class": "pt-graph-svg", viewBox: "0 0 600 250", preserveAspectRatio: "xMidYMid meet" }, el);
-    var byId = {}; g.nodes.forEach(function (n) { byId[n.id] = n; });
-    var edgeEls = [], nodeEls = [];
-    g.edges.forEach(function (e, i) {
-      var a = byId[e.from], b = byId[e.to];
-      var grp = svg("g", { "class": "pt-edge" }, s);
-      var dx = (b.x - a.x), dy = (b.y - a.y);
-      var mx = a.x + dx / 2, my = a.y + dy / 2 - 18;
-      var d = "M" + a.x + " " + a.y + " Q" + mx + " " + my + " " + b.x + " " + b.y;
-      var p = svg("path", { d: d }, grp);
-      var t = svg("text", { "class": "pt-edge-label", x: mx, y: my + 2, "text-anchor": "middle" }, grp); t.textContent = e.label;
-      edgeEls.push({ el: grp, path: p, e: e, i: i });
+  function visKnowledge(st, onInteract) {
+    var g = st.knowledge, el = h("div", "pt-knowledge");
+    var sources = h("div", "pt-knowledge-sources", el);
+    g.sources.forEach(function (source) {
+      var card = h("div", "pt-knowledge-source", sources);
+      card.appendChild(icon(source.icon, 18));
+      var text = h("div", null, card);
+      h("b", null, text, source.label);
+      h("span", null, text, source.detail);
     });
-    g.nodes.forEach(function (n, i) {
-      var pos = svg("g", { transform: "translate(" + n.x + " " + n.y + ")" }, s);
-      var grp = svg("g", { "class": "pt-node" }, pos);
-      var w = Math.max(44, n.label.length * 6.6 + 18);
-      svg("rect", { x: -w / 2, y: -13, width: w, height: 26, rx: 7 }, grp);
-      var t = svg("text", { "class": "pt-node-label", x: 0, y: 4, "text-anchor": "middle" }, grp); t.textContent = n.label;
-      nodeEls.push({ el: grp, n: n, i: i });
+
+    var map = h("div", "pt-knowledge-map", el);
+    var head = h("div", "pt-knowledge-head", map);
+    h("span", null, head, "Connected environment knowledge");
+    h("span", "pt-knowledge-example", head, "Illustrative example");
+    var columns = h("div", "pt-knowledge-columns", map);
+    ["Apps", "Functions", "Relevant data"].forEach(function (label) { h("span", null, columns, label); });
+    var network = h("div", "pt-knowledge-network", map);
+    network.setAttribute("role", "group");
+    network.setAttribute("aria-label", "Example relationships between apps, functions and relevant data");
+    var lines = svg("svg", { "class": "pt-knowledge-links", viewBox: "0 0 600 216", preserveAspectRatio: "none", "aria-hidden": "true" }, network);
+    var byId = {}, nodes = {}, selected = null;
+    g.nodes.forEach(function (n) { byId[n.id] = n; });
+    /* Undirected associations; the map does not encode execution order. */
+    var links = g.links.map(function (pair) {
+      var a = byId[pair[0]], b = byId[pair[1]];
+      var ax = a.x + 78, bx = b.x - 78, mx = (ax + bx) / 2;
+      var path = svg("path", { d: "M" + ax + " " + a.y + " C" + mx + " " + a.y + " " + mx + " " + b.y + " " + bx + " " + b.y }, lines);
+      return { ids: pair, el: path };
     });
-    function setView(local) {
-      tabG.setAttribute("aria-selected", local ? "false" : "true");
-      tabL.setAttribute("aria-selected", local ? "true" : "false");
-      var near = {};
-      if (local) {
-        near[g.local] = 2;
-        g.edges.forEach(function (e) { if (e.from === g.local) near[e.to] = 1; });
+    g.nodes.forEach(function (n) {
+      var isFunction = n.kind === "function";
+      var node = h(isFunction ? "button" : "span", "pt-knowledge-node is-" + n.kind, network, n.label);
+      node.style.left = (n.x / 600 * 100) + "%";
+      node.style.top = (n.y / 216 * 100) + "%";
+      if (isFunction) {
+        node.type = "button";
+        node.setAttribute("aria-pressed", "false");
+        var related = g.links.filter(function (pair) { return pair.indexOf(n.id) !== -1; }).map(function (pair) { return byId[pair[0] === n.id ? pair[1] : pair[0]].label; });
+        node.setAttribute("aria-label", n.label + ": " + related.join(", "));
+        node.addEventListener("focus", onInteract);
+        node.addEventListener("click", function () { onInteract(); select(selected === n.id ? null : n.id); });
       }
-      nodeEls.forEach(function (o) { o.el.setAttribute("class", "pt-node" + (local ? (near[o.n.id] === 2 ? " is-focus" : near[o.n.id] ? " is-near" : " is-far") : "")); });
-      edgeEls.forEach(function (o) { o.el.setAttribute("class", "pt-edge" + (local ? (o.e.from === g.local ? " is-near" : " is-far") : "")); });
+      nodes[n.id] = node;
+    });
+    var detail = h("div", "pt-knowledge-detail", el);
+    detail.setAttribute("aria-live", "polite");
+    detail.setAttribute("aria-atomic", "true");
+    var detailTitle = h("b", null, detail), detailText = h("span", null, detail);
+    function select(id) {
+      selected = id;
+      var related = {};
+      if (id) related[id] = true;
+      links.forEach(function (link) {
+        var active = link.ids.indexOf(id) !== -1;
+        link.el.classList.toggle("is-related", active);
+        if (active) link.ids.forEach(function (key) { related[key] = true; });
+      });
+      g.nodes.forEach(function (n) {
+        nodes[n.id].classList.toggle("is-related", !!related[n.id]);
+        if (n.kind === "function") nodes[n.id].setAttribute("aria-pressed", n.id === id ? "true" : "false");
+      });
+      detailTitle.textContent = id ? "Example task context" : "Explore the connections";
+      detailText.textContent = id ? byId[id].context : "Select a function to see its app and data context.";
     }
-    tabG.addEventListener("click", function () { setView(false); });
-    tabL.addEventListener("click", function () { setView(true); });
-    function reveal() {
-      nodeEls.forEach(function (o) { tl.at(200 + o.i * 260, function () { o.el.classList.add("is-in"); }); });
-      edgeEls.forEach(function (o) { tl.at(700 + o.i * 300, function () { o.el.classList.add("is-in"); }); });
-    }
-    return {
-      el: el,
-      start: function (playing) { setView(false); reveal(); if (playing) tl.at(4600, function () { setView(true); }); },
-      stop: function () { tl.clear(); }
-    };
+    select(null);
+    return { el: el, start: function () {}, stop: function () {} };
   }
 
   function visGoals(st) {
     var el = h("div", "pt-goals"), tl = timeline();
     var views = h("div", "pt-views", el);
-    h("span", "pt-views-k", views, "from the views");
-    st.goal.views.forEach(function (v) { h("span", "pt-tag", views, v); });
+    h("span", "pt-views-k", views, "task context");
+    st.goal.context.forEach(function (v) { h("span", "pt-tag", views, v); });
     var card = h("div", "pt-goal", el);
     var top = h("div", "pt-goal-top", card);
     h("span", "pt-tag is-pop", top, st.teacher);
@@ -377,7 +394,7 @@
       if (visuals[i]) return visuals[i];
       var st = stations[i], v;
       if (st.key === "sources") v = visSources(st);
-      else if (st.key === "graph") v = visGraph(st);
+      else if (st.key === "graph") v = visKnowledge(st, manual);
       else if (st.key === "goals") v = visGoals(st);
       else if (st.key === "rollout") v = visRollout(st, base, data.episode, function () { if (playing && cur === i) advance(); });
       else if (st.key === "verify") v = visVerify(st);
