@@ -58,9 +58,9 @@
   color: var(--text-dim); font: 400 12px/1.6 var(--font-body);
   text-align: center; text-wrap: pretty;
 }
-/* 360 px native display + two 10 px bezels + two 2 px rails. Keep the
-   desktop simulator at 1:1; only narrower layouts need to scale it down. */
-.aw-stage { --aw-pad: 10px; position: relative; z-index: 0; width: 100%; max-width: 384px; margin: 0 auto; }
+/* Reduce the hero phone by 10% at both capped and fluid widths. The live
+   viewport fits the screen automatically; controls retain readable sizing. */
+.aw-stage { --aw-pad: 9px; position: relative; z-index: 0; width: 90%; max-width: 345.6px; margin: 0 auto; }
 .aw-blob,
 .aw-ground { position: absolute; z-index: -1; border-radius: 50%; pointer-events: none; }
 .aw-blob {
