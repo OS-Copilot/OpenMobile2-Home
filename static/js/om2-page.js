@@ -20,6 +20,7 @@
     if (!D) return;
     /* Boot a separate simulator inside the hero only after a visitor enters. */
     mount("app-wall", "appWall", {
+      maxWidth: 345.6,
       onEnter: function (screen, lifecycle) {
         return window.OM2Widgets.heroSim(screen, {
           src: "/OpenMobile2-Sim/",
